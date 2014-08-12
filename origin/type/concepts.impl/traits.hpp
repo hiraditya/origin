@@ -76,6 +76,16 @@ namespace type_impl
         >
     { };
 
+  // Returns true if T is weakly ordered.
+  template <typename T>
+    struct is_weakly_ordered_noverify
+      : boolean_constant<
+            Has_less<T>()
+         && Has_greater<T>()
+         && Has_less_equal<T>()
+         && Has_greater_equal<T>()
+        >
+    { };
 
   // Returns true if R is a cross-type relation over (T, U).
   template <typename R, typename T, typename U>

@@ -161,7 +161,57 @@ namespace sequence_impl
       using type = typename get_adl_end_result<T>::type;
     };
 
+  // Safely deduce the result of the expression std::swap(r, s).
+  template <typename T>
+    struct get_std_swap_result
+    {
+    private:
+      template <typename X>
+        static auto check(X&& x, X&& y) -> decltype(std::swap(x, y));
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>(), std::declval<T>()));
+    };
 
+  // Safely deduce the result of the expression xxx::swap(r, s) where xxx is a 
+  // non-std namespace and the type of r is defined in that namespace.
+  template <typename T>
+    struct get_adl_swap_result
+    {
+    private:
+      template <typename X>
+        static auto check(X&& x, X&& y) -> decltype(swap(x, y));
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>(), std::declval<T>()));
+    };
+
+  // Returns true if std::swap(r) is a valid expression.
+  template <typename T>
+    constexpr bool Has_std_swap()
+    {
+      return Subst_succeeded<typename get_std_swap_result<T>::type>();
+    }
+
+  // Deduce the result of applying the following statements:
+  //
+  //    using std::swap;
+  //    swap(r, s);
+  //
+  template <typename T, bool = Has_std_swap<T>()>
+    struct get_swap_result;
+
+  template <typename T>
+    struct get_swap_result<T, true>
+    {
+      using type = typename get_std_swap_result<T>::type;
+    };
+
+  template <typename T>
+    struct get_swap_result<T, false>
+    {
+      using type = typename get_adl_swap_result<T>::type;
+    };
 
   // Support for safely deducing the iterator category. This happens in
   // one of two ways: either the class defines it as an associate type, or

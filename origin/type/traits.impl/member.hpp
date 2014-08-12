@@ -132,6 +132,18 @@ namespace type_impl
       using type = decltype(check(std::declval<T>()));
     };
 
+  // Safely deduce get the result type of the expression t.max_size().
+  template <typename T>
+    struct get_member_max_size_result
+    {
+    private:
+      template <typename X>
+        static auto check(const X& x) -> decltype(x.max_size());
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
+    };
+
   // Safely deduce the result type of the expression t.empty().
   template <typename T>
     struct get_member_empty_result
@@ -139,6 +151,20 @@ namespace type_impl
     private:
       template <typename X>
         static auto check(const X& x) -> decltype(x.empty());
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
+    };
+
+  // Safely deduce the result type of the expression t.clear().
+  template <typename T>
+    struct get_member_clear_result
+    {
+    private:
+      template <typename X>
+        static auto check(const X& x) -> decltype(x.clear(), bool()) {
+            return true;
+        }
       static subst_failure check(...);
     public:
       using type = decltype(check(std::declval<T>()));
@@ -159,6 +185,49 @@ namespace type_impl
       using type = decltype(check(std::declval<T>(), std::declval<U>()));
     };
 
+  template <typename T, typename U>
+    struct get_member_erase_result
+    {
+    private:
+      template <typename X, typename Y>
+        static auto check(X&& x, Y&& y) -> decltype(x.erase(y));
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>(), std::declval<U>()));
+    };
 
+  // Safely deduce the result of the expression insert(r, t).
+  template <typename T>
+    struct get_member_insert_result
+    {
+    private:
+      template <typename X>
+        static auto check(X&& x) -> decltype(x.insert(x.end(), *x.begin()));
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
+    };
+
+  template <typename T, typename U>
+    struct get_member_count_result
+    {
+    private:
+      template <typename X, typename Y>
+        static auto check(X&& x, Y&& y) -> decltype(x.count(y));
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>(), std::declval<U>()));
+    };
+
+    template <typename T, typename U>
+      struct get_member_equal_range_result
+      {
+      private:
+        template <typename X, typename Y>
+          static auto check(X&& x, Y&& y) -> decltype(x.equal_range(y));
+        static subst_failure check(...);
+      public:
+        using type = decltype(check(std::declval<T>(), std::declval<U>()));
+      };
 
 } // namespace type_impl

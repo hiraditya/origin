@@ -6,7 +6,7 @@
 # and conditions.
 
 cmake_minimum_required(VERSION 2.8)
-
+project(origin)
 # Make sure that we can find Origin's CMake macros.
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(Origin)

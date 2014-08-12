@@ -265,7 +265,7 @@ namespace origin
   // SFINAE Support                                                  meta.sfinae
   //
   // Origin provides a small set of types and type functions that are used to
-  // provide a framwork for managing substitution failure in lookup. The
+  // provide a framework for managing substitution failure in lookup. The
   // Primary feature of this component is the subst_failure class, a type that
   // indicates when a lookup has failed.
   //
@@ -2667,7 +2667,16 @@ namespace origin
       return Subst_succeeded<Member_size_result<T>>();
     }
 
-
+  // An alias for the result type of the expression t.size().
+  template <typename T>
+    using Member_max_size_result =
+          typename type_impl::get_member_max_size_result<T>::type;
+  // Returns true if t.max_size() is a valid expression.
+  template <typename T>
+    bool constexpr Has_member_max_size()
+    {
+      return Subst_succeeded<Member_max_size_result<T>>();
+    }
 
   // An alias for the result type of the expression t.empty().
   template <typename T>
@@ -2679,9 +2688,18 @@ namespace origin
     {
       return Subst_succeeded<Member_empty_result<T>>();
     }
-  
 
-    
+  // An alias for the result type of the expression t.clear().
+  template <typename T>
+    using Member_clear_result = typename type_impl::get_member_clear_result<T>::type;
+
+  // Returns true if t.clear() is a valid expression.
+  template <typename T>
+    bool constexpr Has_member_clear()
+    {
+      return Subst_succeeded<Member_clear_result<T>>();
+    }
+
   // An alias for the result type of the expression t.find(u).
   template <typename C, typename K>
     using Member_find_result = typename type_impl::get_member_find_result<C, K>::type;
@@ -2690,9 +2708,51 @@ namespace origin
   template <typename C, typename K>
     bool constexpr Has_member_find()
     {
-      return Subst_succeeded<Member_find_result <C, K>>();
+      return Subst_succeeded<Member_find_result<C, K>>();
     }
 
+  // An alias for the result type of the expression t.count(u).
+  template <typename C, typename K>
+    using Member_count_result = typename type_impl::get_member_count_result<C, K>::type;
+
+  // Returns true if t.count(u) is a valid expression.
+  template <typename C, typename K>
+    bool constexpr Has_member_count()
+    {
+      return Subst_succeeded<Member_count_result<C, K>>();
+    }
+
+  // An alias for the result type of the expression t.equal_range(u).
+  template <typename C, typename K>
+    using Member_equal_range_result = typename type_impl::get_member_equal_range_result<C, K>::type;
+
+  // Returns true if t.equal_range(u) is a valid expression.
+  template <typename C, typename K>
+    bool constexpr Has_member_equal_range()
+    {
+      return Subst_succeeded<Member_equal_range_result<C, K>>();
+    }
+
+  // An alias for the result type of the expression t.erase(u).
+  template <typename C, typename K>
+    using Member_erase_result = typename type_impl::get_member_erase_result<C, K>::type;
+
+  // Returns true if t.erase(u) is a valid expression.
+  template <typename C, typename K>
+    bool constexpr Has_member_erase()
+    {
+      return Subst_succeeded<Member_erase_result<C, K>>();
+    }
+
+  // An alias for the result type of the expression t.empty().
+  template <typename T>
+    using Member_insert_result = typename type_impl::get_member_insert_result<T>::type;
+  // Returns true if insert(r, t) is a valid expression.
+  template <typename T>
+    constexpr bool Has_member_insert()
+    {
+      return Subst_succeeded<Member_insert_result<T>>();
+    }
 
 } // namespace origin
 

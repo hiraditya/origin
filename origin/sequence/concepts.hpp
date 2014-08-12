@@ -91,10 +91,10 @@ namespace origin
     constexpr bool Writable()
     {
       return Assignable<Dereference_result<I>, T>();
-    };
+    }
 
 
-    
+
   //////////////////////////////////////////////////////////////////////////////
   // Permutable
   //
@@ -221,7 +221,7 @@ namespace origin
           && Has_pre_increment<I>()
           && Same<Pre_increment_result<I>, I&>();
     }
-    
+
 
   //////////////////////////////////////////////////////////////////////////////
   // Incrementable
@@ -470,8 +470,8 @@ namespace origin
     {
       return Output_iterator<I, T>() && Equality_comparable<I>();
     }
- 
- 
+
+
   //////////////////////////////////////////////////////////////////////////////
   // Forward Iterator
   //
@@ -505,7 +505,7 @@ namespace origin
           && Incrementable<I>()
           && Derived<Iterator_category<I>, std::forward_iterator_tag>();
     }
-    
+
 
   //////////////////////////////////////////////////////////////////////////////
   // Bidirectional Iterator
@@ -538,9 +538,9 @@ namespace origin
       return Readable<I>()
           && Decrementable<I>()
           && Derived<Iterator_category<I>, std::bidirectional_iterator_tag>();
-    };
+    }
 
-    
+
   //////////////////////////////////////////////////////////////////////////////
   // Random Access Iterator
   //
@@ -581,9 +581,8 @@ namespace origin
           && Same<Subscript_result<I, Difference_type<I>>, Dereference_result<I>>()
 
           && Derived<Iterator_category<I>, std::random_access_iterator_tag>();
-    };
-    
-    
+    }
+
 
   //////////////////////////////////////////////////////////////////////////////
   // Iterator Bounds                                                 iter.bounds
@@ -605,15 +604,15 @@ namespace origin
       return Input_iterator<I>() && !Forward_iterator<I>();
     }
     
-    
+
   // Returns true if I is strictly an output iterator, an output iterator but
   // not readable.
   template <typename I>
     constexpr bool Strict_output_iterator()
     {
-      return Output_iterator<I> && !Readable<I>();
+      return Output_iterator<I>() && !Readable<I>();
     }
-  
+
 
   // Returns true if I is any kind of iterator except random access.
   template <typename I>
@@ -644,7 +643,7 @@ namespace origin
       static_assert(Weakly_incrementable<I>(), "");
       return n >= 0;
     }
-  
+
   // Returns true if [first, n) is a counted range.
   template <typename I>
     inline bool 
@@ -653,7 +652,7 @@ namespace origin
       static_assert(Weakly_incrementable<I>(), "");
       return n >= 0;
     }
-    
+
   // Returns true if [first, last) is a bounded range.
   template <typename I>
     inline auto 
@@ -674,7 +673,7 @@ namespace origin
     {
       return first <= last; 
     }
-    
+
   // Returns true if the weak range [first, n) is readable everywhere except
   // its limit.
   template <typename I>
@@ -684,7 +683,7 @@ namespace origin
       static_assert(Readable<I>(), "");
       return is_weak_range(first, n); 
     }
-  
+
   // Returns true if the bounded range [first, last) is readable everywhere
   // except its limit.
   template <typename I>
@@ -694,7 +693,7 @@ namespace origin
       static_assert(Readable<I>(), "");
       return is_bounded_range(first, last); 
     }
-    
+
   // Returns true if the weak range [first, n) is writable everywhere except
   // its limit.
   template <typename I, typename T>
@@ -704,7 +703,7 @@ namespace origin
       static_assert(Writable<I, T>(), "");
       return is_weak_range(first, n);
     }
-   
+
   // Returns true if the bounded range [first, last) is writable everywhere 
   // except its limit.
   template <typename I, typename T>
@@ -714,7 +713,7 @@ namespace origin
       static_assert(Writable<I, T>(), "");
       return is_bounded_range(first, last);
     }
-    
+
   // Returns true if the weak range [first, n) is mutable everywhere except its
   // limit.
   template <typename I>
@@ -723,7 +722,7 @@ namespace origin
     {
       return n > 0 ? is_writable_range(first, n, *first) : true;
     }
-    
+
   // Returns true if the bounded range [first, last) is mutable everywhere
   // except its limit.
   template <typename I>
@@ -741,7 +740,7 @@ namespace origin
     {
       return n > 0 ? is_movable_range(first, n, *first) : true;
     }
-    
+
   // Return true if the bounded range [first, n) is permutable everywhere
   // except its limit.
   template <typename I>
@@ -810,7 +809,7 @@ namespace origin
   template <typename R>
     constexpr bool Has_begin()
     {
-      return Subst_succeeded<R>();
+      return Subst_succeeded<Begin_result<R>>();
     }
 
 
@@ -832,10 +831,29 @@ namespace origin
   template <typename R>
     constexpr bool Has_end()
     {
-      return Subst_succeeded<R>();
+      return Subst_succeeded<End_result<R>>();
     }
 
+  //////////////////////////////////////////////////////////////////////////////
+  // Swap Result
+  //
+  // Refers to the result of the expression std::swap(r, s) or swap(r, s).
+  //
+  // Template Parameters:
+  //    R -- A range type
+  //
+  // Aliases:
+  //
+  //  The result type of the swap() operation on a Range.
+  template <typename R>
+    using Swap_result = typename sequence_impl::get_swap_result<R>::type;
 
+  // Returns true if either std::end(r) or end(r) is a valid expression.
+  template <typename R>
+    constexpr bool Has_swap()
+    {
+      return Subst_succeeded<Swap_result<R>>();
+    }
 
   //////////////////////////////////////////////////////////////////////////////
   // Iterator Of
@@ -947,6 +965,83 @@ namespace origin
       return Range<R>() && Random_access_iterator<Iterator_of<R>>();
     }
 
+  // Returns true if T has at least forward iterators
+  template <typename T>
+    constexpr bool has_input_iterator_property()
+    {
+      return Input_iterator<T>() ||
+             Forward_iterator<T>() ||
+             Bidirectional_iterator<T>() ||
+             Random_access_iterator<T>();
+    }
+
+  // Returns true if T has at least forward iterators
+  template <typename T>
+    constexpr bool has_forward_iterator_property()
+    {
+      return Forward_iterator<T>() ||
+             Bidirectional_iterator<T>() ||
+             Random_access_iterator<T>();
+    }
+  // Returns true if T has at least bidirectional iterators
+  template <typename T>
+    constexpr bool has_bidirectional_iterator_property()
+    {
+      return Bidirectional_iterator<T>() ||
+             Random_access_iterator<T>();
+    }
+  // Returns true if T has random access iterators
+  template <typename T>
+    constexpr bool has_random_access_iterator_property()
+    {
+      return Random_access_iterator<T>();
+    }
+  // Returns true if T has the same concepts as of STL containers. 
+  template <typename T>
+    constexpr bool is_STL_container()
+    {
+      return has_input_iterator_property<Iterator_of<T>>() &&
+             Has_begin<T>() &&
+             Has_end<T>() &&
+             Has_swap<T>() &&
+             Has_member_size<T>() &&
+             Has_member_max_size<T>() &&
+             Has_member_empty<T>() &&
+             Mutable<Iterator_of<T>>();
+    }
+  template <typename T>
+    constexpr bool is_STL_forward_container()
+    {
+      return is_STL_container<T>() &&
+             Totally_ordered<Value_type<Iterator_of<T>>>();
+    }
+  // TODO: Does having bidirectional iterator guarantee backwards iteration?
+  template <typename T>
+    constexpr bool is_STL_reversible_container()
+    {
+      return  has_bidirectional_iterator_property<Iterator_of<T>>() &&
+              is_STL_forward_container<T>();
+
+    }
+  template <typename T>
+    constexpr bool is_STL_random_access_container()
+    {
+      return  has_random_access_iterator_property<Iterator_of<T>>() &&
+              is_STL_forward_container<T>();
+    }
+
+  template <typename T>
+    constexpr bool is_STL_associative_container()
+    {
+      return  is_STL_forward_container<T>() &&
+              Default_constructible<T>() &&
+              Has_member_erase<T, typename T::key_type>() &&
+              // TODO: Why this one is not working?
+              //Has_member_clear<T>() &&
+              Has_member_find<T, typename T::key_type>() &&
+              Has_member_count<T, typename T::key_type>() &&
+              Has_member_equal_range<T, typename T::key_type>();
+    }
 } // namespace origin
 
 #endif
