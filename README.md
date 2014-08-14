@@ -14,14 +14,15 @@ The Origin libraries is designed around a minimal set of core facilities that wr
 These facilities include an extensive type traits framework, support for concept-like type checking, new iterator
 adaptors, ranges, and support for specification testing.
 
-Read about the history of origin: https://code.google.com/p/origin/wiki/History
+Read about the history of origin: https://github.com/hiraditya/origin/wiki
 
-Getting started page: https://code.google.com/p/origin/wiki/GettingStarted
-I'll move the getting started page soon.
+Getting started page:
 
-Note: Origin is experimental and subject to frequent and often dramatic API changes. This project is not particularly
-well-suited for production use. Also, C++11 is not broadly supported (Origin is only known to compile against GCC4.8).
+https://github.com/hiraditya/origin/wiki/Getting-started-with-origin
 
-Development discussion is hosted at Google Groups (https://groups.google.com/group/origin-dev). Currently, membership is
-restricted and you must either be invited by an active member or request an invitation. This will probably change in the
-future. 
+Note: Origin is experimental and subject to frequent and often dramatic API changes.
+This project is not particularly well-suited for production use. (Origin is only known to compile against GCC>=4.8).
+
+Development discussion is hosted at Google Groups (https://groups.google.com/group/origin-dev).
+Currently, membership is restricted and you must either be invited by an active member or request an invitation.
+This will probably change in the future. 
