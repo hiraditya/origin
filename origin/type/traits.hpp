@@ -584,7 +584,9 @@ namespace origin
   // The compiler will deduce T as the type A (resulting in an rvalue reference
   // to A) instead of forwarding the function argument x as A&.
   template <typename T>
-    using Identity = typename type_impl::identity<T>::type;
+    using Identity = T;
+    // FIXME: See why this is not working.
+    //using Identity = typename type_impl::identity<T>::type;
 
 
     

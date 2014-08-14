@@ -12,43 +12,66 @@
 #include <vector>
 
 #include <origin/sequence/concepts.hpp>
+#include "std_vector_mock.h"
 
-using namespace std;
 using namespace origin;
 
-int main()
-{
+void check_list() {
   using list_seq = std::list<int>;
   static_assert(is_STL_container<list_seq>(), "");
   static_assert(is_STL_forward_container<list_seq>(), "");
   static_assert(is_STL_reversible_container<list_seq>(), "");
   static_assert(!is_STL_random_access_container<list_seq>(), "");
+}
 
+void check_vector() {
   using vec_seq = std::vector<int>;
   static_assert(is_STL_container<vec_seq>(), "");
   static_assert(is_STL_forward_container<vec_seq>(), "");
   static_assert(is_STL_reversible_container<vec_seq>(), "");
   static_assert(is_STL_random_access_container<vec_seq>(), "");
+}
 
+void check_deque() {
   using deque_seq = std::deque<int>;
   static_assert(is_STL_container<deque_seq>(), "");
   static_assert(is_STL_forward_container<deque_seq>(), "");
   static_assert(is_STL_reversible_container<deque_seq>(), "");
   static_assert(is_STL_random_access_container<deque_seq>(), "");
+}
 
+void check_map() {
   using map_ass = std::map<int, int>;
   static_assert(is_STL_container<map_ass>(), "");
   static_assert(is_STL_forward_container<map_ass>(), "");
   static_assert(is_STL_reversible_container<map_ass>(), "");
   static_assert(!is_STL_random_access_container<map_ass>(), "");
   static_assert(is_STL_associative_container<map_ass>(), "");
+}
 
+void check_multimap() {
   using mmap_ass = std::multimap<int, int>;
   static_assert(is_STL_container<mmap_ass>(), "");
   static_assert(is_STL_forward_container<mmap_ass>(), "");
   static_assert(is_STL_reversible_container<mmap_ass>(), "");
   static_assert(!is_STL_random_access_container<mmap_ass>(), "");
   static_assert(is_STL_associative_container<mmap_ass>(), "");
-return 0;
+}
+
+void suggest_vector() {
+  using vec_seq = mock::vector<int>;
+  constexpr bool is_vector = is_STL_random_access_container<vec_seq>();
+  static_assert(!is_vector, "Vector can be used in this case");
+}
+
+int main()
+{
+  check_list();
+  check_vector();
+  check_deque();
+  check_map();
+  check_multimap();
+  suggest_vector();
+  return 0;
 }
 

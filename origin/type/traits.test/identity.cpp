@@ -23,8 +23,8 @@ struct s { };
 
 int main()
 {
-  // s x;
-  // f(x);
-
-  assert(false);
+   s x;
+   f(x);
+  //assert(false);
+  return 0;
 }
