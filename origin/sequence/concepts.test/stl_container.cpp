@@ -61,7 +61,7 @@ void check_multimap() {
 void suggest_vector() {
   using vec_seq = mock::vector<int>;
   constexpr bool is_vector = is_STL_random_access_container<vec_seq>();
-  static_assert(!is_vector, "Vector can be used in this case");
+  static_assert(!is_vector, "std::vector can be used in this case");
 }
 
 int main()
