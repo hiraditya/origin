@@ -2596,7 +2596,37 @@ namespace origin
       return Subst_succeeded<Associated_size_type<T>>();
     }
 
+    // An alias for T::key_type.
+    template <typename T>
+      using Associated_key_type = typename type_impl::get_associated_key_type<T>::type;
 
+    // Returns true if T::size_type is a valid type expression.
+    template <typename T>
+      constexpr bool Has_associated_key_type()
+      {
+        return Subst_succeeded<Associated_key_type<T>>();
+      }
+
+    // An alias for T::hasher.
+    template <typename T>
+      using Associated_hasher = typename type_impl::get_associated_hasher<T>::type;
+
+    // Returns true if T::size_type is a valid type expression.
+    template <typename T>
+      constexpr bool Has_associated_hasher()
+      {
+        return Subst_succeeded<Associated_hasher<T>>();
+      }
+
+    template <typename T>
+      using Associated_key_equal = typename type_impl::get_associated_key_equal<T>::type;
+
+    // Returns true if T::size_type is a valid type expression.
+    template <typename T>
+      constexpr bool Has_associated_key_equal()
+      {
+        return Subst_succeeded<Associated_key_equal<T>>();
+      }
 
   // An alias to the associated reference type.
   template <typename T>

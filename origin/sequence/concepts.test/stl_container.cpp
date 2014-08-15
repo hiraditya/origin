@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <vector>
+#include <unordered_map>
 
 #include <origin/sequence/concepts.hpp>
 #include "std_vector_mock.h"
@@ -30,6 +31,8 @@ void check_vector() {
   static_assert(is_STL_forward_container<vec_seq>(), "");
   static_assert(is_STL_reversible_container<vec_seq>(), "");
   static_assert(is_STL_random_access_container<vec_seq>(), "");
+  static_assert(!is_STL_associative_container<vec_seq>(), "");
+  static_assert(!is_STL_hashed_associative_container<vec_seq>(), "");
 }
 
 void check_deque() {
@@ -38,6 +41,8 @@ void check_deque() {
   static_assert(is_STL_forward_container<deque_seq>(), "");
   static_assert(is_STL_reversible_container<deque_seq>(), "");
   static_assert(is_STL_random_access_container<deque_seq>(), "");
+  static_assert(!is_STL_associative_container<deque_seq>(), "");
+  static_assert(!is_STL_hashed_associative_container<deque_seq>(), "");
 }
 
 void check_map() {
@@ -47,6 +52,7 @@ void check_map() {
   static_assert(is_STL_reversible_container<map_ass>(), "");
   static_assert(!is_STL_random_access_container<map_ass>(), "");
   static_assert(is_STL_associative_container<map_ass>(), "");
+  static_assert(!is_STL_hashed_associative_container<map_ass>(), "");
 }
 
 void check_multimap() {
@@ -56,12 +62,23 @@ void check_multimap() {
   static_assert(is_STL_reversible_container<mmap_ass>(), "");
   static_assert(!is_STL_random_access_container<mmap_ass>(), "");
   static_assert(is_STL_associative_container<mmap_ass>(), "");
+  static_assert(!is_STL_hashed_associative_container<mmap_ass>(), "");
+}
+
+void check_hash() {
+  using hash_ass = std::unordered_map<int, int>;
+  static_assert(is_STL_container<hash_ass>(), "");
+  static_assert(is_STL_forward_container<hash_ass>(), "");
+  static_assert(!is_STL_reversible_container<hash_ass>(), "");
+  static_assert(!is_STL_random_access_container<hash_ass>(), "");
+  static_assert(is_STL_associative_container<hash_ass>(), "");
+  static_assert(is_STL_hashed_associative_container<hash_ass>(), "");
 }
 
 void suggest_vector() {
   using vec_seq = mock::vector<int>;
   constexpr bool is_vector = is_STL_random_access_container<vec_seq>();
-  static_assert(!is_vector, "std::vector can be used in this case");
+//  static_assert(!is_vector, "std::vector can be used in this case");
 }
 
 int main()
@@ -71,6 +88,7 @@ int main()
   check_deque();
   check_map();
   check_multimap();
+  check_hash();
   suggest_vector();
   return 0;
 }

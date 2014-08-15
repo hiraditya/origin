@@ -1033,15 +1033,23 @@ namespace origin
   template <typename T>
     constexpr bool is_STL_associative_container()
     {
-      using key_type = typename T::key_type;
       return  is_STL_forward_container<T>() &&
               Default_constructible<T>() &&
-              Has_member_erase<T, key_type>() &&
-              // TODO: Why this one is not working?
+              Has_associated_key_type<T>() &&
+              Has_member_erase<T, Associated_key_type<T>>() &&
+              // FIXME: Why this one is not working?
               //Has_member_clear<T>() &&
-              Has_member_find<T, key_type>() &&
-              Has_member_count<T, key_type>() &&
-              Has_member_equal_range<T, key_type>();
+              Has_member_find<T, Associated_key_type<T>>() &&
+              Has_member_count<T, Associated_key_type<T>>() &&
+              Has_member_equal_range<T, Associated_key_type<T>>();
+    }
+  template <typename T>
+    constexpr bool is_STL_hashed_associative_container()
+    {
+      return is_STL_associative_container<T>() &&
+             Has_associated_hasher<T>() &&
+             Has_associated_key_equal<T>();
+      // TODO: has hash_func, bucket_count, resize,key_eq()
     }
 } // namespace origin
 

@@ -56,6 +56,41 @@ namespace type_impl
       using type = decltype(check(std::declval<T>()));
     };
 
+  // Safely deduce the type expression T::size_type.
+  template <typename T>
+    struct get_associated_key_type
+    {
+    private:
+      template <typename X>
+        static typename X::key_type check(const X&);
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
+    };
+
+  // Safely deduce the type expression T::hasher.
+  template <typename T>
+    struct get_associated_hasher
+    {
+    private:
+      template <typename X>
+        static typename X::hasher check(const X&);
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
+    };
+
+  template <typename T>
+    struct get_associated_key_equal
+    {
+    private:
+      template <typename X>
+        static typename X::key_equal check(const X&);
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
+    };
+
 
   // Safely deduce the associated type name T::reference.
   template <typename T>
