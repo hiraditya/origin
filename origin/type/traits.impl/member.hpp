@@ -196,10 +196,10 @@ namespace type_impl
     struct get_member_clear_result
     {
     private:
+      // For modifiers, take the argument by rvalue-ref as passing by
+      // ref wasn't working.
       template <typename X>
-        static auto check(const X& x) -> decltype(x.clear(), bool()) {
-            return true;
-        }
+        static auto check(X&& x) -> decltype(x.clear());
       static subst_failure check(...);
     public:
       using type = decltype(check(std::declval<T>()));

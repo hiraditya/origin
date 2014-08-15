@@ -1037,8 +1037,7 @@ namespace origin
               Default_constructible<T>() &&
               Has_associated_key_type<T>() &&
               Has_member_erase<T, Associated_key_type<T>>() &&
-              // FIXME: Why this one is not working?
-              //Has_member_clear<T>() &&
+              Has_member_clear<T>() &&
               Has_member_find<T, Associated_key_type<T>>() &&
               Has_member_count<T, Associated_key_type<T>>() &&
               Has_member_equal_range<T, Associated_key_type<T>>();
