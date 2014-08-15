@@ -11,13 +11,9 @@
 
 #include <origin/sequence/algorithm.hpp>
 
-using namespace std;
-using namespace origin;
-
-
 int main()
 {
-  using V = vector<int>;
+  using V = std::vector<int>;
   
   V v1 {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
   auto f1 = v1.begin();
@@ -29,6 +25,6 @@ int main()
 
   std::equal_to<int> eq;
 
-  assert(range_equal(v1, v2) == equal(f1, l1, f2));
-  assert(range_equal(v1, v2, eq) == equal(f1, l1, f2, eq));
+  assert(origin::equal(v1, v2) == std::equal(f1, l1, f2));
+  assert(origin::equal(v1, v2, eq) == std::equal(f1, l1, f2, eq));
 }

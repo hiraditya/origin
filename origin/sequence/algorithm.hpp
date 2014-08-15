@@ -433,13 +433,10 @@ namespace origin
 
   //////////////////////////////////////////////////////////////////////////////
   // Equal
-  //
-  // FIXME: This is a terrible name for equal since std::equal_range does
-  // something decidedly different.
 
   template <typename R1, typename R2>
     inline bool
-    range_equal(const R1& range1, const R2& range2)
+    equal(const R1& range1, const R2& range2)
     {
       using std::begin;
       using std::end;
@@ -448,7 +445,7 @@ namespace origin
 
   template <typename R1, typename R2, typename C>
     inline bool
-    range_equal(const R1& range1, const R2& range2, C comp)
+    equal(const R1& range1, const R2& range2, C comp)
     {
       using std::begin;
       using std::end;
