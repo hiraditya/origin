@@ -116,13 +116,27 @@ namespace type_impl
          && Relation<R, T>()
          && Relation<R, U>()
          && Relation<R, Common_type<T, U>>()
-         && Regular_function<R, T, U>() 
+         && Regular_function<R, T, U>()
          && Same<Result_of<R(T, U)>, Common_type<T, U>>()
          && Regular_function<R, U, T>()
          && Same<Result_of<R(U, T)>, Common_type<U, T>>()
         >
     { };
 
+    // Returns true if Op is a binary function operating over T and U.
+    template <typename R, typename T, typename U>
+      struct is_binary_function
+        : boolean_constant<
+              Common<T, U>()
+           && Relation<R, T>()
+           && Relation<R, U>()
+           && Relation<R, Common_type<T, U>>()
+           && Regular_function<R, T, U>()
+           && Same<Result_of<R(T, U)>, bool>()
+           && Regular_function<R, U, T>()
+           && Same<Result_of<R(U, T)>, bool>()
+          >
+      { };
 
 
   //////////////////////////////////////////////////////////////////////////////

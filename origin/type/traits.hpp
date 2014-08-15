@@ -1444,7 +1444,7 @@ namespace origin
       return std::is_move_assignable<T>::value;
     }
 
-  // Returns true if T has a trivial move assignment oeprator.
+  // Returns true if T has a trivial move assignment operator.
   //
   // FIXME: GCC does not implement the corresponding type trait. The 
   // implementation is designed to fail. Use Trivial as an alternative.
@@ -2126,7 +2126,7 @@ namespace origin
 
 
   //////////////////////////////////////////////////////////////////////////////
-  // Binary oeprators
+  // Binary operators
   
   namespace traits
   {

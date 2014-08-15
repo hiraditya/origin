@@ -21,7 +21,7 @@ namespace origin
     template <typename T, typename U> struct is_weakly_ordered;
     template <typename R, typename T, typename U> struct is_relation;
     template <typename O, typename T, typename U> struct is_binary_operation;
-
+    template <typename O, typename T, typename U> struct is_binary_function;
     template <typename S, typename T> struct is_input_streamable;
     template <typename S, typename T> struct is_output_streamable;
   }
@@ -485,7 +485,7 @@ namespace origin
   //////////////////////////////////////////////////////////////////////////////
   // Relation                                             concepts.func.relation
   //
-  // A relation is a binary bredicate over a set of values. There are two
+  // A relation is a binary predicate over a set of values. There are two
   // overloads of this concept:
   //
   //    Relation<R, T>()
@@ -610,6 +610,11 @@ namespace origin
       return type_impl::is_binary_operation<Op, T, U>::value;
     }
 
+  template <typename Op, typename T, typename U = T>
+    constexpr bool Binary_function()
+    {
+      return type_impl::is_binary_function<Op, T, U>::value;
+    }
 
   //////////////////////////////////////////////////////////////////////////////
   // Streaming                                                   concepts.stream

@@ -48,27 +48,24 @@ namespace origin
       return std::all_of(begin(range), end(range), pred);
     }
 
-  // Returns true iff x == value for all x in [first, last).
-  //
-  // FIXME: This should call all_match(first, last, value, eq()), but I don't
-  // have advanced functional support yet.
-  template<typename I, typename T>
+  // Returns true iff comp(x, value) for all x in [first, last).
+  template<typename I, typename T, typename C>
     inline Requires<Input_iterator<I>(), bool>
-    all_match(I first, I last, const T& value)
+    all_match(I first, I last, const T& value, C comp)
     {
-      while (first != last && *first == value)
+      static_assert(Binary_function<C, Value_type<I>, T>(),
+                    "Not a binary function.");
+      while (first != last && comp(*first, value))
         ++first;
       return first == last;
     }
 
-  // Returns true iff comp(x, value) for all x in [first, last).
-  template<typename I, typename T, typename C>
-    inline bool
-    all_match(I first, I last, const T& value, C comp)
+    // Returns true iff x == value for all x in [first, last).
+  template<typename I, typename T>
+    inline Requires<Input_iterator<I>(), bool>
+    all_match(I first, I last, const T& value)
     {
-      while (first != last && comp(*first, value))
-        ++first;
-      return first == last;
+      return all_match(first, last, value, std::equal_to<T>());
     }
 
   // Returns true iff x == value for all x in range.

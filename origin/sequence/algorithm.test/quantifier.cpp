@@ -17,12 +17,17 @@ using namespace origin;
 
 bool odd(int n) { return n & 1; }
 
+std::equal_to<int> eq;
+
 void
 check_all_match()
 {
-  vector<int> v {0, 0, 0};
-  assert(all_match(v, 0));
-  assert(all_match(v, 0, equal_to<int>{}));
+  vector<int> v1 {0, 0, 0};
+  vector<int> v2 {0, 1, 2};
+  assert(all_match(v1, 0));
+  assert(all_match(v1, 0, equal_to<int>{}));
+  assert(!all_match(v1, 1, equal_to<int>{}));
+  assert(!all_match(v2, 0, equal_to<int>{}));
 }
 
 void
