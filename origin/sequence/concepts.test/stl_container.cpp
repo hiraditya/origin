@@ -14,6 +14,7 @@
 
 #include <origin/sequence/concepts.hpp>
 #include "std_vector_mock.h"
+#include "std_list_mock.h"
 
 using namespace origin;
 
@@ -23,6 +24,8 @@ void check_list() {
   static_assert(is_STL_forward_container<list_seq>(), "");
   static_assert(is_STL_reversible_container<list_seq>(), "");
   static_assert(!is_STL_random_access_container<list_seq>(), "");
+  static_assert(!is_STL_associative_container<list_seq>(), "");
+  static_assert(!is_STL_hashed_associative_container<list_seq>(), "");
 }
 
 void check_vector() {
@@ -81,6 +84,12 @@ void suggest_vector() {
 //  static_assert(!is_vector, "std::vector can be used in this case");
 }
 
+void suggest_list() {
+  using list_seq = mock::list<int>;
+  constexpr bool is_list = is_STL_reversible_container<list_seq>();
+//  static_assert(!is_list, "std::list can be used in this case");
+}
+
 int main()
 {
   check_list();
@@ -90,6 +99,7 @@ int main()
   check_multimap();
   check_hash();
   suggest_vector();
+  suggest_list();
   return 0;
 }
 
