@@ -1485,5 +1485,4 @@ namespace origin
     }
 
 } // namespace origin
-
 #endif

@@ -12,6 +12,7 @@
 
 #include "concepts.hpp"
 #include "iterator.hpp"
+#include <cassert>
 
 namespace origin
 {
@@ -62,18 +63,18 @@ namespace origin
       bounded_range() 
         : first(), last(first)
       { }
-    
+
       // Initialize the bounded range over [first, last).
       bounded_range(I f, I l)
         : first(f), last(l)
-      { 
+      {
         assert(is_bounded_range(first, last));
       }
-      
+
       // Iterators
       iterator begin() const { return first; }
       iterator end() const   { return last; }
-      
+
     private:
       I first;
       I last;
@@ -92,6 +93,14 @@ namespace origin
 
   // Specialization for ranges with x.size(). Note that this is declared as
   // constexpr because some container-like types have constexpr size member
+  // For C-arrays.
+  template <typename T, std::size_t N>
+    inline constexpr
+    std::size_t size(T(&)[N])
+    {
+      return N;
+    }
+
   // functions.
   template <typename T>
     inline constexpr 
@@ -100,15 +109,7 @@ namespace origin
       return x.size(); 
     }
 
-  // For C-arrays.
-  template <typename T, std::size_t N>
-    inline constexpr 
-    std::size_t size(T(&)[N])
-    {
-      return N;
-    }
-    
-  // For ranges without r.size().
+ // For ranges without r.size().
   template <typename R>
     inline auto 
     size(const R& range) 

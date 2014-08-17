@@ -1,10 +1,10 @@
-// Copyright (c) 2008-2010 Kent State University
-// Copyright (c) 2011-2012 Texas A&M University
+// Copyright (c)
 //
-// This file is distributed under the MIT License. See the accompanying file
-// LICENSE.txt or http://www.opensource.org/licenses/mit-license.php for terms
-// and conditions.
-
+// This file is distributed under the MIT License. See
+// LICENCE.txt attached with this project or visit
+// http://www.opensource.org/licenses/mit-license.php
+// for terms and conditions.
+//
 
 #include <deque>
 #include <list>
