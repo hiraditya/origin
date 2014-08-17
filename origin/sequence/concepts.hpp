@@ -1067,8 +1067,12 @@ namespace origin
     {
       return is_STL_associative_container<T>() &&
              Has_associated_hasher<T>() &&
-             Has_associated_key_equal<T>();
-      // TODO: has hash_func, bucket_count, resize,key_eq()
+             Has_associated_key_equal<T>() &&
+             Has_member_key_eq<T>() &&
+             Has_member_bucket_count<T>() &&
+             // g++ libstdc++ has hash_function() for unordered map.
+             (Has_member_hash_funct<T>() || Has_member_hash_function<T>()) &&
+             Has_member_resize<T, Associated_size_type<T>>();
     }
 } // namespace origin
 

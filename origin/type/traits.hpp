@@ -2693,6 +2693,41 @@ namespace origin
     }
 
 
+  // An alias for the result type of the expression t.bucket_count().
+  template <typename T>
+    using Member_bucket_count_result =
+      typename type_impl::get_member_bucket_count_result<T>::type;
+
+  // Returns true if t.bucket_count() is a valid expression.
+  template <typename T>
+    bool constexpr Has_member_bucket_count()
+    {
+      return Subst_succeeded<Member_bucket_count_result<T>>();
+    }
+
+  // An alias for the result type of the expression t.bucket_count().
+  template <typename T>
+    using Member_hash_funct_result =
+      typename type_impl::get_member_hash_funct_result<T>::type;
+
+  // Returns true if t.hash_funct() is a valid expression.
+  template <typename T>
+    bool constexpr Has_member_hash_funct()
+    {
+      return Subst_succeeded<Member_hash_funct_result<T>>();
+    }
+
+  // An alias for the result type of the expression t.hash_funct().
+  template <typename T>
+    using Member_hash_function_result =
+      typename type_impl::get_member_hash_function_result<T>::type;
+
+  // Returns true if t.bucket_count() is a valid expression.
+  template <typename T>
+    bool constexpr Has_member_hash_function()
+    {
+      return Subst_succeeded<Member_hash_function_result<T>>();
+    }
 
   // Member size
   // These traits determine if x.size() is a valid expression. Classes 
@@ -2817,16 +2852,28 @@ namespace origin
       return Subst_succeeded<Member_insert_result<T, U, V>>();
     }
 
-  // An alias for the result type of the expression t.size().
+  // An alias for the result type of the expression t.resize().
   template <typename T, typename U>
     using Member_resize_result =
       typename type_impl::get_member_resize_result<T, U>::type;
 
-  // Returns true if t.size() is a valid expression.
+  // Returns true if t.resize() is a valid expression.
   template <typename T, typename U>
     bool constexpr Has_member_resize()
     {
       return Subst_succeeded<Member_resize_result<T, U>>();
+    }
+
+  // An alias for the result type of the expression t.key_eq().
+  template <typename T>
+    using Member_key_eq_result =
+      typename type_impl::get_member_key_eq_result<T>::type;
+
+  // Returns true if t.key_eq() is a valid expression.
+  template <typename T>
+    bool constexpr Has_member_key_eq()
+    {
+      return Subst_succeeded<Member_key_eq_result<T>>();
     }
 } // namespace origin
 

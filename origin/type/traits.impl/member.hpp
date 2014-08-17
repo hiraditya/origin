@@ -167,6 +167,42 @@ namespace type_impl
       using type = decltype(check(std::declval<T>()));
     };
 
+  // Safely deduce get the result type of the expression t.bucket_count().
+  template <typename T>
+    struct get_member_bucket_count_result
+    {
+    private:
+      template <typename X>
+        static auto check(const X& x) -> decltype(x.bucket_count());
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
+    };
+
+  // Safely deduce get the result type of the expression t.hash_funct().
+  template <typename T>
+    struct get_member_hash_funct_result
+    {
+    private:
+      template <typename X>
+        static auto check(const X& x) -> decltype(x.hash_funct());
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
+    };
+
+  // Safely deduce get the result type of the expression t.hash_function().
+  template <typename T>
+    struct get_member_hash_function_result
+    {
+    private:
+      template <typename X>
+        static auto check(const X& x) -> decltype(x.hash_function());
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
+    };
+
   // Safely deduce get the result type of the expression t.max_size().
   template <typename T>
     struct get_member_max_size_result
@@ -254,6 +290,18 @@ namespace type_impl
     public:
       using type = decltype(check(std::declval<T>(), std::declval<U>(),
                                   std::declval<V>()));
+    };
+
+  // Safely deduce the result type of the expression t.key_eq().
+  template <typename T>
+    struct get_member_key_eq_result
+    {
+    private:
+      template <typename X>
+        static auto check(X&& x) -> decltype(x.key_eq());
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
     };
 
   // Safely deduce get the result type of the expression t.resize(n).

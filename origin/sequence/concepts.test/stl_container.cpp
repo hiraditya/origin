@@ -82,7 +82,8 @@ void check_hash() {
   static_assert(!is_STL_reversible_container<hash_ass>(), "");
   static_assert(!is_STL_random_access_container<hash_ass>(), "");
   static_assert(is_STL_associative_container<hash_ass>(), "");
-  static_assert(is_STL_hashed_associative_container<hash_ass>(), "");
+  // std::unordered_map does not have resize function. At least for now.
+  static_assert(!is_STL_hashed_associative_container<hash_ass>(), "");
 }
 
 void suggest_vector() {
