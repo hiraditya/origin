@@ -12,6 +12,7 @@
 
 #include <origin/type/concepts.hpp>
 
+// This file contains a set of concept-checks for sequence/containers.
 namespace origin
 {
 #include "concepts.impl/traits.hpp"
@@ -983,6 +984,7 @@ namespace origin
              Bidirectional_iterator<T>() ||
              Random_access_iterator<T>();
     }
+
   // Returns true if T has at least bidirectional iterators
   template <typename T>
     constexpr bool has_bidirectional_iterator_property()
@@ -990,13 +992,15 @@ namespace origin
       return Bidirectional_iterator<T>() ||
              Random_access_iterator<T>();
     }
+
   // Returns true if T has random access iterators
   template <typename T>
     constexpr bool has_random_access_iterator_property()
     {
       return Random_access_iterator<T>();
     }
-  // Returns true if T has the same concepts as of STL containers. 
+
+  // Returns true if T has the same concepts as of STL containers.
   template <typename T>
     constexpr bool is_STL_container()
     {
@@ -1004,17 +1008,30 @@ namespace origin
              Has_begin<T>() &&
              Has_end<T>() &&
              Has_swap<T>() &&
-             Has_member_size<T>() &&
-             Has_member_max_size<T>() &&
              Has_member_empty<T>() &&
+             Has_member_max_size<T>() &&
+             Has_member_size<T>() &&
              Mutable<Iterator_of<T>>();
     }
+
+  template <typename T>
+    constexpr bool is_STL_sequence()
+    {
+      return is_STL_container<T>() &&
+             Has_member_clear<T>() &&
+             Has_member_erase<T, Iterator_of<T>>() &&
+             Has_member_front<T>() &&
+             Has_member_insert<T, Iterator_of<T>, Value_type<T>>() &&
+             Has_member_resize<T, Associated_size_type<T>>();
+    }
+
   template <typename T>
     constexpr bool is_STL_forward_container()
     {
       return is_STL_container<T>() &&
-             Totally_ordered<Value_type<Iterator_of<T>>>();
+             Totally_ordered<Value_type<T>>();
     }
+
   // TODO: Does having bidirectional iterator guarantee backwards iteration?
   template <typename T>
     constexpr bool is_STL_reversible_container()
@@ -1023,6 +1040,7 @@ namespace origin
               is_STL_forward_container<T>();
 
     }
+
   template <typename T>
     constexpr bool is_STL_random_access_container()
     {
@@ -1036,12 +1054,14 @@ namespace origin
       return  is_STL_forward_container<T>() &&
               Default_constructible<T>() &&
               Has_associated_key_type<T>() &&
-              Has_member_erase<T, Associated_key_type<T>>() &&
               Has_member_clear<T>() &&
-              Has_member_find<T, Associated_key_type<T>>() &&
               Has_member_count<T, Associated_key_type<T>>() &&
-              Has_member_equal_range<T, Associated_key_type<T>>();
+              Has_member_equal_range<T, Associated_key_type<T>>() &&
+              Has_member_erase<T, Associated_key_type<T>>() &&
+              Has_member_find<T, Associated_key_type<T>>();
+
     }
+
   template <typename T>
     constexpr bool is_STL_hashed_associative_container()
     {

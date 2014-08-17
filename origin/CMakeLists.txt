@@ -5,9 +5,9 @@
 # LICENSE.txt or http://www.opensource.org/licenses/mit-license.php for terms
 # and conditions.
 
-add_subdirectory(type)
-add_subdirectory(sequence)
-add_subdirectory(memory)
 add_subdirectory(data)
-add_subdirectory(math)
 add_subdirectory(graph)
+add_subdirectory(math)
+add_subdirectory(memory)
+add_subdirectory(sequence)
+add_subdirectory(type)

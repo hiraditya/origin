@@ -739,15 +739,18 @@ namespace origin
 
   // Returns true if T is an lvalue reference to some type U.
   template <typename T>
-    constexpr bool Lvalue_reference() { return std::is_lvalue_reference<T>::value; }
+    constexpr bool Lvalue_reference()
+    { return std::is_lvalue_reference<T>::value; }
 
   // Returns true if T is rvalue reference to some type U.
   template <typename T>
-    constexpr bool Rvalue_reference() { return std::is_rvalue_reference<T>::value; }
+    constexpr bool Rvalue_reference()
+    { return std::is_rvalue_reference<T>::value; }
     
   // Returns true if T is either an lvalue or rvalue reference to some type U.
   template <typename T>
-    constexpr bool Reference() { return std::is_reference<T>::value; }
+    constexpr bool Reference()
+    { return std::is_reference<T>::value; }
     
   // An alias to an lvalue-reference-to-T.
   template <typename T>
@@ -1212,7 +1215,8 @@ namespace origin
 
   // Returns true if T is a standard layout type
   template <typename T>
-    constexpr bool Standard_layout() { return std::is_standard_layout<T>::value; }
+    constexpr bool Standard_layout()
+    { return std::is_standard_layout<T>::value; }
     
 
 
@@ -1595,7 +1599,8 @@ namespace origin
 
   // An alias for the result type of the expression t != u.
   template <typename T, typename U = T>
-    using Not_equal_result = typename type_impl::get_not_equal_result<T, U>::type;
+    using Not_equal_result =
+                    typename type_impl::get_not_equal_result<T, U>::type;
 
   // Returns true if the expression t != u is valid.
   template <typename T, typename U = T>
@@ -1788,7 +1793,8 @@ namespace origin
 
   // An alias for the result type of the expression t * u.
   template <typename T, typename U = T>
-    using Multiplies_result = typename type_impl::get_multiplies_result<T, U>::type;
+    using Multiplies_result =
+                    typename type_impl::get_multiplies_result<T, U>::type;
     
   // Returns true if the expression t * u is valid.
   template <typename T, typename U = T>
@@ -1827,7 +1833,8 @@ namespace origin
 
   // An alias for the result type of the expression +t.
   template <typename T>
-    using Unary_plus_result = typename type_impl::get_unary_plus_result<T>::type;
+    using Unary_plus_result =
+                  typename type_impl::get_unary_plus_result<T>::type;
     
   // Returns true if the expression +t is valid.
   template <typename T>
@@ -1857,8 +1864,8 @@ namespace origin
 
   // An alias for the result type of the exprssion t += u.
   template <typename T, typename U>
-    using Plus_assign_result = typename 
-      type_impl::get_plus_assign_result<T, U>::type;
+    using Plus_assign_result =
+      typename type_impl::get_plus_assign_result<T, U>::type;
     
   // Returns true if the expression t += u is valid.
   template <typename T, typename U>
@@ -2587,7 +2594,8 @@ namespace origin
 
   // An alias for T::size_type.
   template <typename T>
-    using Associated_size_type = typename type_impl::get_associated_size_type<T>::type;
+    using Associated_size_type =
+      typename type_impl::get_associated_size_type<T>::type;
 
   // Returns true if T::size_type is a valid type expression.
   template <typename T>
@@ -2596,37 +2604,40 @@ namespace origin
       return Subst_succeeded<Associated_size_type<T>>();
     }
 
-    // An alias for T::key_type.
-    template <typename T>
-      using Associated_key_type = typename type_impl::get_associated_key_type<T>::type;
+  // An alias for T::key_type.
+  template <typename T>
+    using Associated_key_type =
+      typename type_impl::get_associated_key_type<T>::type;
 
-    // Returns true if T::size_type is a valid type expression.
-    template <typename T>
-      constexpr bool Has_associated_key_type()
-      {
-        return Subst_succeeded<Associated_key_type<T>>();
-      }
+  // Returns true if T::size_type is a valid type expression.
+  template <typename T>
+    constexpr bool Has_associated_key_type()
+    {
+      return Subst_succeeded<Associated_key_type<T>>();
+    }
 
-    // An alias for T::hasher.
-    template <typename T>
-      using Associated_hasher = typename type_impl::get_associated_hasher<T>::type;
+  // An alias for T::hasher.
+  template <typename T>
+    using Associated_hasher =
+      typename type_impl::get_associated_hasher<T>::type;
 
-    // Returns true if T::size_type is a valid type expression.
-    template <typename T>
-      constexpr bool Has_associated_hasher()
-      {
-        return Subst_succeeded<Associated_hasher<T>>();
-      }
+  // Returns true if T::size_type is a valid type expression.
+  template <typename T>
+    constexpr bool Has_associated_hasher()
+    {
+      return Subst_succeeded<Associated_hasher<T>>();
+    }
 
-    template <typename T>
-      using Associated_key_equal = typename type_impl::get_associated_key_equal<T>::type;
+  template <typename T>
+    using Associated_key_equal =
+      typename type_impl::get_associated_key_equal<T>::type;
 
-    // Returns true if T::size_type is a valid type expression.
-    template <typename T>
-      constexpr bool Has_associated_key_equal()
-      {
-        return Subst_succeeded<Associated_key_equal<T>>();
-      }
+  // Returns true if T::size_type is a valid type expression.
+  template <typename T>
+    constexpr bool Has_associated_key_equal()
+    {
+      return Subst_succeeded<Associated_key_equal<T>>();
+    }
 
   // An alias to the associated reference type.
   template <typename T>
@@ -2690,7 +2701,8 @@ namespace origin
 
   // An alias for the result type of the expression t.size().
   template <typename T>
-    using Member_size_result = typename type_impl::get_member_size_result<T>::type;
+    using Member_size_result =
+      typename type_impl::get_member_size_result<T>::type;
     
   // Returns true if t.size() is a valid expression.
   template <typename T>
@@ -2702,7 +2714,7 @@ namespace origin
   // An alias for the result type of the expression t.size().
   template <typename T>
     using Member_max_size_result =
-          typename type_impl::get_member_max_size_result<T>::type;
+      typename type_impl::get_member_max_size_result<T>::type;
   // Returns true if t.max_size() is a valid expression.
   template <typename T>
     bool constexpr Has_member_max_size()
@@ -2712,7 +2724,8 @@ namespace origin
 
   // An alias for the result type of the expression t.empty().
   template <typename T>
-    using Member_empty_result = typename type_impl::get_member_empty_result<T>::type;
+    using Member_empty_result =
+      typename type_impl::get_member_empty_result<T>::type;
     
   // Returns true if t.empty() is a valid expression.
   template <typename T>
@@ -2721,9 +2734,22 @@ namespace origin
       return Subst_succeeded<Member_empty_result<T>>();
     }
 
+  // An alias for the result type of the expression t.empty().
+  template <typename T>
+    using Member_front_result =
+      typename type_impl::get_member_front_result<T>::type;
+
+  // Returns true if t.empty() is a valid expression.
+  template <typename T>
+    bool constexpr Has_member_front()
+    {
+      return Subst_succeeded<Member_front_result<T>>();
+    }
+
   // An alias for the result type of the expression t.clear().
   template <typename T>
-    using Member_clear_result = typename type_impl::get_member_clear_result<T>::type;
+    using Member_clear_result =
+      typename type_impl::get_member_clear_result<T>::type;
 
   // Returns true if t.clear() is a valid expression.
   template <typename T>
@@ -2734,7 +2760,8 @@ namespace origin
 
   // An alias for the result type of the expression t.find(u).
   template <typename C, typename K>
-    using Member_find_result = typename type_impl::get_member_find_result<C, K>::type;
+    using Member_find_result =
+      typename type_impl::get_member_find_result<C, K>::type;
     
   // Returns true if t.find(u) is a valid expression.
   template <typename C, typename K>
@@ -2745,7 +2772,8 @@ namespace origin
 
   // An alias for the result type of the expression t.count(u).
   template <typename C, typename K>
-    using Member_count_result = typename type_impl::get_member_count_result<C, K>::type;
+    using Member_count_result =
+      typename type_impl::get_member_count_result<C, K>::type;
 
   // Returns true if t.count(u) is a valid expression.
   template <typename C, typename K>
@@ -2756,7 +2784,8 @@ namespace origin
 
   // An alias for the result type of the expression t.equal_range(u).
   template <typename C, typename K>
-    using Member_equal_range_result = typename type_impl::get_member_equal_range_result<C, K>::type;
+    using Member_equal_range_result =
+      typename type_impl::get_member_equal_range_result<C, K>::type;
 
   // Returns true if t.equal_range(u) is a valid expression.
   template <typename C, typename K>
@@ -2767,7 +2796,8 @@ namespace origin
 
   // An alias for the result type of the expression t.erase(u).
   template <typename C, typename K>
-    using Member_erase_result = typename type_impl::get_member_erase_result<C, K>::type;
+    using Member_erase_result =
+      typename type_impl::get_member_erase_result<C, K>::type;
 
   // Returns true if t.erase(u) is a valid expression.
   template <typename C, typename K>
@@ -2776,16 +2806,28 @@ namespace origin
       return Subst_succeeded<Member_erase_result<C, K>>();
     }
 
-  // An alias for the result type of the expression t.empty().
-  template <typename T>
-    using Member_insert_result = typename type_impl::get_member_insert_result<T>::type;
+  // An alias for the result type of the expression t.insert().
+  template <typename T, typename U, typename V>
+    using Member_insert_result =
+      typename type_impl::get_member_insert_result<T, U, V>::type;
   // Returns true if insert(r, t) is a valid expression.
-  template <typename T>
+  template <typename T, typename U, typename V>
     constexpr bool Has_member_insert()
     {
-      return Subst_succeeded<Member_insert_result<T>>();
+      return Subst_succeeded<Member_insert_result<T, U, V>>();
     }
 
+  // An alias for the result type of the expression t.size().
+  template <typename T, typename U>
+    using Member_resize_result =
+      typename type_impl::get_member_resize_result<T, U>::type;
+
+  // Returns true if t.size() is a valid expression.
+  template <typename T, typename U>
+    bool constexpr Has_member_resize()
+    {
+      return Subst_succeeded<Member_resize_result<T, U>>();
+    }
 } // namespace origin
 
 #endif

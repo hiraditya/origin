@@ -191,6 +191,18 @@ namespace type_impl
       using type = decltype(check(std::declval<T>()));
     };
 
+  // Safely deduce the result type of the expression t.empty().
+  template <typename T>
+    struct get_member_front_result
+    {
+    private:
+      template <typename X>
+        static auto check(const X& x) -> decltype(x.front());
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>()));
+    };
+
   // Safely deduce the result type of the expression t.clear().
   template <typename T>
     struct get_member_clear_result
@@ -232,15 +244,28 @@ namespace type_impl
     };
 
   // Safely deduce the result of the expression insert(r, t).
-  template <typename T>
+  template <typename T, typename U, typename V>
     struct get_member_insert_result
     {
     private:
-      template <typename X>
-        static auto check(X&& x) -> decltype(x.insert(x.end(), *x.begin()));
+      template <typename X, typename Y, typename Z>
+        static auto check(X&& x, Y&& y, Z&& z) -> decltype(x.insert(y, z));
       static subst_failure check(...);
     public:
-      using type = decltype(check(std::declval<T>()));
+      using type = decltype(check(std::declval<T>(), std::declval<U>(),
+                                  std::declval<V>()));
+    };
+
+  // Safely deduce get the result type of the expression t.resize(n).
+  template <typename T, typename U>
+    struct get_member_resize_result
+    {
+    private:
+      template <typename X, typename Y>
+        static auto check(X&& x, Y&& y) -> decltype(x.resize(y));
+      static subst_failure check(...);
+    public:
+      using type = decltype(check(std::declval<T>(), std::declval<U>()));
     };
 
   template <typename T, typename U>
