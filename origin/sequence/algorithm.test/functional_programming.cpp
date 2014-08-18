@@ -13,23 +13,11 @@
 #include<list>
 #include<cassert>
 
-using namespace origin;
 template<template <class, class> class container_type, class value_type>
 int test_functional()
 {
   using T = container_type<value_type, std::allocator<value_type>>;
   T vi{1,2,3,4};
-
-
-  int first = *std::begin(car(vi));
-  assert(first == 1);
-
-  auto remaining_list = cdr(vi);
-  T remaining_list_copy{2, 3, 4};
-  assert(remaining_list == remaining_list_copy);
-
-  auto comb = cons(first, remaining_list);
-  assert(comb == vi);
 
   using ToT = container_type<T, std::allocator<T>>;
   ToT vov(5,vi);
@@ -40,38 +28,52 @@ int test_functional()
                  {1, 2, 3, 4}};
 
   assert(vov == vov_copy);
+  {
+    using namespace origin;
+    int first = *std::begin(car(vi));
+    assert(first == 1);
 
-  auto fof_caar = begin(caar(vov));
-  assert(*fof_caar == 1);
+    T remaining_list = cdr(vi);
+    T remaining_list_copy{2, 3, 4};
+    assert(remaining_list == remaining_list_copy);
 
-  auto cdr_vov = cdr(vov);
+    T comb = cons(first, remaining_list);
+    assert(comb == vi);
 
-  // TODO: Not working for 'cons' only works for cons_no_copy because cons
-  // returns a sequence.
-  auto cons_vec_range = cons_no_copy(car_no_copy(vov), cdr_no_copy(vov));
-  ToT cons_vec(std::begin(cons_vec_range), std::end(cons_vec_range));
-  assert(cons_vec == vov);
-  assert(begin(cons_vec_range) == begin(vov));
-  assert(end(cons_vec_range) == end(vov));
 
-  ToT cdr_vov_copy{{1, 2, 3, 4},
-                 {1, 2, 3, 4},
-                 {1, 2, 3, 4},
-                 {1, 2, 3, 4}};
-  assert(cdr_vov == cdr_vov_copy);
-  assert(*std::begin(cadr(vov)) == vi);
-  assert(*std::begin(cdr_no_copy(cdr_no_copy(cdr_no_copy(vi)))) == 4);
+    T fof_caar = caar(vov);
+    assert(*std::begin(fof_caar) == 1);
+    assert(size(fof_caar) == 1);
 
-  ToT cdr_vec(std::begin(cdr_no_copy(vov)), std::end(cdr_no_copy(vov)));
-  assert(cdr_vec == cdr_vov);
-  assert(*std::begin(car(cadr_no_copy(vov))) == vi);
-  // list operations return a bounded range of the same type.
-  // To take the element out of the bounded range we need to do std::begin()
-  assert(*std::begin(car(*begin(cadr_no_copy(vov)))) == 1);
-  assert(*std::begin(car(cadr(vov))) == vi);
+    ToT cdr_vov_copy{{1, 2, 3, 4},
+                   {1, 2, 3, 4},
+                   {1, 2, 3, 4},
+                   {1, 2, 3, 4}};
+    auto cdr_vov = cdr(vov);
+    assert(cdr_vov == cdr_vov_copy);
+    assert(*std::begin(cadr(vov)) == vi);
+    assert(*std::begin(cdr(cdr(cdr(vi)))) == 4);
 
-  assert(*succ(vi.begin()) == 2);
-  assert(*pred(vi.end()) == 4);
+    ToT cdr_vec(std::begin(cdr_vov), std::end(cdr_vov));
+    assert(cdr_vec == cdr_vov);
+    assert(*std::begin(car(cadr(vov))) == vi);
+    // list operations return a bounded range of the same type.
+    // To take the element out of the bounded range we need to do std::begin()
+    assert(*std::begin(car(*begin(cadr(vov)))) == 1);
+    assert(*std::begin(car(cadr(vov))) == vi);
+
+    assert(*succ(vi.begin()) == 2);
+    assert(*pred(vi.end()) == 4);
+  }
+
+  {
+    using namespace origin::intrusive;
+    auto cons_vec_range = cons(car(vov), cdr(vov));
+    ToT cons_vec(std::begin(cons_vec_range), std::end(cons_vec_range));
+    assert(cons_vec == vov);
+    assert(begin(cons_vec_range) == begin(vov));
+    assert(end(cons_vec_range) == end(vov));
+  }
   return 0;
 }
 

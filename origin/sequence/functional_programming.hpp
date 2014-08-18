@@ -14,73 +14,42 @@
 #include <iterator>
 #include <algorithm>
 namespace origin {
-  // In all the functional style utilities, we return either the iterator,
-  // or the reference/const-ref.
+
+  // 1. All the following functions except caar, return the same type of
+  // sequence as the input sequence. This is to maintain uniformity. To access
+  // an element appropriate accessors can be used e.g., begin, end, next, prev.
+  // 2. Passing all the sequence by value in a 'hope' that move semantics
+  // will do a better job in each case.
+
   /// \brief car stands for "Contents of the Address part of Register number"
-  /// essentially it returns first element of the list
-  /// returns reference to the first element of the sequence
-
-  /// returns a bounded range having the first element of the sequence/range
+  /// essentially it returns a sequence having only the first element.
   template<typename sequence>
-    inline bounded_range<Iterator_of<sequence>>
-    car_no_copy(sequence& s)
+    inline sequence
+    car(sequence s)
     {
-      static_assert(Range<sequence>(), "");
-      return bounded_range<Iterator_of<sequence>>(begin(s), ++begin(s));
-    }
-
-  template<typename sequence>
-    inline bounded_range<Iterator_of<sequence>>
-    car(sequence&& s)
-    {
-      static_assert(Range<sequence>(), "");
-      return bounded_range<Iterator_of<sequence>>(begin(s), ++begin(s));
-    }
-
-  /// \brief caar stands for car(car s)
-  /// \returns a copy of the first element of the
-  /// first element of the sequence_of_sequences
-  template<typename sequence_of_sequences>
-    inline bounded_range<Iterator_of<sequence_of_sequences>>
-    caar_no_copy(sequence_of_sequences& sos)
-    {
-      static_assert(Range<sequence_of_sequences>(), "");
-      static_assert(Range<typename sequence_of_sequences::value_type>(), "");
-      return car(*begin(car(sos)));
+      static_assert(is_STL_forward_container<sequence>(), "");
+      return sequence(begin(s), ++begin(s));
     }
 
   /// \brief caar stands for car(car s)
   /// \returns A reference to the first element of the
   ///          first element of the sequence_of_sequences.
   template<typename sequence_of_sequences>
-    inline bounded_range<Iterator_of<typename sequence_of_sequences::value_type>>
-    caar(sequence_of_sequences& sos)
+    inline Value_type<sequence_of_sequences>
+    caar(sequence_of_sequences sos)
     {
-      static_assert(Range<sequence_of_sequences>(), "");
-      static_assert(Range<typename sequence_of_sequences::value_type>(), "");
-      return car(*car(sos).begin());
+      static_assert(is_STL_forward_container<sequence_of_sequences>(), "");
+      static_assert(is_STL_forward_container<
+                    Value_type<sequence_of_sequences>>(), "");
+      return car(*std::begin(car(sos)));
     }
-
-  //returns the reference to the second element of the sequence
-  /// \brief cdr stands for
-  ///        "Contents of the Decrement part of Register number"
-  /// \returns The elements of the list except for the first one.
-  template<typename sequence>
-    inline bounded_range<Iterator_of<sequence>>
-    cdr_no_copy(sequence&& s)
-    {
-      static_assert(Range<sequence>(), "");
-      return bounded_range<Iterator_of<sequence>>(++begin(s), end(s));
-    }
-
-  //returning by value (Relying on the move-semantics of C++11)
-  // FIXME: will not work for arrays for now
 
   /// \brief cdr stands for
   ///        "Contents of the Decrement part of Register number"
   /// \returns The elements of the sequence except for the first one.
   template<typename sequence>
-    inline sequence cdr(sequence& s)
+    inline sequence
+    cdr(sequence s)
     {
       static_assert(is_STL_forward_container<sequence>(), "");
       sequence s_copy(size(s)-1);
@@ -89,30 +58,22 @@ namespace origin {
     }
 
   /// \brief cadr stands for car(cdr s)
-  /// \returns the second element of the sequence but
-  ///          call the no_copy version of \fn cdr.
-  template<typename sequence>
-    inline bounded_range<Iterator_of<sequence>>
-    cadr_no_copy(sequence& s)
-    {
-      return car(cdr_no_copy(s));
-    }
-
-  /// \brief cadr stands for car(cdr s)
   /// \returns the second element of the sequence.
   template<typename sequence>
-    inline bounded_range<Iterator_of<sequence>>
-    cadr(sequence& s)
+    inline sequence
+    cadr(sequence s)
     {
-      return car(cdr_no_copy(s));
+      return car(cdr(s));
     }
-
 
   /// \brief provide the cons function for a sequence
   ///        the sequence must have a begin and an end and the value type.
   /// \note returning by value, relying on the move semantics of C++11
+  /// It takes sequence \p s by r-value reference so that user can pass
+  /// in a temporary sequence as well.
   template<typename value_type, typename sequence>
-    sequence cons(value_type v, sequence& s)
+    sequence
+    cons(value_type v, sequence s)
     {
       static_assert(is_STL_forward_container<sequence>(), "");
       static_assert(Convertible<value_type, Value_type<sequence>>(), "");
@@ -122,19 +83,11 @@ namespace origin {
       return s_cons;
     }
 
-  // cons_no_copy(f1, l1, f2, l2) -> (f1, l2) iff l1 == f2
-  template<typename sequence>
-    inline bounded_range<Iterator_of<sequence>>
-    cons_no_copy(sequence&& s1, sequence&& s2)
-    {
-      static_assert(Range<sequence>(), "");
-      assert(end(s1) == begin(s2));
-      return bounded_range<Iterator_of<sequence>>(begin(s1), end(s2));
-    }
   /// \brief accessors
   ///
   template<typename forward_iterator>
-    inline forward_iterator succ(forward_iterator x, typename
+    inline forward_iterator
+    succ(forward_iterator x, typename
            std::iterator_traits<forward_iterator>::difference_type n = 1)
     {
       static_assert(has_forward_iterator_property<forward_iterator>(), "");
@@ -142,7 +95,8 @@ namespace origin {
     }
 
   template<typename bidirectional_iterator>
-    inline bidirectional_iterator pred(bidirectional_iterator x, typename
+    inline bidirectional_iterator
+    pred(bidirectional_iterator x, typename
            std::iterator_traits<bidirectional_iterator>::difference_type n = 1)
     {
       static_assert(has_bidirectional_iterator_property<
@@ -150,6 +104,76 @@ namespace origin {
       return std::prev(x, n);
     }
 
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  ///
+  /// Functions in the 'intrusive namespace will operate on the sequence
+  /// provided as input, and won't copy unless absolutely necessary.
+  ///
+  namespace intrusive {
+    // In all the functional style utilities, we return either the iterator,
+    // or the reference/const-ref.
+    /// \brief car stands for "Contents of the Address part of Register number"
+    /// essentially it returns first element of the list
+    /// returns reference to the first element of the sequence
+    template<typename sequence>
+      inline bounded_range<Iterator_of<sequence>>
+      car(sequence&& s)
+      {
+        static_assert(Range<sequence>(), "");
+        return bounded_range<Iterator_of<sequence>>(begin(s), ++begin(s));
+      }
+
+
+    /// \brief caar stands for car(car s)
+    /// \returns A reference to the first element of the
+    ///          first element of the sequence_of_sequences.
+    template<typename sequence_of_sequences>
+      inline bounded_range<Iterator_of<
+                           typename sequence_of_sequences::value_type>>
+      caar(sequence_of_sequences&& sos)
+      {
+        static_assert(Range<sequence_of_sequences>(), "");
+        static_assert(Range<typename sequence_of_sequences::value_type>(), "");
+        return car(*car(sos).begin());
+      }
+
+    //returns the reference to the second element of the sequence
+    /// \brief cdr stands for
+    ///        "Contents of the Decrement part of Register number"
+    /// \returns The elements of the list except for the first one.
+    template<typename sequence>
+      inline bounded_range<Iterator_of<sequence>>
+      cdr(sequence&& s)
+      {
+        static_assert(Range<sequence>(), "");
+        return bounded_range<Iterator_of<sequence>>(++begin(s), end(s));
+      }
+
+    /// \brief cadr stands for car(cdr s)
+    /// \returns the second element of the sequence.
+    template<typename sequence>
+      inline bounded_range<Iterator_of<sequence>>
+      cadr(sequence&& s)
+      {
+        return car(cdr(s));
+      }
+
+    // cons_no_copy(f1, l1, f2, l2) -> (f1, l2) iff l1 == f2
+    template<typename sequence>
+      inline bounded_range<Iterator_of<sequence>>
+      cons(sequence&& s1, sequence&& s2)
+      {
+        static_assert(Range<sequence>(), "");
+        assert(end(s1) == begin(s2));
+        return bounded_range<Iterator_of<sequence>>(begin(s1), end(s2));
+      }
+  } // namespace intrusive
+
+
+
+  //////////////////////////////////////////////////////////////////////////////
   // Higher-order functions (HOFs) are functions that take other functions
   // as their arguments. A basic example of a HOF is map which takes a function
   // and a list as its arguments, applies  the function to all elements of the
@@ -157,6 +181,7 @@ namespace origin {
   // For instance, we can write a function that subtracts 2 from all elements of
   // a list without using loops or recursion:
   // subtractTwoFromList l = map (\x -> x - 2) l
+  //////////////////////////////////////////////////////////////////////////////
 
   /// \brief applies function (T function(T)) to each element
   /// of the sequence<T>
@@ -166,13 +191,13 @@ namespace origin {
   struct FMap {
     sequence operator()(const function &f, const sequence &s) const
     {
-        static_assert(is_STL_forward_container<sequence>(), "");
-        sequence seq;
-        std::for_each(begin(s), end(s),
-                      [f, &seq](typename sequence::value_type const & v) {
-                           seq.push_back(f(v));
-                      });
-        return seq;
+      static_assert(is_STL_forward_container<sequence>(), "");
+      sequence seq;
+      std::for_each(begin(s), end(s),
+                    [f, &seq](typename sequence::value_type const & v) {
+                         seq.push_back(f(v));
+                    });
+      return seq;
     }
   };
 
