@@ -8,6 +8,7 @@
 #include <random>
 #include <stdexcept>
 #include <chrono>
+#include <functional>
 
 #include <origin/math/matrix/matrix.hpp>
 
@@ -185,4 +186,3 @@ int main()
   cout << (stop - start).count() / double(i) << '\n';
   */
 }
- 

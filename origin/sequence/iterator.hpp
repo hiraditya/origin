@@ -10,6 +10,7 @@
 
 #include <cstring>
 #include <iterator>
+#include <tuple>
 
 #include "algorithm.hpp"
 

@@ -25,5 +25,5 @@ int main()
   auto last = make_filter(v.end(), odd);
   for ( ; first != last; ++first)
     cout << *first << '\n';
-
+  return 0;
 }
