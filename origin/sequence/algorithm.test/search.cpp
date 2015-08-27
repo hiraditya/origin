@@ -29,8 +29,6 @@ int main()
 
   V sub = {7, 8, 9};
 
-  std::equal_to<int> eq;
-
   static_assert(Same<decltype(search(v, sub)), V::iterator>(), "");
   static_assert(Same<decltype(search(cv, sub)), V::const_iterator>(), "");
   assert(search(v, sub) == search(f, l, sub.begin(), sub.end()));

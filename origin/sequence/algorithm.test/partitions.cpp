@@ -47,6 +47,8 @@ int main()
   auto p2 = partition_copy(v1.begin(), v1.end(), vt2.begin(), vf2.begin(), on);
   assert(equal(vt1.begin(), p1.first, vt2.begin()));
   assert(equal(vf1.begin(), p1.second, vf2.begin()));
+  assert(equal(vt2.begin(), p2.first, vt2.begin()));
+  assert(equal(vf2.begin(), p2.second, vf2.begin()));
 
   auto i1 = partition_point(v0, on);
   auto i2 = partition_point(v0.begin(), v0.end(), on);

@@ -790,7 +790,7 @@ namespace origin
 
   // Returns true if T is a class or struct.
   template <typename T>
-    constexpr bool Class() { return std::is_class<T>::value; };
+    constexpr bool Class() { return std::is_class<T>::value; }
 
   // Returns true if T is a union.
   template <typename T>

@@ -481,7 +481,7 @@ template <typename T, std::size_t N>
       matrix_ref& operator=(const T& x) { *ptr = x; return *this; }
 
       T& operator()()       { return *ptr; }
-      T& operator()() const { return *ptr; }
+      const T& operator()() const { return *ptr; }
 
       operator T&() { return *ptr; }
 

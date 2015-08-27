@@ -45,8 +45,6 @@ int main()
   auto l = v.end();
 
   const V& cv = v;
-  auto cf = cv.begin();
-  auto cl = cv.end();
 
   V sub {7, 8, 9};
 

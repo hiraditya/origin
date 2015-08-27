@@ -23,4 +23,6 @@ template <typename T>
 int main()
 {
   foo<float>* p = nullptr;
+  (void) p;
+  return 0;
 }

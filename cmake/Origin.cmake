@@ -48,7 +48,7 @@ if(NOT ORIGIN_INCLUDED)
 
   # Be sure to compile in C++11 mode!
   # FIXME: Move the C++ configuration stuff into a separate config module.
-  set(CMAKE_CXX_FLAGS "-std=c++11")
+  set(CMAKE_CXX_FLAGS "-std=c++11 -Wall")
 
   # Make sure that we can include files as <origin/xxx>.
   # FIXME: It would be nice if...

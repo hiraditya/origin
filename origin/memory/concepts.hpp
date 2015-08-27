@@ -105,7 +105,7 @@ namespace origin
     constexpr bool Allocator_constructible()
     {
       return Constructible<T, Args..., std::allocator<void>>();
-    };
+    }
 
 } // namespace origin
 

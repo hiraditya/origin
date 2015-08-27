@@ -274,7 +274,7 @@ namespace origin
       return Destructible<T>() 
           && Move_constructible<T>() 
           && Move_assignable<T>();
-    };
+    }
     
   
     

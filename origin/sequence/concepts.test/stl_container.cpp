@@ -89,13 +89,13 @@ void check_hash() {
 void suggest_vector() {
   using vec_seq = mock::vector<int>;
   constexpr bool is_vector = is_STL_random_access_container<vec_seq>();
-//  static_assert(!is_vector, "std::vector can be used in this case");
+  static_assert(is_vector, "std::vector can be used in this case");
 }
 
 void suggest_list() {
   using list_seq = mock::list<int>;
   constexpr bool is_list = is_STL_reversible_container<list_seq>();
-//  static_assert(!is_list, "std::list can be used in this case");
+  static_assert(is_list, "std::list can be used in this case");
 }
 
 int main()
