@@ -31,7 +31,7 @@ namespace origin
   //
   // A type I is readable if it defines an associated value type and can be
   // dereferenced. The associated value type (accessed through Value_type<I>)
-  // is the type of the object being dereference (excluding references or
+  // is the type of the object being dereferenced (excluding references or
   // cv-qualifiers). The result of dereferencing a readable type can be bound
   // to a constant reference to the value type. That is:
   //
@@ -47,7 +47,7 @@ namespace origin
   //    I -- The type being tested
   //
   // Returns:
-  //    True if and only if I satisfies the syntactic requirements of the 
+  //    True if and only if I satisfies the syntactic requirements of the
   //    Readable concept.
   template <typename I>
     constexpr bool Readable()
@@ -56,9 +56,9 @@ namespace origin
       // "const Value_type<I>&" when describing that requirement. We have to
       // do this...
       using Ref = Require_lvalue_reference<Add_const<Value_type<I>>>;
-      
+
       return Has_value_type<I>()
-          && Has_dereference<I>() 
+          && Has_dereference<I>()
           && Convertible<Dereference_result<I>, Ref>();
     }
 
@@ -72,7 +72,7 @@ namespace origin
   // valid:
   //
   //    *i = t;
-  // 
+  //
   // where i has type I and t is an expression having  type T. If I is also
   // Readable and the assigned value type is Equality comparable, then *i == t
   // after the assignment.
@@ -86,7 +86,7 @@ namespace origin
   //    T -- The type of values being written through iterators of type I
   //
   // Returns:
-  //    True if and only if I satisfies the syntactic requirements of the 
+  //    True if and only if I satisfies the syntactic requirements of the
   //    Writable concept with respect to the value type T.
   template <typename I, typename T>
     constexpr bool Writable()
@@ -111,12 +111,12 @@ namespace origin
   //    I -- The type being tested.
   //
   // Retruns:
-  //    True if and only if I satisfies the requirements of the Permutable 
+  //    True if and only if I satisfies the requirements of the Permutable
   //    concept.
   template <typename I>
     constexpr bool Permutable()
     {
-      return Readable<I>() 
+      return Readable<I>()
           && Movable<Value_type<I>>()
           && Assignable<Dereference_result<I>, Value_type<I>&&>();
     }
@@ -143,12 +143,12 @@ namespace origin
   template <typename I>
     constexpr bool Mutable()
     {
-      return Permutable<I>() 
-          && Copyable<Value_type<I>>() 
+      return Permutable<I>()
+          && Copyable<Value_type<I>>()
           && Writable<I, const Value_type<I>&>();
     }
-    
-    
+
+
 
   //////////////////////////////////////////////////////////////////////////////
   // Incrementable Types                                               iter.incr
@@ -172,7 +172,7 @@ namespace origin
   // This concept exists solely to describe the synatx and semantics of
   // incrementing strict output iterators like ostream_iterator and
   // ostreambuf_iterator. These types can be incremented, but the operation
-  // has virtually no meaning. 
+  // has virtually no meaning.
   //
   // This is a terrible concept.
   template <typename I>
@@ -203,21 +203,21 @@ namespace origin
   //    I -- The type being tested
   //
   // Returns:
-  //    True if and only if I satisfies the requirements of the 
+  //    True if and only if I satisfies the requirements of the
   //    Weakly_incrementable concept.
   //
-  // NOTE: Weakly incrementable types are not required to be equality 
+  // NOTE: Weakly incrementable types are not required to be equality
   // comparable, even though they should be. This allows us to reuse this
   // concept to describe standard-conforming output iterators.
   template <typename I>
     constexpr bool Weakly_incrementable()
     {
       return Copyable<I>()
-          
+
           // Difference_type<I> must be Signed
           && Has_difference_type<I>()
           && Signed<Difference_type<I>>()
-          
+
           // ++i return I&
           && Has_pre_increment<I>()
           && Same<Pre_increment_result<I>, I&>();
@@ -227,7 +227,7 @@ namespace origin
   //////////////////////////////////////////////////////////////////////////////
   // Incrementable
   //
-  // Like a weakly incremetable types, an incrementable type is also pre- and 
+  // Like a weakly incremetable types, an incrementable type is also pre- and
   // post-incremetable, but the requirements on those operations are stronger.
   // In particular, both operations are required to be equality preserving, and
   // the result of post-incrementing an incrementable object returns a copy
@@ -259,7 +259,7 @@ namespace origin
   // decrement operators are required to be equality preserving, and the
   // post-decrement operator returns a copy of the previous state.
   //
-  // Note that there is no weakly decrementable. A type cannot support 
+  // Note that there is no weakly decrementable. A type cannot support
   // decrementing without also supportng incrementing, and the ability to
   // decrement requires that the incremnt operation to be regular.
   template <typename I>
@@ -326,7 +326,7 @@ namespace origin
   // FIXME: This will not fail gracefully. Wrap this in a type trait to prevent
   // unindented substitution or compilation failures.
   template <typename I>
-    using Iterator_category = 
+    using Iterator_category =
       typename sequence_impl::iterator_category_traits<I>::type;
 
 
@@ -359,7 +359,7 @@ namespace origin
   template <typename I>
     constexpr bool Iterator()
     {
-      return Weakly_incrementable<I>() 
+      return Weakly_incrementable<I>()
           && Has_dereference<I>()
           && Has_iterator_category<I>();
     }
@@ -390,7 +390,7 @@ namespace origin
     constexpr bool Input_iterator()
     {
       return Readable<I>()
-          && Weakly_incrementable<I>() 
+          && Weakly_incrementable<I>()
           && Equality_comparable<I>()
           && Derived<Iterator_category<I>, std::input_iterator_tag>();
     }
@@ -415,7 +415,7 @@ namespace origin
   // equality comparable.
   //
   // Note that there is no corresponding output iterator for that requires or
-  // permits move assignment. Moving an objects state into an object of a 
+  // permits move assignment. Moving an objects state into an object of a
   // different type is not a sound operation.
   //
   // NOTE: Ideally, all iterators should be equality comparable. However, the
@@ -433,7 +433,7 @@ namespace origin
   //    T -- A type whose values are written through T.
   //
   // Returns:
-  //    True if and only if I satisfies the syntactic requirements of the 
+  //    True if and only if I satisfies the syntactic requirements of the
   //    Output_iterator concepts with respect to a written type T.
   //
   // NOTE: The iterator category is not checked in this concept, because it
@@ -454,7 +454,7 @@ namespace origin
 
 
   // A strong output iterator, I, is an output iterator that is also equality
-  // comparable. Strong output iterators occur infrequently in the STL 
+  // comparable. Strong output iterators occur infrequently in the STL
   // algorithms. Only fill, generate, and iota require this concept.
   //
   // Template Parameters:
@@ -462,7 +462,7 @@ namespace origin
   //    T -- A type whose values are written through T.
   //
   // Returns:
-  //    True if and only if I satisfies the syntactic requirements of the 
+  //    True if and only if I satisfies the syntactic requirements of the
   //    Strong_output_iterator concepts with respect to a written type T.
   //
   // FIXME: Rename to Regular_output_iterator?
@@ -478,7 +478,7 @@ namespace origin
   //
   // A forward iterator, I, is an iterator over a sequence of objects, allowing
   // both reading and possibly writing (if allowed by the underlying object
-  // type) and that can be traversed only in a forward direction. Forward 
+  // type) and that can be traversed only in a forward direction. Forward
   // iterators generalize the traversal of singly linked lists.
   //
   // The sequences of objects is required to have a lifetime is greater than
@@ -486,7 +486,7 @@ namespace origin
   // sequence.
   //
   // A forward iterator is an input iterator that is incrementable and readable,
-  // and allows multiple passes over its underlying sequence. 
+  // and allows multiple passes over its underlying sequence.
   //
   // Note that an underlying sequence whose objects can be moved is a permutable
   // forward iterator. If the objects can be copied, then the sequence is a
@@ -497,12 +497,12 @@ namespace origin
   //    I -- The type being tested
   //
   // Returns:
-  //    True if and I satisfies the requirements of the Forward_iterator 
+  //    True if and I satisfies the requirements of the Forward_iterator
   //    concept.
   template <typename I>
     constexpr bool Forward_iterator()
     {
-      return Readable<I>() 
+      return Readable<I>()
           && Incrementable<I>()
           && Derived<Iterator_category<I>, std::forward_iterator_tag>();
     }
@@ -531,7 +531,7 @@ namespace origin
   //    I -- The type being tested
   //
   // Returns:
-  //    True if and I satisfies the requirements of the Bidirectional_iterator 
+  //    True if and I satisfies the requirements of the Bidirectional_iterator
   //    concept.
   template <typename I>
     constexpr bool Bidirectional_iterator()
@@ -545,7 +545,7 @@ namespace origin
   //////////////////////////////////////////////////////////////////////////////
   // Random Access Iterator
   //
-  // A random access iterator is a bidirectional iterator that can advance 
+  // A random access iterator is a bidirectional iterator that can advance
   // any number of steps in constant time.
   template <typename I>
     constexpr bool Random_access_iterator()
@@ -553,30 +553,30 @@ namespace origin
       return Readable<I>()
           && Decrementable<I>()
 
-          // i += n returns I&  
+          // i += n returns I&
           && Has_plus_assign<I, Difference_type<I>>()
           && Same<Plus_assign_result<I, Difference_type<I>>, I&>()
-          
+
           // i -= n returns I&
           && Has_minus_assign<I, Difference_type<I>>()
           && Same<Minus_assign_result<I, Difference_type<I>>, I&>()
-          
+
           // i + n returns I
           && Has_plus<I, Difference_type<I>>()
           && Same<Plus_result<I, Difference_type<I>>, I>()
-          
+
           // n + i returns I
           && Has_plus<Difference_type<I>, I>()
           && Same<Plus_result<Difference_type<I>, I>, I>()
-          
+
           // i - n returns I
           && Has_minus<I, Difference_type<I>>()
           && Same<Minus_result<I, Difference_type<I>>, I>()
-          
+
           // i - j returns Difference_type<I>
           && Has_minus<I>()
           && Same<Minus_result<I>, Difference_type<I>>()
-          
+
           // i[n] returns Reference_of<I>
           && Has_subscript<I, Difference_type<I>>()
           && Same<Subscript_result<I, Difference_type<I>>, Dereference_result<I>>()
@@ -590,21 +590,21 @@ namespace origin
   //
   // The following concepts differentiate different kinds of iterators up to
   // but not including other kinds (e.g., input but not forward, output but not
-  // forward, non-random access). 
+  // forward, non-random access).
   //
-  // These are not part of the core iterator concepts, and should not be 
+  // These are not part of the core iterator concepts, and should not be
   // necessary if concepts can be partially ordered.
   //////////////////////////////////////////////////////////////////////////////
 
 
-  // Returns true if I is strictly an input iterator, an input iterator but not 
+  // Returns true if I is strictly an input iterator, an input iterator but not
   // a forward iterator.
   template <typename I>
     constexpr bool Strict_input_iterator()
     {
       return Input_iterator<I>() && !Forward_iterator<I>();
     }
-    
+
 
   // Returns true if I is strictly an output iterator, an output iterator but
   // not readable.
@@ -638,79 +638,79 @@ namespace origin
 
   // Returns true if [first, n) is a weak range.
   template <typename I>
-    inline bool 
-    is_weak_range(I first, Difference_type<I> n) 
-    { 
+    inline bool
+    is_weak_range(I first, Difference_type<I> n)
+    {
       static_assert(Weakly_incrementable<I>(), "");
       return n >= 0;
     }
 
   // Returns true if [first, n) is a counted range.
   template <typename I>
-    inline bool 
-    is_counted_range(I first, Difference_type<I> n) 
-    { 
+    inline bool
+    is_counted_range(I first, Difference_type<I> n)
+    {
       static_assert(Weakly_incrementable<I>(), "");
       return n >= 0;
     }
 
   // Returns true if [first, last) is a bounded range.
   template <typename I>
-    inline auto 
-    is_bounded_range(I first, I last) 
+    inline auto
+    is_bounded_range(I first, I last)
       -> Requires<Non_random_access_iterator<I>(), bool>
     {
       static_assert(Equality_comparable<I>(), "");
-      return true; 
+      return true;
     }
 
   // Overload for random access iterators. Minimally, we can guarantee that
   // first <= last, even though some or all elements of [first, last) may not
   // be valid iterators.
   template <typename I>
-    inline auto 
-    is_bounded_range(I first, I last) 
+    inline auto
+    is_bounded_range(I first, I last)
       -> Requires<Random_access_iterator<I>(), bool>
     {
-      return first <= last; 
+      return first <= last;
     }
 
   // Returns true if the weak range [first, n) is readable everywhere except
   // its limit.
   template <typename I>
-    inline bool 
-    is_readable_range(I first, Difference_type<I> n) 
+    inline bool
+    is_readable_range(I first, Difference_type<I> n)
     {
       static_assert(Readable<I>(), "");
-      return is_weak_range(first, n); 
+      return is_weak_range(first, n);
     }
 
   // Returns true if the bounded range [first, last) is readable everywhere
   // except its limit.
   template <typename I>
-    inline bool 
-    is_readable_range(I first, I last) 
-    { 
+    inline bool
+    is_readable_range(I first, I last)
+    {
       static_assert(Readable<I>(), "");
-      return is_bounded_range(first, last); 
+      return is_bounded_range(first, last);
     }
 
   // Returns true if the weak range [first, n) is writable everywhere except
   // its limit.
   template <typename I, typename T>
-    inline bool 
+    inline bool
     is_writable_range(I first, Difference_type<I> n, T const& value)
     {
       static_assert(Writable<I, T>(), "");
       return is_weak_range(first, n);
     }
 
-  // Returns true if the bounded range [first, last) is writable everywhere 
+  // Returns true if the bounded range [first, last) is writable everywhere
   // except its limit.
   template <typename I, typename T>
-    inline bool 
-    is_writable_range(I first, I last, T const& value) 
-    { 
+    inline bool
+    is_writable_range(I first, I last, T const& value)
+    {
       static_assert(Writable<I, T>(), "");
       return is_bounded_range(first, last);
     }
@@ -718,7 +718,7 @@ namespace origin
   // Returns true if the weak range [first, n) is mutable everywhere except its
   // limit.
   template <typename I>
-    inline bool 
+    inline bool
     is_mutable_range(I first, Difference_type<I> n)
     {
       return n > 0 ? is_writable_range(first, n, *first) : true;
@@ -727,7 +727,7 @@ namespace origin
   // Returns true if the bounded range [first, last) is mutable everywhere
   // except its limit.
   template <typename I>
-    inline bool 
+    inline bool
     is_mutable_range(I first, I last)
     {
       return first != last ? is_writable_range(first, last, *first) : true;
@@ -736,7 +736,7 @@ namespace origin
   // Return true if the weak range [first, n) is permutable everywhere except
   // its limit.
   template <typename I>
-    inline bool 
+    inline bool
     is_permutable_range(I first, Difference_type<I> n)
     {
       return n > 0 ? is_movable_range(first, n, *first) : true;
@@ -745,7 +745,7 @@ namespace origin
   // Return true if the bounded range [first, n) is permutable everywhere
   // except its limit.
   template <typename I>
-    inline bool 
+    inline bool
     is_permutable_range(I first, I last)
     {
       return first != last ? is_movable_range(first, last, *first) : true;
@@ -769,7 +769,7 @@ namespace origin
   //      cout << x << ' ';
   //    cout << '\n';
   //
-  // Note that the iterator associated with r must be Readable. More 
+  // Note that the iterator associated with r must be Readable. More
   // specifically, the requirements of a range-based for loop require the
   // type of r to be an Input_range.
   //
@@ -859,7 +859,7 @@ namespace origin
   //////////////////////////////////////////////////////////////////////////////
   // Iterator Of
   //
-  // The iterator type of a range is the type returned by both begin(r) and 
+  // The iterator type of a range is the type returned by both begin(r) and
   // end(r) for some range(r). Note that the type referred to this alias
   // may be different for R and const R. However, the alias is always defined
   // for both.
