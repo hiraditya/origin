@@ -367,8 +367,9 @@ namespace origin
     {
       return Semiregular<T>() && Equality_comparable<T>();
     }
-    
-  
+
+
+
   //////////////////////////////////////////////////////////////////////////////
   // Ordered                                                concepts.obj.ordered
   //
@@ -591,6 +592,7 @@ namespace origin
     }
 
 
+
   //////////////////////////////////////////////////////////////////////////////
   // Binary Operations                                       concepts.ops.binary
   //
@@ -615,6 +617,8 @@ namespace origin
     {
       return type_impl::is_binary_function<Op, T, U>::value;
     }
+
+
 
   //////////////////////////////////////////////////////////////////////////////
   // Streaming                                                   concepts.stream
@@ -679,10 +683,10 @@ namespace origin
 
 
   //////////////////////////////////////////////////////////////////////////////
-  // Output Streamable                                        concepts.stream.io
+  // Streamable                                               concepts.stream.io
   //
   //
-  // TODO: Document me!
+  // The type is input as well as output streamable.
   template <typename T, typename U = default_t>
     constexpr bool Streamable()
     {
@@ -723,7 +727,7 @@ namespace origin
   //    Value_type<V::iterator>       // is T
   //    Value_type<V::const_iterator> // is T
   //
-  // Note that the value type of the const iterator is not T, not const T.
+  // Note that the value type of the const iterator is T, not const T.
   //
   // If T does not have an associated value type, then the result of this type
   // function will indicate substitution failure.
@@ -737,6 +741,7 @@ namespace origin
     {
       return Subst_succeeded<Value_type<T>>();
     }
+
 
 
   //////////////////////////////////////////////////////////////////////////////
@@ -775,6 +780,7 @@ namespace origin
     };
 
 
+
   //////////////////////////////////////////////////////////////////////////////
   // Difference Type                                   concepts.types.difference
   //
@@ -800,7 +806,7 @@ namespace origin
   template <typename T>
     using Difference_type = 
       typename difference_type_traits<T>::type;
-    
+
 
   // Returns true if a difference type is associated with T.
   template <typename T>
@@ -826,6 +832,8 @@ namespace origin
   //    The associated reference type of T.
   template <typename T>
     using Reference_of = typename type_impl::get_deduced_reference<T>::type;
+
+
 
   //////////////////////////////////////////////////////////////////////////////
   // Pointer Of                                           concepts.types.pointer

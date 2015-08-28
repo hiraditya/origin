@@ -53,7 +53,7 @@ namespace origin
   //
   // The second returns the types of the given arguments. Note that the string
   // returned from second overload will reflect the type deduction rules for
-  // perfect forwarding; lvalues arguments will be result in references, and
+  // perfect forwarding; lvalues arguments will result in references, and
   // rvalues in unqualified value types.
   //
   // When multiple arguments are given, the resulting string is written in
@@ -63,7 +63,7 @@ namespace origin
     {
       return type_impl::typestr_dispatch<Args...>{}();
     }
-    
+
   // Return a textual representation of the type name of the given argument.
   //
   template <typename... Args>
