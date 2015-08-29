@@ -14,16 +14,21 @@
 using namespace std;
 using namespace origin;
 
-bool odd(int n) { return n & 1; }
+bool
+odd (int n)
+{
+  return n & 1;
+}
 
-int main()
+int
+main ()
 {
   using V = vector<int>;
-  V v {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  V v{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-  auto first = make_filter(v.begin(), v.end(), odd);
-  auto last = make_filter(v.end(), odd);
-  for ( ; first != last; ++first)
+  auto first = make_filter (v.begin (), v.end (), odd);
+  auto last = make_filter (v.end (), odd);
+  for (; first != last; ++first)
     cout << *first << '\n';
   return 0;
 }

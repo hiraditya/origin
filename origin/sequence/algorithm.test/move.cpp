@@ -14,17 +14,17 @@
 using namespace std;
 using namespace origin;
 
-
-int main()
+int
+main ()
 {
   using V = vector<int>;
 
-  V v1 {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  V v1{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
   V v2 = v1;
-  V v3(v1.size());
-  V v4(v1.size());
+  V v3 (v1.size ());
+  V v4 (v1.size ());
 
-  move(v1, v3);
-  move(v2.begin(), v2.end(), v4.begin());
-  assert(v1 == v4);
+  move (v1, v3);
+  move (v2.begin (), v2.end (), v4.begin ());
+  assert (v1 == v4);
 }

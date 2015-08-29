@@ -17,14 +17,15 @@ using namespace origin;
 
 // Check that the Reference_of can be applied to all kinds of ranges.
 
-int main()
+int
+main ()
 {
   using V = vector<int>;
 
-  static_assert(Same<Reference_of<V>, V::reference>(), "");
-  static_assert(Same<Reference_of<const V>, V::const_reference>(), "");
+  static_assert (Same<Reference_of<V>, V::reference> (), "");
+  static_assert (Same<Reference_of<const V>, V::const_reference> (), "");
 
   using I = istream_iterator<int>;
   using B = bounded_range<I>;
-  static_assert(Same<Reference_of<B>, const int&>(), "");
+  static_assert (Same<Reference_of<B>, const int &> (), "");
 }

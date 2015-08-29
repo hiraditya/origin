@@ -10,12 +10,13 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
-  static_assert(Floating_point<float>(), "");
-  static_assert(Floating_point<double>(), "");
-  static_assert(Floating_point<long double>(), "");
+  static_assert (Floating_point<float> (), "");
+  static_assert (Floating_point<double> (), "");
+  static_assert (Floating_point<long double> (), "");
 
   // Some things are not floating point types.
-  static_assert(!Floating_point<int>(), "");
+  static_assert (!Floating_point<int> (), "");
 }

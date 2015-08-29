@@ -15,48 +15,52 @@
 using namespace std;
 using namespace origin;
 
-bool odd(int n) { return n & 1; }
+bool
+odd (int n)
+{
+  return n & 1;
+}
 
 std::equal_to<int> eq;
 
 void
-check_all_match()
+check_all_match ()
 {
-  vector<int> v1 {0, 0, 0};
-  vector<int> v2 {0, 1, 2};
-  assert(all_match(v1, 0));
-  assert(all_match(v1, 0, equal_to<int>{}));
-  assert(!all_match(v1, 1, equal_to<int>{}));
-  assert(!all_match(v2, 0, equal_to<int>{}));
+  vector<int> v1{ 0, 0, 0 };
+  vector<int> v2{ 0, 1, 2 };
+  assert (all_match (v1, 0));
+  assert (all_match (v1, 0, equal_to<int>{}));
+  assert (!all_match (v1, 1, equal_to<int>{}));
+  assert (!all_match (v2, 0, equal_to<int>{}));
 }
 
 void
-check_any_match()
+check_any_match ()
 {
-  vector<int> v {0, 1, 0};
-  assert(any_match(v, 1));
-  assert(any_match(v, 1, equal_to<int>{}));
+  vector<int> v{ 0, 1, 0 };
+  assert (any_match (v, 1));
+  assert (any_match (v, 1, equal_to<int>{}));
 }
 
 void
-check_none_match()
+check_none_match ()
 {
-  vector<int> v {0, 0, 0};
-  assert(none_match(v, 1));
-  assert(none_match(v, 1, equal_to<int>{}));
+  vector<int> v{ 0, 0, 0 };
+  assert (none_match (v, 1));
+  assert (none_match (v, 1, equal_to<int>{}));
 }
 
 int
-main()
+main ()
 {
   using V = vector<int>;
-  V v {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  V v{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-  assert(all_of(v, odd) == all_of(v.begin(), v.end(), odd));
-  assert(any_of(v, odd) == any_of(v.begin(), v.end(), odd));
-  assert(none_of(v, odd) == none_of(v.begin(), v.end(), odd));
+  assert (all_of (v, odd) == all_of (v.begin (), v.end (), odd));
+  assert (any_of (v, odd) == any_of (v.begin (), v.end (), odd));
+  assert (none_of (v, odd) == none_of (v.begin (), v.end (), odd));
 
-  check_all_match();
-  check_any_match();
-  check_none_match();
+  check_all_match ();
+  check_any_match ();
+  check_none_match ();
 }

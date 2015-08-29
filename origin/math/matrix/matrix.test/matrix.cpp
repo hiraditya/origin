@@ -13,7 +13,8 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
   // TODO: Check common type traits and concepts.
   //
@@ -21,5 +22,5 @@ int main()
   // don't actually matter unless you're doing weird stuff with an Allocator.
   // But nobody (rightfully) does weird stuff with allocators.
   using M = matrix<int, 1>;
-  static_assert(Same<Size_type<M>, std::size_t>(), "");
+  static_assert (Same<Size_type<M>, std::size_t> (), "");
 }

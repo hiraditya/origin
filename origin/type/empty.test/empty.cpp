@@ -14,35 +14,35 @@
 using namespace std;
 using namespace origin;
 
-
 void
-check_write()
+check_write ()
 {
   // Writing an empty object to a stream does not modify the stream.
   string s;
-  std::ostringstream ss(s);
+  std::ostringstream ss (s);
   ss << empty_t{};
-  assert(s.empty());
+  assert (s.empty ());
 }
 
 void
-check_read()
+check_read ()
 {
   // Reading an empty object from a stream does not modify the stream. In
   // fact, reading an empty object is valid as long as the stream is in a
   // valid state!
   string s = "1 2 3";
-  std::istringstream ss(s);
+  std::istringstream ss (s);
   int a, b, c;
   empty_t e;
   ss >> a >> e >> b >> e >> c >> e;
-  assert(a == 1);
-  assert(b == 2);
-  assert(c == 3);
+  assert (a == 1);
+  assert (b == 2);
+  assert (c == 3);
 }
 
-int main()
+int
+main ()
 {
-  check_write();
-  check_read();
+  check_write ();
+  check_read ();
 }

@@ -14,10 +14,12 @@ using namespace origin;
 
 // Tests for 2D use of matrices:
 
-int main()
+int
+main ()
 {
   // Purely for the purpose of initializing matrices with 24 elements.
-  enum Extended_numbers {
+  enum Extended_numbers
+  {
     a = 10,
     b = 11,
     c = 12,
@@ -37,23 +39,21 @@ int main()
 
   // This is a 3x4x2 matrix (3 rows, 4 columns, and 2 elements in each "z"
   // cell). There are 24 elements in this table.
-  matrix<int, 3> m1 {
-    {{0, 1}, {2, 3}, {4, 5}, {6, 7}},
-    {{8, 9}, {a, b}, {c, d}, {e, f}},
-    {{h, i}, {j, k}, {l, m}, {n, o}}
-  };
-  assert(m1.extent(0) == 3);
-  assert(m1.extent(1) == 4);
-  assert(m1.extent(2) == 2);
-  assert(m1.size() == 24);
+  matrix<int, 3> m1{ { { 0, 1 }, { 2, 3 }, { 4, 5 }, { 6, 7 } },
+                     { { 8, 9 }, { a, b }, { c, d }, { e, f } },
+                     { { h, i }, { j, k }, { l, m }, { n, o } } };
+  assert (m1.extent (0) == 3);
+  assert (m1.extent (1) == 4);
+  assert (m1.extent (2) == 2);
+  assert (m1.size () == 24);
   cout << m1 << '\n';
 
   // Using parens calls the size initializer
-  matrix<int, 3> m2(5, 4, 3);
-  assert(m2.extent(0) == 5);
-  assert(m2.extent(1) == 4);
-  assert(m2.extent(2) == 3);
-  assert(m2.size() == 5 * 4 * 3);
+  matrix<int, 3> m2 (5, 4, 3);
+  assert (m2.extent (0) == 5);
+  assert (m2.extent (1) == 4);
+  assert (m2.extent (2) == 3);
+  assert (m2.size () == 5 * 4 * 3);
   cout << m2 << '\n';
 
   // Cannot value-initialize a matrix from a flat list. We can't deduce the

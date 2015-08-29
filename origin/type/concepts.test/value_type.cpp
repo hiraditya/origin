@@ -12,31 +12,31 @@
 using namespace std;
 using namespace origin;
 
-struct fail { };
+struct fail
+{
+};
 
-int main()
+int
+main ()
 {
   // Check the value type for a container
   using V = vector<int>;
-  static_assert(Has_value_type<V>(), "");
-  static_assert(Same<Value_type<V>, int>(), "");
+  static_assert (Has_value_type<V> (), "");
+  static_assert (Same<Value_type<V>, int> (), "");
 
   // Value type must see through references.
-  static_assert(Same<Value_type<V&>, int>(), "");
-  static_assert(Same<Value_type<V&&>, int>(), "");
-  static_assert(Same<Value_type<const V&>, int>(), "");
-
+  static_assert (Same<Value_type<V &>, int> (), "");
+  static_assert (Same<Value_type<V &&>, int> (), "");
+  static_assert (Same<Value_type<const V &>, int> (), "");
 
   // Some types don't have value types.
-  static_assert(!Has_value_type<fail>(), "");
-
+  static_assert (!Has_value_type<fail> (), "");
 
   // Check the value type for pointers.
-  static_assert(Has_value_type<int*>(), "");
-  static_assert(Same<Value_type<int*>, int>(), "");
+  static_assert (Has_value_type<int *> (), "");
+  static_assert (Same<Value_type<int *>, int> (), "");
 
   // The value types are the same modulo cv-qualifiers.
-  static_assert(Has_value_type<int const*>(), "");
-  static_assert(Same<Value_type<int const*>, int>(), "");
+  static_assert (Has_value_type<int const *> (), "");
+  static_assert (Same<Value_type<int const *>, int> (), "");
 }
-

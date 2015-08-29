@@ -15,19 +15,24 @@
 using namespace std;
 using namespace origin;
 
-bool odd(int n) { return n & 1; }
+bool
+odd (int n)
+{
+  return n & 1;
+}
 
-int main()
+int
+main ()
 {
   using V = vector<int>;
 
-  V v {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-  auto f = v.begin();
-  auto l = v.end();
+  V v{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+  auto f = v.begin ();
+  auto l = v.end ();
 
   // Check count
-  assert(count(v, 5) == count(f, l, 5));
+  assert (count (v, 5) == count (f, l, 5));
 
   // Check find_if
-  assert(count_if(v, odd) == count_if(f, l, odd));
+  assert (count_if (v, odd) == count_if (f, l, odd));
 }

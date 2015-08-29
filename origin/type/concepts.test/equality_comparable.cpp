@@ -13,17 +13,19 @@ using namespace std;
 using namespace origin;
 
 // A type that is definitely not equality comparable.
-struct fail { };
+struct fail
+{
+};
 
-int main()
+int
+main ()
 {
   // Basic checks for equality comparability.
-  static_assert(Equality_comparable<int>(), "");
-  static_assert(!Equality_comparable<fail>(), "");
+  static_assert (Equality_comparable<int> (), "");
+  static_assert (!Equality_comparable<fail> (), "");
 
   // Check cross-type equality comparable concepts.
-  static_assert(Equality_comparable<char, int>(), "");
-  static_assert(Equality_comparable<string, const char*>(), "");
-  static_assert(!Equality_comparable<string, int>(), "");
+  static_assert (Equality_comparable<char, int> (), "");
+  static_assert (Equality_comparable<string, const char *> (), "");
+  static_assert (!Equality_comparable<string, int> (), "");
 }
-

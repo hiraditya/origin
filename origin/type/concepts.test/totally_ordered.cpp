@@ -13,17 +13,19 @@ using namespace std;
 using namespace origin;
 
 // A type that is not totally ordered.
-struct fail { };
+struct fail
+{
+};
 
-int main()
+int
+main ()
 {
   // Basic checks for totoal ordering
-  static_assert(Totally_ordered<int>(), "");
-  static_assert(!Totally_ordered<fail>(), "");
+  static_assert (Totally_ordered<int> (), "");
+  static_assert (!Totally_ordered<fail> (), "");
 
   // Cross-type checks for total ordering.
-  static_assert(Totally_ordered<char, int>(), "");
-  static_assert(Totally_ordered<string, const char*>(), "");
-  static_assert(!Totally_ordered<string, int>(), "");
+  static_assert (Totally_ordered<char, int> (), "");
+  static_assert (Totally_ordered<string, const char *> (), "");
+  static_assert (!Totally_ordered<string, int> (), "");
 }
-

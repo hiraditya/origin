@@ -14,13 +14,16 @@
 using namespace std;
 using namespace origin;
 
-
-int main()
+int
+main ()
 {
   using V = vector<int>;
 
-  V v(10);
+  V v (10);
 
-  fill(v, 0);
-  assert(all_of(v, [](int n) { return n == 0; }));
+  fill (v, 0);
+  assert (all_of (v, [](int n)
+                  {
+                    return n == 0;
+                  }));
 }

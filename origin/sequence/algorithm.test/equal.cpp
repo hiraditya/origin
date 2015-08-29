@@ -11,20 +11,21 @@
 
 #include <origin/sequence/algorithm.hpp>
 
-int main()
+int
+main ()
 {
   using V = std::vector<int>;
 
-  V v1 {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-  auto f1 = v1.begin();
-  auto l1 = v1.end();
+  V v1{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+  auto f1 = v1.begin ();
+  auto l1 = v1.end ();
 
-  V v2 {0, 1, 2, 3, 5, 6, 7, 8, 9};
-  auto f2 = v2.begin();
+  V v2{ 0, 1, 2, 3, 5, 6, 7, 8, 9 };
+  auto f2 = v2.begin ();
   // auto l2 = v2.end();
 
   std::equal_to<int> eq;
 
-  assert(origin::equal(v1, v2) == std::equal(f1, l1, f2));
-  assert(origin::equal(v1, v2, eq) == std::equal(f1, l1, f2, eq));
+  assert (origin::equal (v1, v2) == std::equal (f1, l1, f2));
+  assert (origin::equal (v1, v2, eq) == std::equal (f1, l1, f2, eq));
 }

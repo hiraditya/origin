@@ -18,313 +18,386 @@
 
 namespace origin
 {
-  // Edge handle
-  // The edge handle is an opaque reference to a edge object in a graph. 
-  //
-  // Note that we explicitly subclass the handle<T> so that we don't confuse
-  // edge and vertex handles. They are incompatible types, even if they
-  // represent the same set of values.
-  template<typename T>
-    class edge_handle
+// Edge handle
+// The edge handle is an opaque reference to a edge object in a graph.
+//
+// Note that we explicitly subclass the handle<T> so that we don't confuse
+// edge and vertex handles. They are incompatible types, even if they
+// represent the same set of values.
+template <typename T> class edge_handle
+{
+public:
+  using value_type = Value_type<handle<T> >;
+
+  edge_handle () : impl{} {}
+  edge_handle (value_type n) : impl{ n } {}
+
+  // Equality_comparable
+  bool
+  operator== (edge_handle v) const
+  {
+    return impl == v.impl;
+  }
+  bool
+  operator!= (edge_handle v) const
+  {
+    return impl != v.impl;
+  }
+
+  // Totally_ordered
+  bool
+  operator< (edge_handle v) const
+  {
+    return impl < v.impl;
+  }
+  bool
+  operator> (edge_handle v) const
+  {
+    return impl > v.impl;
+  }
+  bool
+  operator<= (edge_handle v) const
+  {
+    return impl <= v.impl;
+  }
+  bool
+  operator>= (edge_handle v) const
+  {
+    return impl >= v.impl;
+  }
+
+  // Boolean
+  explicit operator bool () const { return (bool)impl; }
+
+  // Ordinal
+  // Only if Ordinal<T>
+  std::size_t
+  ord () const
+  {
+    return impl.ord ();
+  }
+
+  // Hashable
+  std::size_t
+  hash () const
+  {
+    return impl.hash ();
+  }
+
+  // Returns the underlying value.
+  value_type
+  value () const
+  {
+    return impl.value;
+  }
+
+  // The handle implementation.
+  handle<T> impl;
+};
+
+// Edge iterator
+// The edge iterator provides an iterator over successive vertices.
+template <typename T> using edge_iterator = handle_iterator<edge_handle<T> >;
+
+// Undirected edge handle
+// The undirected edge handle is a triple containing an edge handle, and two
+// vertex handles: the source and target vertices, respectively. Note that
+// equality and inequality comparisons are predicated on the underlying edge
+// and do not include the end points in comparison.
+template <typename T> class undirected_edge_handle
+{
+public:
+  // Default constructor
+  undirected_edge_handle () : edge{}, source{}, target{} {}
+
+  // Initialize the graph over a triple of values describing the current
+  // edge handle, the source vertex, and the target vertex.
+  undirected_edge_handle (edge_handle<T> e, vertex_handle<T> s,
+                          vertex_handle<T> t)
+      : edge{ e }, source{ s }, target{ t }
+  {
+  }
+
+  // Equality_comparable
+  bool
+  operator== (const undirected_edge_handle &x) const
+  {
+    return edge == x.edge;
+  }
+  bool
+  operator!= (const undirected_edge_handle &x) const
+  {
+    return edge != x.edge;
+  }
+
+  // Totally_ordered
+  bool
+  operator< (const undirected_edge_handle &x) const
+  {
+    return edge < x.edge;
+  }
+  bool
+  operator> (const undirected_edge_handle &x) const
+  {
+    return edge > x.edge;
+  }
+  bool
+  operator<= (const undirected_edge_handle &x) const
+  {
+    return edge <= x.edge;
+  }
+  bool
+  operator>= (const undirected_edge_handle &x) const
+  {
+    return edge >= x.edge;
+  }
+
+  // Boolean
+  explicit operator bool () const { return (bool)edge; }
+
+  // Ordinal
+  // Only if Ordinal<T>.
+  std::size_t
+  ord () const
+  {
+    return edge.ord ();
+  }
+
+  // Hashable
+  std::size_t
+  hash () const
+  {
+    return hash_value (edge);
+  }
+
+  edge_handle<T> edge;
+  vertex_handle<T> source;
+  vertex_handle<T> target;
+};
+
+// Undirected edge iterator
+// The undirected edge iterator is used to iterate over the edges in the
+// edge set of an undirected graph.
+//
+// FIXME: This is totally broken. It needs to chain the underlying out
+// and in edge iterators in a more natural fashion. We can generally
+template <typename G> class undirected_edge_iterator
+{
+  /*
+  public:
+    using value_type = Edge_type<G>;
+    using reference = const Edge_type<G>&;
+    using pointer = const Edge_type<G>*;
+    using difference_type = std::ptrdiff_t;
+    using iterator_category = std::random_access_iterator_tag;
+
+    undirected_edge_iterator()
+      : graph{nullptr}, handle{}
+    { }
+
+    undirected_edge_iterator(G& g, const Edge_type<G>& e)
+      : graph{&g}, handle{e}
+    { }
+
+    // Readable
+    reference operator*() const { return edge; }
+
+    // Equality_comparable
+    bool operator==(const undirected_edge_iterator& x) const { return handle ==
+  x.handle; }
+    bool operator!=(const undirected_edge_iterator& x) const { return handle !=
+  x.handle; }
+
+    // Totally_ordered
+    bool operator<(const undirected_edge_iterator& x) const { return handle ==
+  x.handle; }
+    bool operator>(const undirected_edge_iterator& x) const { return handle !=
+  x.handle; }
+    bool operator<=(const undirected_edge_iterator& x) const { return handle ==
+  x.handle; }
+    bool operator>=(const undirected_edge_iterator& x) const { return handle !=
+  x.handle; }
+
+    // Increment
+    undirected_edge_iterator& operator++() { advance_edge(1); return *this; }
+
+    undirected_edge_iterator operator++(int)
     {
-    public:
-      using value_type = Value_type<handle<T>>;
-      
-      edge_handle() : impl{} { }
-      edge_handle(value_type n) : impl{n} { }
+      undirected_edge_iterator tmp{*this};
+      this->operator++();
+      return tmp;
+    }
 
-      // Equality_comparable
-      bool operator==(edge_handle v) const { return impl == v.impl; }
-      bool operator!=(edge_handle v) const { return impl != v.impl; }
-      
-      // Totally_ordered
-      bool operator<(edge_handle v) const  { return impl < v.impl; }
-      bool operator>(edge_handle v) const  { return impl > v.impl; }
-      bool operator<=(edge_handle v) const { return impl <= v.impl; }
-      bool operator>=(edge_handle v) const { return impl >= v.impl; }
+    // Decrement
+    undirected_edge_iterator& operator--() { advance_edge(-1); return *this; }
 
-      // Boolean
-      explicit operator bool() const { return (bool)impl; }
-      
-      // Ordinal
-      // Only if Ordinal<T>
-      std::size_t ord() const { return impl.ord(); }
-      
-      // Hashable
-      std::size_t hash() const { return impl.hash(); }
-      
-      // Returns the underlying value.
-      value_type  value() const { return impl.value; }
-
-      // The handle implementation.
-      handle<T> impl;
-    };
-
-  
-    
-  // Edge iterator
-  // The edge iterator provides an iterator over successive vertices.
-  template<typename T>
-    using edge_iterator = handle_iterator<edge_handle<T>>;
-    
-    
-
-  // Undirected edge handle
-  // The undirected edge handle is a triple containing an edge handle, and two
-  // vertex handles: the source and target vertices, respectively. Note that 
-  // equality and inequality comparisons are predicated on the underlying edge 
-  // and do not include the end points in comparison.
-  template<typename T>
-    class undirected_edge_handle
+    undirected_edge_iterator operator--(int)
     {
-    public:
-      // Default constructor
-      undirected_edge_handle() : edge{}, source{}, target{} { }
+      undirected_edge_iterator tmp{*this};
+      this->operator--();
+      return tmp;
+    }
 
-      // Initialize the graph over a triple of values describing the current
-      // edge handle, the source vertex, and the target vertex.
-      undirected_edge_handle(edge_handle<T> e, vertex_handle<T> s, vertex_handle<T> t)
-        : edge{e}, source{s}, target{t}
-      { }
+    // Advance
+    undirected_edge_iterator& operator+=(difference_type n) { advance_edge(n);
+  return *this; }
+    undirected_edge_iterator& operator-=(difference_type n) { advance_edge(-n);
+  return *this; }
 
-      // Equality_comparable
-      bool operator==(const undirected_edge_handle& x) const { return edge == x.edge; }
-      bool operator!=(const undirected_edge_handle& x) const { return edge != x.edge; }
-
-      // Totally_ordered
-      bool operator<(const undirected_edge_handle& x) const { return edge < x.edge; }
-      bool operator>(const undirected_edge_handle& x) const { return edge > x.edge; }
-      bool operator<=(const undirected_edge_handle& x) const { return edge <= x.edge; }
-      bool operator>=(const undirected_edge_handle& x) const { return edge >= x.edge; }
-
-      // Boolean
-      explicit operator bool() const { return (bool)edge; }
-      
-      // Ordinal
-      // Only if Ordinal<T>.
-      std::size_t ord() const { return edge.ord(); }
-      
-      // Hashable
-      std::size_t hash() const { return hash_value(edge); }
-
-      edge_handle<T> edge;
-      vertex_handle<T> source;
-      vertex_handle<T> target;
-    };
-
-    
-    
-  // Undirected edge iterator
-  // The undirected edge iterator is used to iterate over the edges in the
-  // edge set of an undirected graph.
-  //
-  // FIXME: This is totally broken. It needs to chain the underlying out
-  // and in edge iterators in a more natural fashion. We can generally
-  template<typename G>
-    class undirected_edge_iterator
+    friend undirected_edge_iterator operator+(undirected_edge_iterator i,
+  difference_type n)
     {
-    /*
-    public:
-      using value_type = Edge_type<G>;
-      using reference = const Edge_type<G>&;
-      using pointer = const Edge_type<G>*;
-      using difference_type = std::ptrdiff_t;
-      using iterator_category = std::random_access_iterator_tag;
+      return i += n;
+    }
 
-      undirected_edge_iterator()
-        : graph{nullptr}, handle{}
-      { }
-      
-      undirected_edge_iterator(G& g, const Edge_type<G>& e)
-        : graph{&g}, handle{e}
-      { }
-
-      // Readable
-      reference operator*() const { return edge; }
-      
-      // Equality_comparable
-      bool operator==(const undirected_edge_iterator& x) const { return handle == x.handle; }
-      bool operator!=(const undirected_edge_iterator& x) const { return handle != x.handle; }
-
-      // Totally_ordered
-      bool operator<(const undirected_edge_iterator& x) const { return handle == x.handle; }
-      bool operator>(const undirected_edge_iterator& x) const { return handle != x.handle; }
-      bool operator<=(const undirected_edge_iterator& x) const { return handle == x.handle; }
-      bool operator>=(const undirected_edge_iterator& x) const { return handle != x.handle; }
-
-      // Increment
-      undirected_edge_iterator& operator++() { advance_edge(1); return *this; }
-     
-      undirected_edge_iterator operator++(int) 
-      {
-        undirected_edge_iterator tmp{*this}; 
-        this->operator++();
-        return tmp;
-      }
-
-      // Decrement
-      undirected_edge_iterator& operator--() { advance_edge(-1); return *this; }
-
-      undirected_edge_iterator operator--(int) 
-      {
-        undirected_edge_iterator tmp{*this}; 
-        this->operator--();
-        return tmp;
-      }
-      
-      // Advance
-      undirected_edge_iterator& operator+=(difference_type n) { advance_edge(n); return *this; }
-      undirected_edge_iterator& operator-=(difference_type n) { advance_edge(-n); return *this; }
-
-      friend undirected_edge_iterator operator+(undirected_edge_iterator i, difference_type n) 
-      { 
-        return i += n; 
-      }
-      
-      friend undirected_edge_iterator operator+(difference_type n, undirected_edge_iterator i) 
-      { 
-        return i += n; 
-      }
-
-
-      friend undirected_edge_iterator operator-(undirected_edge_iterator i, difference_type n)
-      {
-        return i -= n;
-      }
-
-      // Difference
-      friend difference_type 
-      operator-(const undirected_edge_iterator& a, const undirected_edge_iterator& b) 
-      { 
-        return a.value() - b.value();
-      }
-
-    private:
-      std::size_t value() const
-      {
-        return edge.edge.value;
-      }
-
-      void advance_edge(difference_type n)
-      {
-        edge = graph->get_edge(value() + 1);
-      }
-
-    private:
-      G* graph;
-      Edge_type<G> handle;
-      */
-    };
-
-    
-  
-  // The undirected incident edge iterator abstracts the notion of a sequence
-  // of incident edges by iterating over the chained in- and out-edge ranges
-  // of an undirected graph's underlying directed implementation.
-  //
-  // Note that we don't cache the referenced edge, so we dereference a copy.
-  // This means that you can't use -> with these iterators.
-  //
-  // FIXME: This is also totally broken.
-  //
-  // NOTE: Do not static assert that G is an undirected graph. Doing so results
-  // in mutually recursive concept checks. G is an undirected graph if it has
-  // this as an iterator. This a valid iterator if F is an undirected graph.
-  template<typename G>
-    class undirected_incident_edge_iterator
+    friend undirected_edge_iterator operator+(difference_type n,
+  undirected_edge_iterator i)
     {
-    /*
-    public:
-      using value_type = Edge_type<G>;
-      using reference = const Edge_type<G>&;
-      using pointer = const Edge_type<G>*;
-      using difference_type = std::ptrdiff_t;
-      using iterator_category = std::random_access_iterator_tag;
-      
-      undirected_incident_edge_iterator()
-        : graph(nullptr), source(), index()
-      { }
-      
-      // Initialize the iterator so that it refers to the nth incident edge
-      // of v where n < degree(g, v).
-      undirected_incident_edge_iterator(G& g, Vertex_type<G> v, Size_type<G> n)
-        : graph(&g), source(v), index(n)
-      { }
-      
-      // Readable
-      reference operator*() const { return get_edge(); }
-      pointer operator->() const { return get_edge(); }
-      
-      // Equality_comparable
-      bool operator==(const undirected_incident_edge_iterator& x) const { return index == x.index; }
-      bool operator!=(const undirected_incident_edge_iterator& x) const { return index != x.index; }
+      return i += n;
+    }
 
-      // Totally_ordered
-      bool operator<(const undirected_incident_edge_iterator& x) const { return index == x.index; }
-      bool operator>(const undirected_incident_edge_iterator& x) const { return index != x.index; }
-      bool operator<=(const undirected_incident_edge_iterator& x) const { return index == x.index; }
-      bool operator>=(const undirected_incident_edge_iterator& x) const { return index != x.index; }
 
-      // Random_access_iterator: advance
-      undirected_incident_edge_iterator& operator++() { ++index; return *this; }
-      undirected_incident_edge_iterator& operator--() { --index; return *this; }
-      
-      undirected_incident_edge_iterator operator++(int) 
-      {
-        undirected_incident_edge_iterator tmp{*this}; 
-        this->operator++();
-        return tmp;
-      }
+    friend undirected_edge_iterator operator-(undirected_edge_iterator i,
+  difference_type n)
+    {
+      return i -= n;
+    }
 
-      friend undirected_incident_edge_iterator 
-      operator+(undirected_incident_edge_iterator i, difference_type n) 
-      { 
-        return i += n; 
-      }
-      
-      friend undirected_incident_edge_iterator 
-      operator+(difference_type n, undirected_incident_edge_iterator i) 
-      { 
-        return i += n; 
-      }
+    // Difference
+    friend difference_type
+    operator-(const undirected_edge_iterator& a, const
+  undirected_edge_iterator& b)
+    {
+      return a.value() - b.value();
+    }
 
-      undirected_incident_edge_iterator operator--(int)
-      {
-        undirected_incident_edge_iterator tmp{*this}; 
-        this->operator--();
-        return tmp;
-      }
+  private:
+    std::size_t value() const
+    {
+      return edge.edge.value;
+    }
 
-      friend undirected_incident_edge_iterator 
-      operator-(undirected_incident_edge_iterator i, difference_type n)
-      {
-        return i -= n;
-      }
+    void advance_edge(difference_type n)
+    {
+      edge = graph->get_edge(value() + 1);
+    }
 
-      // Random_access_iterator: distance
-      friend difference_type 
-      operator-(const undirected_incident_edge_iterator& a, 
-                const undirected_incident_edge_iterator& b) 
-      { 
-        return a.value() - b.value();
-      }
+  private:
+    G* graph;
+    Edge_type<G> handle;
+    */
+};
 
-    private:
-      Edge_type<G> get_edge() const
-      {
-        return graph->get_incident_edge(source, index);
-      }
+// The undirected incident edge iterator abstracts the notion of a sequence
+// of incident edges by iterating over the chained in- and out-edge ranges
+// of an undirected graph's underlying directed implementation.
+//
+// Note that we don't cache the referenced edge, so we dereference a copy.
+// This means that you can't use -> with these iterators.
+//
+// FIXME: This is also totally broken.
+//
+// NOTE: Do not static assert that G is an undirected graph. Doing so results
+// in mutually recursive concept checks. G is an undirected graph if it has
+// this as an iterator. This a valid iterator if F is an undirected graph.
+template <typename G> class undirected_incident_edge_iterator
+{
+  /*
+  public:
+    using value_type = Edge_type<G>;
+    using reference = const Edge_type<G>&;
+    using pointer = const Edge_type<G>*;
+    using difference_type = std::ptrdiff_t;
+    using iterator_category = std::random_access_iterator_tag;
 
-    private:
-      G* graph;
-      Vertex_type<G> source;
-      Size_type<G> index;
-      */
-    };
+    undirected_incident_edge_iterator()
+      : graph(nullptr), source(), index()
+    { }
 
-    
+    // Initialize the iterator so that it refers to the nth incident edge
+    // of v where n < degree(g, v).
+    undirected_incident_edge_iterator(G& g, Vertex_type<G> v, Size_type<G> n)
+      : graph(&g), source(v), index(n)
+    { }
 
-  // FIXME: What are these functions for? Where are they being used? 
+    // Readable
+    reference operator*() const { return get_edge(); }
+    pointer operator->() const { return get_edge(); }
+
+    // Equality_comparable
+    bool operator==(const undirected_incident_edge_iterator& x) const { return
+  index == x.index; }
+    bool operator!=(const undirected_incident_edge_iterator& x) const { return
+  index != x.index; }
+
+    // Totally_ordered
+    bool operator<(const undirected_incident_edge_iterator& x) const { return
+  index == x.index; }
+    bool operator>(const undirected_incident_edge_iterator& x) const { return
+  index != x.index; }
+    bool operator<=(const undirected_incident_edge_iterator& x) const { return
+  index == x.index; }
+    bool operator>=(const undirected_incident_edge_iterator& x) const { return
+  index != x.index; }
+
+    // Random_access_iterator: advance
+    undirected_incident_edge_iterator& operator++() { ++index; return *this; }
+    undirected_incident_edge_iterator& operator--() { --index; return *this; }
+
+    undirected_incident_edge_iterator operator++(int)
+    {
+      undirected_incident_edge_iterator tmp{*this};
+      this->operator++();
+      return tmp;
+    }
+
+    friend undirected_incident_edge_iterator
+    operator+(undirected_incident_edge_iterator i, difference_type n)
+    {
+      return i += n;
+    }
+
+    friend undirected_incident_edge_iterator
+    operator+(difference_type n, undirected_incident_edge_iterator i)
+    {
+      return i += n;
+    }
+
+    undirected_incident_edge_iterator operator--(int)
+    {
+      undirected_incident_edge_iterator tmp{*this};
+      this->operator--();
+      return tmp;
+    }
+
+    friend undirected_incident_edge_iterator
+    operator-(undirected_incident_edge_iterator i, difference_type n)
+    {
+      return i -= n;
+    }
+
+    // Random_access_iterator: distance
+    friend difference_type
+    operator-(const undirected_incident_edge_iterator& a,
+              const undirected_incident_edge_iterator& b)
+    {
+      return a.value() - b.value();
+    }
+
+  private:
+    Edge_type<G> get_edge() const
+    {
+      return graph->get_incident_edge(source, index);
+    }
+
+  private:
+    G* graph;
+    Vertex_type<G> source;
+    Size_type<G> index;
+    */
+};
+
+// FIXME: What are these functions for? Where are they being used?
 #if 0
   // The has_target Predicate is used to evaluate whether or not an edge
   // has a given vertex as its target.
@@ -374,33 +447,33 @@ namespace origin
       return {g, v};
     }
 #endif
-    
+
 } // namespace origin
-    
+
 // FIXME: When are we going to have Origin::Hashable?
 // Support std::hash interoperability.
 namespace std
 {
-  // Make edge handles hashable by the standard library.
-  template<typename T>
-    struct hash<origin::edge_handle<T>>
-    {
-      std::size_t operator()(const origin::edge_handle<T>& e) const
-      { 
-        return e.hash();
-      }
-    };
-  
-  // Make undirected edge handles hashable by the standard library.
-  template<typename T>
-    struct hash<origin::undirected_edge_handle<T>>
-    {
-      std::size_t operator()(const origin::undirected_edge_handle<T>& e) const
-      {
-        return e.hash();
-      }
-    };
-    
+// Make edge handles hashable by the standard library.
+template <typename T> struct hash<origin::edge_handle<T> >
+{
+  std::size_t
+  operator() (const origin::edge_handle<T> &e) const
+  {
+    return e.hash ();
+  }
+};
+
+// Make undirected edge handles hashable by the standard library.
+template <typename T> struct hash<origin::undirected_edge_handle<T> >
+{
+  std::size_t
+  operator() (const origin::undirected_edge_handle<T> &e) const
+  {
+    return e.hash ();
+  }
+};
+
 } // namespace std
-    
+
 #endif

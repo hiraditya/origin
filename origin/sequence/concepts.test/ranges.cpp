@@ -20,48 +20,49 @@ using namespace origin;
 // Test the Iterator_of trait. It needs to give the correct iterator type
 // based on the const-ness of the its argument.
 
-void check_iterator()
+void
+check_iterator ()
 {
   using V = vector<int>;
-  static_assert(Same<Iterator_of<V>, V::iterator>(), "");
-  static_assert(Same<Iterator_of<const V>, V::const_iterator>(), "");
+  static_assert (Same<Iterator_of<V>, V::iterator> (), "");
+  static_assert (Same<Iterator_of<const V>, V::const_iterator> (), "");
 }
 
 // Test that Range<R> is valid even when we're forwarding reference types.
 template <typename R>
-  void check_range(R&& range)
-  {
-    static_assert(Range<R>(), "");
-  }
-
-
-int main()
+void
+check_range (R &&range)
 {
-  check_iterator();
+  static_assert (Range<R> (), "");
+}
+
+int
+main ()
+{
+  check_iterator ();
 
   // static_assert(Range<int[3]>(), "");
-  static_assert(Range<vector<int>>(), "");
-  static_assert(Range<list<int>>(), "");
-  static_assert(Range<forward_list<int>>(), "");
-  static_assert(Range<string>(), "");
-
+  static_assert (Range<vector<int> > (), "");
+  static_assert (Range<list<int> > (), "");
+  static_assert (Range<forward_list<int> > (), "");
+  static_assert (Range<string> (), "");
 
   // Check that the concept works when forwarded.
   int a[3];
-  check_range(a);
+  check_range (a);
 
   vector<int> v;
-  const vector<int>& cv = v;
-  check_range(v);
-  check_range(cv);
+  const vector<int> &cv = v;
+  check_range (v);
+  check_range (cv);
 
   list<int> l;
-  const list<int>& cl = l;
-  check_range(l);
-  check_range(cl);
+  const list<int> &cl = l;
+  check_range (l);
+  check_range (cl);
 
   forward_list<int> f;
   const forward_list<int> cf = f;
-  check_range(f);
-  check_range(cf);
+  check_range (f);
+  check_range (cf);
 }

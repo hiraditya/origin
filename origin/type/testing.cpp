@@ -13,34 +13,28 @@
 
 namespace origin
 {
-  namespace testing
-  {
-    ////////////////////////////////////////////////////////////////////////////
-    // Context Implementation
+namespace testing
+{
+////////////////////////////////////////////////////////////////////////////
+// Context Implementation
 
-    // The context instance.
-    context* context::inst = nullptr;
+// The context instance.
+context *context::inst = nullptr;
 
-    context::context()
-      : prng(), os(&std::cerr), repeat(100), fail(0)
-    {
-      assert(!inst);
-      inst = this;
-    }
+context::context () : prng (), os (&std::cerr), repeat (100), fail (0)
+{
+  assert (!inst);
+  inst = this;
+}
 
-    context::~context()
-    {
-      inst = nullptr;
-    }
+context::~context () { inst = nullptr; }
 
-    context&
-    context::instance()
-    {
-      assert(inst);
-      return *inst;
-    }
+context &
+context::instance ()
+{
+  assert (inst);
+  return *inst;
+}
 
-  } // namespace tessting
+} // namespace tessting
 } // namespace origin
-
-

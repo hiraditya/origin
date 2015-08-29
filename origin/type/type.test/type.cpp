@@ -14,15 +14,15 @@ using namespace std;
 using namespace origin;
 using namespace origin::testing;
 
-template <typename T>
-  struct foo
-  {
-    static_assert(Integer<T>(), "");
-  };
-
-int main()
+template <typename T> struct foo
 {
-  foo<float>* p = nullptr;
-  (void) p;
+  static_assert (Integer<T> (), "");
+};
+
+int
+main ()
+{
+  foo<float> *p = nullptr;
+  (void)p;
   return 0;
 }

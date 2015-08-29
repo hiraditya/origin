@@ -14,28 +14,29 @@
 using namespace std;
 using namespace origin;
 
-
-int main()
+int
+main ()
 {
   using V = vector<int>;
 
-  V v {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-  auto f = v.begin();
-  auto l = v.end();
+  V v{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+  auto f = v.begin ();
+  auto l = v.end ();
 
-  const V& cv = v;
-  auto cf = cv.begin();
-  auto cl = cv.end();
+  const V &cv = v;
+  auto cf = cv.begin ();
+  auto cl = cv.end ();
 
-  V sub = {7, 8, 9};
+  V sub = { 7, 8, 9 };
 
-  static_assert(Same<decltype(search(v, sub)), V::iterator>(), "");
-  static_assert(Same<decltype(search(cv, sub)), V::const_iterator>(), "");
-  assert(search(v, sub) == search(f, l, sub.begin(), sub.end()));
-  assert(search(cv, sub) == search(cf, cl, sub.begin(), sub.end()));
+  static_assert (Same<decltype (search (v, sub)), V::iterator> (), "");
+  static_assert (Same<decltype (search (cv, sub)), V::const_iterator> (), "");
+  assert (search (v, sub) == search (f, l, sub.begin (), sub.end ()));
+  assert (search (cv, sub) == search (cf, cl, sub.begin (), sub.end ()));
 
-  static_assert(Same<decltype(search_n(v, 1, 5)), V::iterator>(), "");
-  static_assert(Same<decltype(search_n(cv, 1, 5)), V::const_iterator>(), "");
-  assert(search_n(v, 1, 5) == search_n(f, l, 1, 5));
-  assert(search_n(cv, 1, 5) == search_n(cf, cl, 1, 5));
+  static_assert (Same<decltype (search_n (v, 1, 5)), V::iterator> (), "");
+  static_assert (Same<decltype (search_n (cv, 1, 5)), V::const_iterator> (),
+                 "");
+  assert (search_n (v, 1, 5) == search_n (f, l, 1, 5));
+  assert (search_n (cv, 1, 5) == search_n (cf, cl, 1, 5));
 }

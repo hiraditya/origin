@@ -12,20 +12,25 @@
 using namespace std;
 using namespace origin;
 
-struct base { };
-struct derived : base { };
+struct base
+{
+};
+struct derived : base
+{
+};
 
-int main()
+int
+main ()
 {
   // Non-class types cannot be derived.
-  static_assert(!Derived<int, int>(), "");
+  static_assert (!Derived<int, int> (), "");
 
   // Derived is reflexive.
-  static_assert(Derived<base, base>(), "");
+  static_assert (Derived<base, base> (), "");
 
   // Derivation defines a subtype relation.
-  static_assert(Derived<derived, base>(), "");
-  static_assert(!Derived<base, derived>(), "");
+  static_assert (Derived<derived, base> (), "");
+  static_assert (!Derived<base, derived> (), "");
 
   // TODO: Write tests for multiple and virtual inheritance.
 }

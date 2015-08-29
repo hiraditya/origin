@@ -10,12 +10,12 @@
 using namespace std;
 using namespace origin;
 
-
-int main()
+int
+main ()
 {
-  static_assert(Same<Front_type<char>, char>(), "");
-  static_assert(Same<Front_type<char, short, int, long>, char>(), "");
+  static_assert (Same<Front_type<char>, char> (), "");
+  static_assert (Same<Front_type<char, short, int, long>, char> (), "");
 
-  static_assert(Same<Back_type<char>, char>(), "");
-  static_assert(Same<Back_type<char, short, int, long>, long>(), "");
+  static_assert (Same<Back_type<char>, char> (), "");
+  static_assert (Same<Back_type<char, short, int, long>, long> (), "");
 }

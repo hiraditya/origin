@@ -14,29 +14,30 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
   using A = std::allocator<int>;
 
-  static_assert(Has_value_type<A>(), "");
-  static_assert(Same<Value_type<A>, int>(), "");
+  static_assert (Has_value_type<A> (), "");
+  static_assert (Same<Value_type<A>, int> (), "");
 
-  static_assert(Same<Pointer_of<A>, int*>(), "");
-  static_assert(Same<Pointer_of<const A>, const int*>(), "");
+  static_assert (Same<Pointer_of<A>, int *> (), "");
+  static_assert (Same<Pointer_of<const A>, const int *> (), "");
 
-  static_assert(Same<Reference_of<A>, int&>(), "");
-  static_assert(Same<Reference_of<const A>, const int&>(), "");
+  static_assert (Same<Reference_of<A>, int &> (), "");
+  static_assert (Same<Reference_of<const A>, const int &> (), "");
 
   // I'm not sure if these are required to be std::size_t and std::ptrdiff_t
   // or not. Probably they are for std::allocator.
-  static_assert(Has_size_type<A>(), "");
-  static_assert(Has_difference_type<A>(), "");
+  static_assert (Has_size_type<A> (), "");
+  static_assert (Has_difference_type<A> (), "");
 
-  static_assert(Allocator<A>(), "");
+  static_assert (Allocator<A> (), "");
 
   // Check the allocator constructor.
   using V = std::vector<int>;
-  static_assert(Allocator_constructible<V>(), "");           // default
-  static_assert(Allocator_constructible<V, V&&>(), "");      // move
-  static_assert(Allocator_constructible<V, const V&>(), ""); // copy
+  static_assert (Allocator_constructible<V> (), "");            // default
+  static_assert (Allocator_constructible<V, V &&> (), "");      // move
+  static_assert (Allocator_constructible<V, const V &> (), ""); // copy
 }

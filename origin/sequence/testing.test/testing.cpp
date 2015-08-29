@@ -5,7 +5,6 @@
 // LICENSE.txt or http://www.opensource.org/licenses/mit-license.php for terms
 // and conditions.
 
-
 #include <iostream>
 
 #include <origin/sequence/concepts.hpp>
@@ -13,8 +12,7 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
-
-
 }

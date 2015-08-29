@@ -10,13 +10,13 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
-  static_assert(Same<Select<0, char, short, int, long>, char>(), "");
-  static_assert(Same<Select<1, char, short, int, long>, short>(), "");
-  static_assert(Same<Select<2, char, short, int, long>, int>(), "");
-  static_assert(Same<Select<3, char, short, int, long>, long>(), "");
-
+  static_assert (Same<Select<0, char, short, int, long>, char> (), "");
+  static_assert (Same<Select<1, char, short, int, long>, short> (), "");
+  static_assert (Same<Select<2, char, short, int, long>, int> (), "");
+  static_assert (Same<Select<3, char, short, int, long>, long> (), "");
 
   // Ill-formed program!
   // using X = Select<2, char, short>;

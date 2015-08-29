@@ -6,4 +6,3 @@
 // and conditions.
 
 #include "default.hpp"
-

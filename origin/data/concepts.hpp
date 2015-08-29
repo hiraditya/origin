@@ -13,18 +13,19 @@
 
 namespace origin
 {
-  //////////////////////////////////////////////////////////////////////////////
-  // Container                                           data.concepts.container
-  //
-  // A container is a data structure that owns its elemets.
-  //
-  // FIXME: A container is not just a range. It has member functions (in
-  // particular size, and empty, etc.)
-  template <typename C>
-    constexpr bool Container()
-    {
-      return Range<C>();
-    }
+//////////////////////////////////////////////////////////////////////////////
+// Container                                           data.concepts.container
+//
+// A container is a data structure that owns its elemets.
+//
+// FIXME: A container is not just a range. It has member functions (in
+// particular size, and empty, etc.)
+template <typename C>
+constexpr bool
+Container ()
+{
+  return Range<C> ();
+}
 
 } // namespace origin
 

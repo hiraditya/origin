@@ -16,15 +16,16 @@ using namespace std;
 using namespace origin;
 using namespace testing;
 
-int main()
+int
+main ()
 {
   using G = undirected_adjacency_vector<char, int>;
-  check_default_init<G>();
-  check_add_vertices<G>();
-  check_add_edges<G>();
+  check_default_init<G> ();
+  check_add_vertices<G> ();
+  check_add_edges<G> ();
 
   using D = directed_adjacency_vector<char, int>;
-  check_default_init<D>();
-  check_add_vertices<D>();
-  check_add_edges<D>();
+  check_default_init<D> ();
+  check_add_vertices<D> ();
+  check_add_edges<D> ();
 }

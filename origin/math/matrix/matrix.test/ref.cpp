@@ -7,7 +7,7 @@
 
 #include <origin/math/matrix/matrix.hpp>
 
-
-int main()
+int
+main ()
 {
 }

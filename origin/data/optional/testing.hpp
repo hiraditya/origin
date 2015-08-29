@@ -14,50 +14,49 @@
 
 namespace origin
 {
-  namespace testing
+namespace testing
+{
+template <typename T, typename Value = Default_pattern_type<T> >
+struct optional_value_pattern
+{
+  using Init = std::bernoulli_distribution;
+
+  optional_value_pattern (double p = 0.9, const Value &val = {})
+      : init (p), value (val)
   {
-    template <typename T, typename Value = Default_pattern_type<T>>
-      struct optional_value_pattern
-      {
-        using Init = std::bernoulli_distribution ;
-
-        optional_value_pattern(double p = 0.9, const Value& val = {})
-          : init(p), value(val)
-        { }
-
-        template <typename Eng>
-          optional<T> operator()(Eng&& eng)
-          {
-            if (init(eng))
-              return optional<T> {value(eng)};
-            else
-              return {};
-          }
-
-        Init init;   // The distribution of initialized/uninitialized values
-        Value value; // The pattern describing randomly generated values
-      };
-
-
-    // Create the default pattern for generating optional values. Values have
-    // a 1% chance of being created uninitialized.
-    template <typename T>
-      struct default_optional_pattern
-      {
-        optional_value_pattern<T> operator()() const
-        {
-          auto x = optional_value_pattern<T>(0.9, default_pattern<T>());
-          return x;
-        }
-      };
-
-    template <typename T>
-      struct default_pattern_traits<optional<T>>
-      {
-        using type = default_optional_pattern<T>;
-      };
   }
+
+  template <typename Eng>
+  optional<T>
+  operator() (Eng &&eng)
+  {
+    if (init (eng))
+      return optional<T>{ value (eng) };
+    else
+      return {};
+  }
+
+  Init init;   // The distribution of initialized/uninitialized values
+  Value value; // The pattern describing randomly generated values
+};
+
+// Create the default pattern for generating optional values. Values have
+// a 1% chance of being created uninitialized.
+template <typename T> struct default_optional_pattern
+{
+  optional_value_pattern<T>
+  operator() () const
+  {
+    auto x = optional_value_pattern<T> (0.9, default_pattern<T> ());
+    return x;
+  }
+};
+
+template <typename T> struct default_pattern_traits<optional<T> >
+{
+  using type = default_optional_pattern<T>;
+};
+}
 }
 
 #endif
-

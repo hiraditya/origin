@@ -6,11 +6,11 @@
 // and conditions.
 
 #ifndef ORIGIN_MATH_MATRIX_HPP
-#  error Do not include this file directly. Include matrix/matrix.hpp.
+#error Do not include this file directly. Include matrix/matrix.hpp.
 #endif
 
-
-// -------------------------------------------------------------------------- //
+// --------------------------------------------------------------------------
+// //
 //                             Slice Iterator
 //
 // A slice iterator ranges over the elements of a submatrix specified by a
@@ -18,78 +18,80 @@
 //
 // A slice iterator is a forward iterator. Note that it may be possible to make
 // this bidirectional or random access, but we reserve that for future work.
-template <typename T, std::size_t N>
-  struct slice_iterator
+template <typename T, std::size_t N> struct slice_iterator
+{
+  using value_type = Remove_const<T>;
+  using reference = T &;
+  using pointer = T *;
+  using difference_type = std::ptrdiff_t;
+  using iterator_category = std::forward_iterator_tag;
+
+  slice_iterator (const matrix_slice<N> &s, T *base, bool limit = false);
+
+  // Returns the iterators describing slice.
+  const matrix_slice<N> &
+  descriptor () const
   {
-    using value_type = Remove_const<T>;
-    using reference = T&;
-    using pointer = T*;
-    using difference_type = std::ptrdiff_t;
-    using iterator_category = std::forward_iterator_tag;
+    return desc;
+  }
 
-    slice_iterator(const matrix_slice<N>& s, T* base, bool limit = false);
+  // Readable
+  T &operator* () const { return *ptr; }
+  T *operator-> () const { return ptr; }
 
-    // Returns the iterators describing slice.
-    const matrix_slice<N>& descriptor() const { return desc; }
+  // Forward Iterator
+  slice_iterator &operator++ ();
+  slice_iterator operator++ (int);
 
-    // Readable
-    T& operator*() const { return *ptr; }
-    T* operator->() const { return ptr; }
+private:
+  void increment ();
 
-    // Forward Iterator
-    slice_iterator& operator++();
-    slice_iterator operator++(int);
-
-  private:
-    void increment();
-
-  private:
-    const matrix_slice<N>& desc; // Describes the iterator range
-    std::size_t indexes[N];       // Counting indexes
-    T* ptr;                       // The current element
-  };
-
+private:
+  const matrix_slice<N> &desc; // Describes the iterator range
+  std::size_t indexes[N];      // Counting indexes
+  T *ptr;                      // The current element
+};
 
 template <typename T, std::size_t N>
-  slice_iterator<T, N>::slice_iterator(const matrix_slice<N>& s, 
-                                       T* base, 
-                                       bool limit)
-    : desc(s)
-  {
-    std::fill_n(indexes, N, 0);
-    if (limit) {
+slice_iterator<T, N>::slice_iterator (const matrix_slice<N> &s, T *base,
+                                      bool limit)
+    : desc (s)
+{
+  std::fill_n (indexes, N, 0);
+  if (limit)
+    {
       indexes[0] = desc.extents[0];
-      ptr = base + desc.offset(indexes);
-    } else {
+      ptr = base + desc.offset (indexes);
+    }
+  else
+    {
       ptr = base + s.start;
     }
-  }
+}
 
 template <typename T, std::size_t N>
-  inline slice_iterator<T, N>&
-  slice_iterator<T, N>::operator++()
-  {
-    increment();
-    return *this;
-  }
+inline slice_iterator<T, N> &slice_iterator<T, N>::operator++ ()
+{
+  increment ();
+  return *this;
+}
 
 template <typename T, std::size_t N>
-  inline slice_iterator<T, N>
-  slice_iterator<T, N>::operator++(int)
-  {
-    slice_iterator x = *this;
-    increment();
-    return x;
-  }
-
+inline slice_iterator<T, N> slice_iterator<T, N>::operator++ (int)
+{
+  slice_iterator x = *this;
+  increment ();
+  return x;
+}
 
 // Move to the next element in the range.
 template <typename T, std::size_t N>
-  void
-  slice_iterator<T, N>::increment()
-  {
-    std::size_t d = N - 1;
-    while (true) {
+void
+slice_iterator<T, N>::increment ()
+{
+  std::size_t d = N - 1;
+  while (true)
+    {
       ptr += desc.strides[d];
       ++indexes[d];
 
@@ -101,16 +103,18 @@ template <typename T, std::size_t N>
       // Otherwise, if we have not counted to the extent in the outermost
       // dimension, move to the next dimension and try again. If d is 0, then
       // we have counted through the entire slice.
-      if (d != 0) {
-        ptr -= desc.strides[d] * desc.extents[d];
-        indexes[d] = 0;
-        --d;
-      } else {
-        break;
-      }
+      if (d != 0)
+        {
+          ptr -= desc.strides[d] * desc.extents[d];
+          indexes[d] = 0;
+          --d;
+        }
+      else
+        {
+          break;
+        }
     }
-  }
-
+}
 
 // Equality_comparable
 //
@@ -120,16 +124,16 @@ template <typename T, std::size_t N>
 // For efficiency, we assume the first requirement. It is undefined behavior
 // to compare slice iterators from different slices.
 template <typename T, std::size_t N>
-  inline bool
-  operator==(const slice_iterator<T, N>& a, const slice_iterator<T, N>& b)
-  {
-    assert(a.descriptor() == b.descriptor());
-    return &*a == &*b;
-  }
+inline bool
+operator== (const slice_iterator<T, N> &a, const slice_iterator<T, N> &b)
+{
+  assert (a.descriptor () == b.descriptor ());
+  return &*a == &*b;
+}
 
 template <typename T, std::size_t N>
-  inline bool
-  operator!=(const slice_iterator<T, N>& a, const slice_iterator<T, N>& b)
-  {
-    return !(a == b);
-  }
+inline bool
+operator!= (const slice_iterator<T, N> &a, const slice_iterator<T, N> &b)
+{
+  return !(a == b);
+}

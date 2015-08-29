@@ -15,14 +15,14 @@
 using namespace std;
 using namespace origin;
 
-template <typename T>
-  using Pair_of = pair<T, T>;
+template <typename T> using Pair_of = pair<T, T>;
 
-int main()
+int
+main ()
 {
   using V = vector<int>;
-  V v {0, 1, 2, 3, 4};
-  const V& cv = v;
+  V v{ 0, 1, 2, 3, 4 };
+  const V &cv = v;
 
   std::less<int> lt;
 
@@ -30,67 +30,73 @@ int main()
   // v's reference is actually a reference.
 
   // Min
-  static_assert(Same<decltype(min(v)), V::reference>(), "");
-  static_assert(Same<decltype(min(cv)), V::const_reference>(), "");
-  assert(&min(v) == &*min_element(v.begin(), v.end()));
+  static_assert (Same<decltype (min (v)), V::reference> (), "");
+  static_assert (Same<decltype (min (cv)), V::const_reference> (), "");
+  assert (&min (v) == &*min_element (v.begin (), v.end ()));
 
-  static_assert(Same<decltype(min(v, lt)), V::reference>(), "");
-  static_assert(Same<decltype(min(cv, lt)), V::const_reference>(), "");
-  assert(&min(v, lt) == &*min_element(v.begin(), v.end(), lt));
-
+  static_assert (Same<decltype (min (v, lt)), V::reference> (), "");
+  static_assert (Same<decltype (min (cv, lt)), V::const_reference> (), "");
+  assert (&min (v, lt) == &*min_element (v.begin (), v.end (), lt));
 
   // Max
-  static_assert(Same<decltype(max(v)), V::reference>(), "");
-  static_assert(Same<decltype(max(cv)), V::const_reference>(), "");
-  assert(&max(v) == &*max_element(v.begin(), v.end()));
+  static_assert (Same<decltype (max (v)), V::reference> (), "");
+  static_assert (Same<decltype (max (cv)), V::const_reference> (), "");
+  assert (&max (v) == &*max_element (v.begin (), v.end ()));
 
-  static_assert(Same<decltype(max(v, lt)), V::reference>(), "");
-  static_assert(Same<decltype(max(cv, lt)), V::const_reference>(), "");
-  assert(&max(v, lt) == &*max_element(v.begin(), v.end(), lt));
-
+  static_assert (Same<decltype (max (v, lt)), V::reference> (), "");
+  static_assert (Same<decltype (max (cv, lt)), V::const_reference> (), "");
+  assert (&max (v, lt) == &*max_element (v.begin (), v.end (), lt));
 
   // Minmax
-  static_assert(Same<decltype(minmax(v)), Pair_of<V::reference>>(), "");
-  static_assert(Same<decltype(minmax(cv)), Pair_of<V::const_reference>>(), "");
-  auto p1 = minmax(v);
-  auto p2 = minmax_element(v.begin(), v.end());
-  assert(&p1.first == &*p2.first);
-  assert(&p1.second == &*p2.second);
+  static_assert (Same<decltype (minmax (v)), Pair_of<V::reference> > (), "");
+  static_assert (Same<decltype (minmax (cv)), Pair_of<V::const_reference> > (),
+                 "");
+  auto p1 = minmax (v);
+  auto p2 = minmax_element (v.begin (), v.end ());
+  assert (&p1.first == &*p2.first);
+  assert (&p1.second == &*p2.second);
 
-  static_assert(Same<decltype(minmax(v, lt)), Pair_of<V::reference>>(), "");
-  static_assert(Same<decltype(minmax(cv, lt)), Pair_of<V::const_reference>>(), "");
-  auto p3 = minmax(v, lt);
-  auto p4 = minmax_element(v.begin(), v.end(), lt);
-  assert(&p3.first == &*p4.first);
-  assert(&p3.second == &*p4.second);
-
+  static_assert (Same<decltype (minmax (v, lt)), Pair_of<V::reference> > (),
+                 "");
+  static_assert (
+      Same<decltype (minmax (cv, lt)), Pair_of<V::const_reference> > (), "");
+  auto p3 = minmax (v, lt);
+  auto p4 = minmax_element (v.begin (), v.end (), lt);
+  assert (&p3.first == &*p4.first);
+  assert (&p3.second == &*p4.second);
 
   // Min element
-  static_assert(Same<decltype(min_element(v)), V::iterator>(), "");
-  static_assert(Same<decltype(min_element(cv)), V::const_iterator>(), "");
-  assert(min_element(v) == min_element(v.begin(), v.end()));
+  static_assert (Same<decltype (min_element (v)), V::iterator> (), "");
+  static_assert (Same<decltype (min_element (cv)), V::const_iterator> (), "");
+  assert (min_element (v) == min_element (v.begin (), v.end ()));
 
-  static_assert(Same<decltype(min_element(v, lt)), V::iterator>(), "");
-  static_assert(Same<decltype(min_element(cv, lt)), V::const_iterator>(), "");
-  assert(min_element(v, lt) == min_element(v.begin(), v.end(), lt));
-
+  static_assert (Same<decltype (min_element (v, lt)), V::iterator> (), "");
+  static_assert (Same<decltype (min_element (cv, lt)), V::const_iterator> (),
+                 "");
+  assert (min_element (v, lt) == min_element (v.begin (), v.end (), lt));
 
   // Max element
-  static_assert(Same<decltype(max_element(v)), V::iterator>(), "");
-  static_assert(Same<decltype(max_element(cv)), V::const_iterator>(), "");
-  assert(max_element(v) == max_element(v.begin(), v.end()));
+  static_assert (Same<decltype (max_element (v)), V::iterator> (), "");
+  static_assert (Same<decltype (max_element (cv)), V::const_iterator> (), "");
+  assert (max_element (v) == max_element (v.begin (), v.end ()));
 
-  static_assert(Same<decltype(max_element(v, lt)), V::iterator>(), "");
-  static_assert(Same<decltype(max_element(cv, lt)), V::const_iterator>(), "");
-  assert(max_element(v, lt) == max_element(v.begin(), v.end(), lt));
-
+  static_assert (Same<decltype (max_element (v, lt)), V::iterator> (), "");
+  static_assert (Same<decltype (max_element (cv, lt)), V::const_iterator> (),
+                 "");
+  assert (max_element (v, lt) == max_element (v.begin (), v.end (), lt));
 
   // Minmax element
-  static_assert(Same<decltype(minmax_element(v)), Pair_of<V::iterator>>(), "");
-  static_assert(Same<decltype(minmax_element(cv)), Pair_of<V::const_iterator>>(), "");
-  assert(minmax_element(v) == minmax_element(v.begin(), v.end()));
+  static_assert (Same<decltype (minmax_element (v)), Pair_of<V::iterator> > (),
+                 "");
+  static_assert (
+      Same<decltype (minmax_element (cv)), Pair_of<V::const_iterator> > (),
+      "");
+  assert (minmax_element (v) == minmax_element (v.begin (), v.end ()));
 
-  static_assert(Same<decltype(minmax_element(v, lt)), Pair_of<V::iterator>>(), "");
-  static_assert(Same<decltype(minmax_element(cv, lt)), Pair_of<V::const_iterator>>(), "");
-  assert(minmax_element(v, lt) == minmax_element(v.begin(), v.end(), lt));
+  static_assert (
+      Same<decltype (minmax_element (v, lt)), Pair_of<V::iterator> > (), "");
+  static_assert (
+      Same<decltype (minmax_element (cv, lt)), Pair_of<V::const_iterator> > (),
+      "");
+  assert (minmax_element (v, lt) == minmax_element (v.begin (), v.end (), lt));
 }

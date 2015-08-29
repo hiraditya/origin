@@ -7,7 +7,7 @@
 
 #include <origin/type/unspecified.hpp>
 
-int main()
+int
+main ()
 {
-
 }

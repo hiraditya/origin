@@ -14,25 +14,27 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
   // Regular types are copyable.
-  static_assert(Copyable<int>(), "");
-  static_assert(Copyable<string>(), "");
-  static_assert(Copyable<vector<int>>(), "");
-
+  static_assert (Copyable<int> (), "");
+  static_assert (Copyable<string> (), "");
+  static_assert (Copyable<vector<int> > (), "");
 
   // Resources are not copyable
-  static_assert(!Copyable<unique_ptr<int>>(), "");
+  static_assert (!Copyable<unique_ptr<int> > (), "");
 
   // Function objects are generally copyable.
-  static_assert(Copyable<std::less<int>>(), "");
+  static_assert (Copyable<std::less<int> > (), "");
 
   // Lambda expressions are copy constructible, but not assignable.
-  auto f = [](){ return; };
-  using F = decltype(f);
-  static_assert(Copy_constructible<F>(), "");
-  static_assert(!Copy_assignable<F>(), "");
-  static_assert(!Copyable<F>(), "");
+  auto f = []()
+  {
+    return;
+  };
+  using F = decltype (f);
+  static_assert (Copy_constructible<F> (), "");
+  static_assert (!Copy_assignable<F> (), "");
+  static_assert (!Copyable<F> (), "");
 }
-

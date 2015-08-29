@@ -14,35 +14,35 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
   // Test pointers (iterators in general)
-  static_assert(Same<Reference_of<int*>, int&>(), "");
-  static_assert(Same<Reference_of<const int*>, const int&>(), "");
+  static_assert (Same<Reference_of<int *>, int &> (), "");
+  static_assert (Same<Reference_of<const int *>, const int &> (), "");
 
   // Test smart pointers.
   using P = unique_ptr<int>;
   using Cp = unique_ptr<const int>;
 
-  static_assert(Same<  Reference_of<P>,        int&  >(), "");
-  static_assert(Same<  Reference_of<P&>,       int&  >(), "");
-  static_assert(Same<  Reference_of<const P&>, int&  >(), "");
+  static_assert (Same<Reference_of<P>, int &> (), "");
+  static_assert (Same<Reference_of<P &>, int &> (), "");
+  static_assert (Same<Reference_of<const P &>, int &> (), "");
 
-  static_assert(Same<  Reference_of<Cp>,        const int&  >(), "");
-  static_assert(Same<  Reference_of<Cp&>,       const int&  >(), "");
-  static_assert(Same<  Reference_of<const Cp&>, const int&  >(), "");
+  static_assert (Same<Reference_of<Cp>, const int &> (), "");
+  static_assert (Same<Reference_of<Cp &>, const int &> (), "");
+  static_assert (Same<Reference_of<const Cp &>, const int &> (), "");
 
   // Test containers
   using V = vector<int>;
-  static_assert(Same<  Reference_of<V>,        int&        >(), "");
-  static_assert(Same<  Reference_of<V&>,       int&        >(), "");
-  static_assert(Same<  Reference_of<const V>,  const int&  >(), "");
-  static_assert(Same<  Reference_of<const V&>, const int&  >(), "");
+  static_assert (Same<Reference_of<V>, int &> (), "");
+  static_assert (Same<Reference_of<V &>, int &> (), "");
+  static_assert (Same<Reference_of<const V>, const int &> (), "");
+  static_assert (Same<Reference_of<const V &>, const int &> (), "");
 
   // Vector bool has a non-reference reference. Make sure our traits agree with
   // the class.
   using Vb = vector<bool>;
-  static_assert(Same< Reference_of<Vb>,       Vb::reference        >(), "");
-  static_assert(Same< Reference_of<const Vb>, Vb::const_reference  >(), "");
+  static_assert (Same<Reference_of<Vb>, Vb::reference> (), "");
+  static_assert (Same<Reference_of<const Vb>, Vb::const_reference> (), "");
 }
-

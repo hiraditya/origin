@@ -14,24 +14,25 @@ using namespace std;
 using namespace origin;
 using namespace origin::testing;
 
-int main()
+int
+main ()
 {
   context cxt;
 
   // Check relation properties
   std::equal_to<int> eq;
-  check_reflexive(eq);
-  check_symmetric(eq);
-  check_transitive(eq);
-  check_equivalence(eq);
+  check_reflexive (eq);
+  check_symmetric (eq);
+  check_transitive (eq);
+  check_equivalence (eq);
 
   std::less<int> lt;
-  check_irreflexive(lt);
-  check_asymmetric(lt);
-  check_antisymmetric(lt);
-  check_strict_ordering(lt);
-  check_strict_weak_ordering(lt);
-  check_strict_total_ordering(lt);
+  check_irreflexive (lt);
+  check_asymmetric (lt);
+  check_antisymmetric (lt);
+  check_strict_ordering (lt);
+  check_strict_weak_ordering (lt);
+  check_strict_total_ordering (lt);
 
-  return cxt.failures();
+  return cxt.failures ();
 }

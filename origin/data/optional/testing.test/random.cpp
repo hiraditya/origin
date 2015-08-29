@@ -14,17 +14,19 @@ using namespace std;
 using namespace origin;
 using namespace origin::testing;
 
-int main()
+int
+main ()
 {
   context cxt;
-  cxt.random_engine().seed(time(0));
+  cxt.random_engine ().seed (time (0));
 
   // FIXME: Is there any way to really test this?
   using T = optional<int>;
-  auto gen = quantify_over<T>();
-  for (int i = 0; i < 10; ++i) {
-    cout << gen() << '\n';
-  }
+  auto gen = quantify_over<T> ();
+  for (int i = 0; i < 10; ++i)
+    {
+      cout << gen () << '\n';
+    }
 
   return 0;
 }

@@ -6,5 +6,3 @@
 // and conditions.
 
 #include "empty.hpp"
-
-

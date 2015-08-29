@@ -14,20 +14,24 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
   using V = vector<int>;
 
-  V v0 {1, 2, 3, 4, 5};
+  V v0{ 1, 2, 3, 4, 5 };
   V v1 = v0;
 
-  random_shuffle(v1);
-  assert(range_is_permutation(v1, v0));
+  random_shuffle (v1);
+  assert (range_is_permutation (v1, v0));
 
-  random_shuffle(v1, [](size_t n) { return rand() % n; });
-  assert(range_is_permutation(v1, v0));
+  random_shuffle (v1, [](size_t n)
+                  {
+                    return rand () % n;
+                  });
+  assert (range_is_permutation (v1, v0));
 
   std::minstd_rand prng;
-  shuffle(v1, prng);
-  assert(range_is_permutation(v1, v0));
+  shuffle (v1, prng);
+  assert (range_is_permutation (v1, v0));
 }

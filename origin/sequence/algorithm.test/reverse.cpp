@@ -14,22 +14,23 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
   using V = vector<int>;
 
-  V v0 {1, 2, 3, 4, 5};
+  V v0{ 1, 2, 3, 4, 5 };
   V v1 = v0;
   V v2 = v0;
 
-  reverse(v1);
-  reverse(v2.begin(), v2.end());
-  assert(v1 == v2);
+  reverse (v1);
+  reverse (v2.begin (), v2.end ());
+  assert (v1 == v2);
 
   v1 = v0;
-  V v3(v1.size());
-  V v4(v2.size());
-  reverse_copy(v1, v3);
-  reverse_copy(v1.begin(), v1.end(), v4.begin());
-  assert(v3 == v4);
+  V v3 (v1.size ());
+  V v4 (v2.size ());
+  reverse_copy (v1, v3);
+  reverse_copy (v1.begin (), v1.end (), v4.begin ());
+  assert (v3 == v4);
 }

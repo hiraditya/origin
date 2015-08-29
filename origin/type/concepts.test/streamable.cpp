@@ -16,62 +16,77 @@ using namespace std;
 using namespace origin;
 
 // A non-streamable type
-struct fail { };
+struct fail
+{
+};
 
 // A streamable type with template overloads.
-struct pass { };
+struct pass
+{
+};
 
-template<typename C, typename T>
-  basic_istream<C, T>&
-  operator>>(basic_istream<C, T>& is, pass&) { return is; }
+template <typename C, typename T>
+basic_istream<C, T> &
+operator>> (basic_istream<C, T> &is, pass &)
+{
+  return is;
+}
 
-template<typename C, typename T>
-  basic_istream<C, T>&
-  operator<<(basic_ostream<C, T>& os, pass const&) {return os; }
-
+template <typename C, typename T>
+basic_istream<C, T> &
+operator<< (basic_ostream<C, T> &os, pass const &)
+{
+  return os;
+}
 
 // A streamable type using the polymorphic stream classes.
-struct poly { };
+struct poly
+{
+};
 
-std::istream&
-operator>>(std::istream& is, poly&) { return is; }
+std::istream &
+operator>> (std::istream &is, poly &)
+{
+  return is;
+}
 
-std::ostream&
-operator<<(std::ostream& os, const poly&) { return os; }
+std::ostream &
+operator<< (std::ostream &os, const poly &)
+{
+  return os;
+}
 
-
-int main()
+int
+main ()
 {
   // 1-argument concept
-  static_assert(Input_streamable<int>(), "");
-  static_assert(Output_streamable<int>(), "");
-  static_assert(Streamable<int>(), "");
+  static_assert (Input_streamable<int> (), "");
+  static_assert (Output_streamable<int> (), "");
+  static_assert (Streamable<int> (), "");
 
   // Check streamability with the template overlods.
-  static_assert(Input_streamable<pass>(), "");
-  static_assert(Output_streamable<pass>(), "");
-  static_assert(Streamable<pass>(), "");
+  static_assert (Input_streamable<pass> (), "");
+  static_assert (Output_streamable<pass> (), "");
+  static_assert (Streamable<pass> (), "");
 
   // Check streamability with polymorphic overloads.
-  static_assert(Input_streamable<poly>(), "");
-  static_assert(Output_streamable<poly>(), "");
-  static_assert(Streamable<poly>(), "");
+  static_assert (Input_streamable<poly> (), "");
+  static_assert (Output_streamable<poly> (), "");
+  static_assert (Streamable<poly> (), "");
 
   // Not streamable.
-  static_assert(!Input_streamable<fail>(), "");
-  static_assert(!Output_streamable<fail>(), "");
-  static_assert(!Streamable<fail>(), "");
+  static_assert (!Input_streamable<fail> (), "");
+  static_assert (!Output_streamable<fail> (), "");
+  static_assert (!Streamable<fail> (), "");
 
   // TODO: Check for partially streamable type.
 
-
   // 2-argument concept
-  static_assert(Input_streamable<ifstream, pass>(), "");
-  static_assert(Output_streamable<ofstream, pass>(), "");
-  static_assert(Streamable<fstream, pass>(), "");
+  static_assert (Input_streamable<ifstream, pass> (), "");
+  static_assert (Output_streamable<ofstream, pass> (), "");
+  static_assert (Streamable<fstream, pass> (), "");
 
-  static_assert(Input_streamable<ifstream, string>(), "");
-  static_assert(Output_streamable<ofstream, string>(), "");
-  static_assert(Streamable<fstream, int>(), "");
+  static_assert (Input_streamable<ifstream, string> (), "");
+  static_assert (Output_streamable<ofstream, string> (), "");
+  static_assert (Streamable<fstream, int> (), "");
 }
-

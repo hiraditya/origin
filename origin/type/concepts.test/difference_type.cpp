@@ -13,9 +13,12 @@
 using namespace std;
 using namespace origin;
 
-struct failure { };
+struct failure
+{
+};
 
-int main()
+int
+main ()
 {
   // Check adaptation for some integral types. It's the signed version of
   // the value.
@@ -28,25 +31,24 @@ int main()
   // static_assert(Same<Difference_type<long double>, long double>(), "");
 
   // For pointers and arrays, it's ptrdiff_t
-  static_assert(Same<Difference_type<int*>, ptrdiff_t>(), "");
-  static_assert(Same<Difference_type<int const*>, ptrdiff_t>(), "");
-  static_assert(Same<Difference_type<int[3]>, ptrdiff_t>(), "");
-
+  static_assert (Same<Difference_type<int *>, ptrdiff_t> (), "");
+  static_assert (Same<Difference_type<int const *>, ptrdiff_t> (), "");
+  static_assert (Same<Difference_type<int[3]>, ptrdiff_t> (), "");
 
   // Containers.
   using V = vector<int>;
-  static_assert(Has_difference_type<V>(), "");
-  static_assert(Same<Difference_type<V>, ptrdiff_t>(), "");
+  static_assert (Has_difference_type<V> (), "");
+  static_assert (Same<Difference_type<V>, ptrdiff_t> (), "");
 
   // These traits must see through reference types.
-  static_assert(Same<Difference_type<V&>, ptrdiff_t>(), "");
-  static_assert(Same<Difference_type<V&&>, ptrdiff_t>(), "");
-  static_assert(Same<Difference_type<const V&>, ptrdiff_t>(), "");
+  static_assert (Same<Difference_type<V &>, ptrdiff_t> (), "");
+  static_assert (Same<Difference_type<V &&>, ptrdiff_t> (), "");
+  static_assert (Same<Difference_type<const V &>, ptrdiff_t> (), "");
 
   // ... and their iterators
   using I = V::iterator;
-  static_assert(Has_difference_type<I>(), "");
-  static_assert(Same<Difference_type<I>, ptrdiff_t>(), "");
+  static_assert (Has_difference_type<I> (), "");
+  static_assert (Same<Difference_type<I>, ptrdiff_t> (), "");
 
-  static_assert(!Has_difference_type<failure>(), "");}
-
+  static_assert (!Has_difference_type<failure> (), "");
+}

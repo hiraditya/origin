@@ -14,37 +14,37 @@
 
 namespace origin
 {
-  // ------------------------------------------------------------------------ //
-  //                                                                [functional]
-  //                          Functional Library
-  //
-  // The functional library provides function objects and related utilitiese to
-  // support high-order programming.
+// ------------------------------------------------------------------------ //
+//                                                                [functional]
+//                          Functional Library
+//
+// The functional library provides function objects and related utilitiese to
+// support high-order programming.
 
+// The negated_predicate function object computes the negation of a given
+// predicate.
+template <typename P> struct negated_predicate
+{
+  negated_predicate (P p) : pred (p) {}
 
-  // The negated_predicate function object computes the negation of a given
-  // predicate.
-  template<typename P>
-    struct negated_predicate
-    {
-      negated_predicate(P p) : pred(p) { }
+  template <typename... Args>
+  inline bool
+  operator() (Args &&... args) const
+  {
+    return !pred (std::forward<Args> (args)...);
+  }
 
-      template<typename... Args>
-        inline bool
-        operator()(Args&&... args) const
-        {
-          return !pred(std::forward<Args>(args)...);
-        }
+  P pred;
+};
 
-      P pred;
-    };
-
-  // Returns a negated predicate.
-  template<typename P>
-    inline negated_predicate<P> 
-    negate(P pred) { return negated_predicate<P>(pred); }
+// Returns a negated predicate.
+template <typename P>
+inline negated_predicate<P>
+negate (P pred)
+{
+  return negated_predicate<P> (pred);
+}
 
 } // namespace origin
-
 
 #endif

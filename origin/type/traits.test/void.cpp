@@ -10,8 +10,9 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
-  static_assert(Void<void>(), "");
-  static_assert(!Void<int>(), "");
+  static_assert (Void<void> (), "");
+  static_assert (!Void<int> (), "");
 }

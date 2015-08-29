@@ -10,36 +10,51 @@
 using namespace std;
 using namespace origin;
 
-struct foo { };
+struct foo
+{
+};
 
 struct move_only
 {
-  move_only(move_only&& x) { }
-  move_only& operator=(move_only&& x) { return *this; }
+  move_only (move_only &&x) {}
+  move_only &
+  operator= (move_only &&x)
+  {
+    return *this;
+  }
 
-  move_only(const move_only& x) = delete;
-  move_only& operator=(const move_only& x) = delete;
+  move_only (const move_only &x) = delete;
+  move_only &operator= (const move_only &x) = delete;
 };
 
 struct copyable
 {
   // Copy semantics
-  copyable(const copyable& x) { }
-  copyable& operator=(const copyable& x) { return *this; }
+  copyable (const copyable &x) {}
+  copyable &
+  operator= (const copyable &x)
+  {
+    return *this;
+  }
 
   // Conversion for foo.
-  copyable(const foo& x) { }
-  copyable& operator=(const foo& x) { return *this; }
+  copyable (const foo &x) {}
+  copyable &
+  operator= (const foo &x)
+  {
+    return *this;
+  }
 };
 
-int main()
+int
+main ()
 {
-  static_assert(Assignable<move_only, move_only&&>(), "");
-  static_assert(!Assignable<move_only, const move_only&>(), "");
+  static_assert (Assignable<move_only, move_only &&> (), "");
+  static_assert (!Assignable<move_only, const move_only &> (), "");
 
-  static_assert(Assignable<copyable, copyable&&>(), "");
-  static_assert(Assignable<copyable, const copyable&>(), "");
+  static_assert (Assignable<copyable, copyable &&> (), "");
+  static_assert (Assignable<copyable, const copyable &> (), "");
 
-  static_assert(Assignable<copyable, foo&&>(), "");
-  static_assert(Assignable<copyable, const foo&>(), "");
+  static_assert (Assignable<copyable, foo &&> (), "");
+  static_assert (Assignable<copyable, const foo &> (), "");
 }

@@ -14,22 +14,24 @@
 using namespace std;
 using namespace origin;
 
-struct fail { };
+struct fail
+{
+};
 
-int main()
+int
+main ()
 {
   // Check the value type for a container
   using V = vector<int>;
-  static_assert(Has_size_type<V>(), "");
-  static_assert(Same<Size_type<V>, std::size_t>(), "");
+  static_assert (Has_size_type<V> (), "");
+  static_assert (Same<Size_type<V>, std::size_t> (), "");
 
   // Value type must see through references.
-  static_assert(Same<Size_type<V&>, std::size_t>(), "");
-  static_assert(Same<Size_type<V&&>, std::size_t>(), "");
-  static_assert(Same<Size_type<const V&>, std::size_t>(), "");
+  static_assert (Same<Size_type<V &>, std::size_t> (), "");
+  static_assert (Same<Size_type<V &&>, std::size_t> (), "");
+  static_assert (Same<Size_type<const V &>, std::size_t> (), "");
 
   // Some types don't have value types.
-  static_assert(!Has_size_type<fail>(), "");
-  static_assert(!Has_size_type<int*>(), "");
+  static_assert (!Has_size_type<fail> (), "");
+  static_assert (!Has_size_type<int *> (), "");
 }
-

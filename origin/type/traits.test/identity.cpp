@@ -16,15 +16,20 @@ using namespace origin;
 // template argument T.
 
 template <typename T>
-  void f(Identity<T>&& x)
-  { }
-
-struct s { };
-
-int main()
+void
+f (Identity<T> &&x)
 {
-   s x;
-   f(x);
-  //assert(false);
+}
+
+struct s
+{
+};
+
+int
+main ()
+{
+  s x;
+  f (x);
+  // assert(false);
   return 0;
 }

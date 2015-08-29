@@ -10,6 +10,7 @@
 using namespace std;
 using namespace origin;
 
-int main()
+int
+main ()
 {
 }
