@@ -14,7 +14,7 @@ using namespace origin;
 
 
 template <typename R>
-  void print(R&& range) 
+  void print(R&& range)
   {
     for (auto x : range)
       cout << x << ' ';
@@ -64,7 +64,7 @@ template <std::size_t N>
 
     // Two enumerators compare equal when they are defined over the same
     // slice, and refer to the same offset.
-    bool operator==(const slice_enumerator& x) const 
+    bool operator==(const slice_enumerator& x) const
     {
       return offset == x.offset;
     }

@@ -17,7 +17,7 @@ using namespace origin;
 struct counter
 {
   counter(int& n) : num(n) { }
-  
+
   void operator()(int n)
   {
     ++num;

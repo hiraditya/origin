@@ -89,7 +89,7 @@ int main()
   static_assert(Same<decltype(minmax_element(v)), Pair_of<V::iterator>>(), "");
   static_assert(Same<decltype(minmax_element(cv)), Pair_of<V::const_iterator>>(), "");
   assert(minmax_element(v) == minmax_element(v.begin(), v.end()));
-  
+
   static_assert(Same<decltype(minmax_element(v, lt)), Pair_of<V::iterator>>(), "");
   static_assert(Same<decltype(minmax_element(cv, lt)), Pair_of<V::const_iterator>>(), "");
   assert(minmax_element(v, lt) == minmax_element(v.begin(), v.end(), lt));

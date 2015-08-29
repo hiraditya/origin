@@ -18,9 +18,9 @@ namespace origin
 {
   namespace testing
   {
-    // A type used to force ADL lookups in this namespace. 
+    // A type used to force ADL lookups in this namespace.
     struct adl_t { };
-  
+
   } // namespace testing
 
   //////////////////////////////////////////////////////////////////////////////

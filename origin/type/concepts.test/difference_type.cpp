@@ -32,7 +32,7 @@ int main()
   static_assert(Same<Difference_type<int const*>, ptrdiff_t>(), "");
   static_assert(Same<Difference_type<int[3]>, ptrdiff_t>(), "");
 
-  
+
   // Containers.
   using V = vector<int>;
   static_assert(Has_difference_type<V>(), "");

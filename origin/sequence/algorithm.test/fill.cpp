@@ -18,7 +18,7 @@ using namespace origin;
 int main()
 {
   using V = vector<int>;
-  
+
   V v(10);
 
   fill(v, 0);

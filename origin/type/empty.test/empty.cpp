@@ -15,17 +15,17 @@ using namespace std;
 using namespace origin;
 
 
-void 
+void
 check_write()
 {
-  // Writing an empty object to a stream does not modify the stream. 
+  // Writing an empty object to a stream does not modify the stream.
   string s;
   std::ostringstream ss(s);
   ss << empty_t{};
   assert(s.empty());
 }
 
-void 
+void
 check_read()
 {
   // Reading an empty object from a stream does not modify the stream. In

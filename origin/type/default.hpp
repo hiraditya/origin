@@ -16,7 +16,7 @@ namespace origin
   // The default type is a tag class used to indicate the selection of a default
   // value. This is only used to support class template specialization.
   struct default_t { };
-  
+
 } // namespace origin
 
 #endif

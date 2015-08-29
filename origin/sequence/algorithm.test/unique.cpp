@@ -41,7 +41,7 @@ int main()
   v1 = v0;
   V v3(v1.size());
   V v4(v2.size());
-  
+
   // FIXME: We should probably be asserting some property of the result value.
   range_unique_copy(v1, v3);
   unique_copy(v1.begin(), v1.end(), v4.begin());

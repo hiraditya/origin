@@ -18,7 +18,7 @@ using namespace origin;
 int main()
 {
   using V = vector<int>;
-  
+
   V v1 {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
   auto f1 = v1.begin();
   auto l1 = v1.end();
@@ -26,11 +26,11 @@ int main()
   V v2 {0, 1, 2, 3, 5, 6, 7, 8, 9};
   auto f2 = v2.begin();
   // auto l2 = v2.end();
-  
+
   const V& cv1 = v1;
   auto cf1 = cv1.begin();
   auto cl1 = cv1.end();
-  
+
   const V& cv2 = v2;
   auto cf2 = cv2.begin();
   // auto cl2 = cv2.end();
@@ -57,7 +57,7 @@ int main()
   assert(range_mismatch(cv1, cv2) == mismatch(cf1, cl1, cf2));
 
 
-  // Mismatch using == 
+  // Mismatch using ==
   std::equal_to<int> eq;
 
   static_assert(Same<decltype(range_mismatch(v1, v2, eq)), Pii>(), "");

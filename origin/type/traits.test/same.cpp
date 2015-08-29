@@ -19,7 +19,7 @@ int main()
   static_assert(Same<const int, const int>(), "");
   static_assert(Same<volatile int, volatile int>(), "");
   static_assert(Same<const volatile int, const volatile int>(), "");
-  
+
   static_assert(Same<int&, int&>(), "");
   static_assert(Same<const int&, const int&>(), "");
   static_assert(Same<volatile int&, volatile int&>(), "");

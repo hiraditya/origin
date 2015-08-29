@@ -26,13 +26,13 @@ struct X
 
 bool X::trace = false;
 
-void 
+void
 trace_insert()
 {
   using G = directed_adjacency_list<X>;
   G g;
   X x;
-  
+
   // Each insertion should require exactly one initialization of X.
   X::trace = true;
   g.add_vertex();
@@ -61,7 +61,7 @@ int main()
   check_remove_multi_edge<G>();
   check_remove_vertex_edges<G>();
   check_remove_all_edges<G>();
-  
+
   using D = directed_adjacency_list<char, int>;
   check_default_init<D>();
   check_add_vertices<D>();

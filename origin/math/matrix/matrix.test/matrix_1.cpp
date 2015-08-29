@@ -39,7 +39,7 @@ void test_init()
   cout << m4 << '\n';
 
   // Using braces is always a value initializer.
-  // This should emit a deleted function error since it would require 
+  // This should emit a deleted function error since it would require
   // narrowing (the deleted constructor is selected).
   // matrix<std::size_t, 1> m5{1, 2, 3};
 
@@ -78,7 +78,7 @@ void test_slice()
 
   auto s2 = m(slice(1, 3));
   cout << s2 << '\n'; // 1 2 3
-  
+
   auto s3 = m(slice(1, 5)); // Check at the boundary.
   cout << s3 << '\n'; // 1 2 3 4 5
 

@@ -32,14 +32,14 @@ struct Functor2 { char operator()(int, char) const { return 0; } };
 template <int N>
   struct type { };
 
-struct s 
+struct s
 {
   type<0> f0()       { return type<0>(); }
   type<1> f0() const { return type<1>();}
-  
+
   type<2> f1(int)       { return type<2>(); }
   type<3> f1(int) const { return type<3>(); }
-  
+
   type<4> f2(int, char)       { return type<4>(); }
   type<5> f2(int, char) const { return type<5>(); }
 
@@ -155,7 +155,7 @@ int main()
   static_assert(!Function_type<Functor0>(), "");
   static_assert(!Function_type<Functor1>(), "");
   static_assert(!Function_type<Functor2>(), "");
-  
+
   static_assert(!Function_type<Lambda0>(), "");
   static_assert(!Function_type<Lambda1>(), "");
   static_assert(!Function_type<Lambda2>(), "");
@@ -232,7 +232,7 @@ int main()
   static_assert(Same<Parameters_of<Lambda0>, type_list<>>(), "");
   static_assert(Same<Parameters_of<Lambda1>, type_list<int>>(), "");
   static_assert(Same<Parameters_of<Lambda2>, type_list<int, char>>(), "");
- 
+
 
   // Homogeneity
   using Eq = equal_to<int>;

@@ -19,19 +19,19 @@ int main()
   // Purely for the purpose of initializing matrices with 24 elements.
   enum Extended_numbers {
     a = 10,
-    b = 11, 
-    c = 12, 
-    d = 13, 
-    e = 14, 
-    f = 15, 
-    g = 16, 
-    h = 17, 
-    i = 18, 
-    j = 19, 
-    k = 20, 
-    l = 21, 
-    m = 22, 
-    n = 23, 
+    b = 11,
+    c = 12,
+    d = 13,
+    e = 14,
+    f = 15,
+    g = 16,
+    h = 17,
+    i = 18,
+    j = 19,
+    k = 20,
+    l = 21,
+    m = 22,
+    n = 23,
     o = 24
   };
 

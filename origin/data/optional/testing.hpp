@@ -14,7 +14,7 @@
 
 namespace origin
 {
-  namespace testing 
+  namespace testing
   {
     template <typename T, typename Value = Default_pattern_type<T>>
       struct optional_value_pattern
@@ -50,7 +50,7 @@ namespace origin
           return x;
         }
       };
-    
+
     template <typename T>
       struct default_pattern_traits<optional<T>>
       {

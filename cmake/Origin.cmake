@@ -11,12 +11,12 @@ if(NOT ORIGIN_INCLUDED)
   set(ORIGIN_INCLUDED TRUE)
 
 
-  # Did the user set ORIGIN_ROOT in the environment? Don't overwrite a 
+  # Did the user set ORIGIN_ROOT in the environment? Don't overwrite a
   # previous setting!
   if (NOT ORIGIN_ROOT)
     set(ORIGIN_ROOT $ENV{ORIGIN_ROOT})
   endif()
-  
+
   # Find the project root. Either we're building in that directory or we
   # are not. If not, the variable ORIGIN_ROOT must be defined.
   if(NOT EXISTS ${CMAKE_SOURCE_DIR}/cmake/Origin.cmake)

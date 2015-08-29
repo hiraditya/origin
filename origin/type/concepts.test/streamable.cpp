@@ -22,18 +22,18 @@ struct fail { };
 struct pass { };
 
 template<typename C, typename T>
-  basic_istream<C, T>& 
+  basic_istream<C, T>&
   operator>>(basic_istream<C, T>& is, pass&) { return is; }
 
 template<typename C, typename T>
-  basic_istream<C, T>& 
+  basic_istream<C, T>&
   operator<<(basic_ostream<C, T>& os, pass const&) {return os; }
 
 
 // A streamable type using the polymorphic stream classes.
 struct poly { };
 
-std::istream& 
+std::istream&
 operator>>(std::istream& is, poly&) { return is; }
 
 std::ostream&
@@ -62,7 +62,7 @@ int main()
   static_assert(!Output_streamable<fail>(), "");
   static_assert(!Streamable<fail>(), "");
 
-  // TODO: Check for partially streamable type.  
+  // TODO: Check for partially streamable type.
 
 
   // 2-argument concept

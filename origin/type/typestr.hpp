@@ -22,18 +22,18 @@ namespace origin
   // Declarations.
   namespace type_impl
   {
-    template <typename... Args> 
+    template <typename... Args>
       struct typestr_dispatch;
-    
-    template <typename T> 
-      struct type_to_string;
-    
+
     template <typename T>
       struct type_to_string;
 
-    template <typename... Args> 
+    template <typename T>
+      struct type_to_string;
+
+    template <typename... Args>
       struct typelist_to_string;
-    
+
     std::string to_string(const std::type_info& info);
   } // namespace type_impl
 
@@ -49,7 +49,7 @@ namespace origin
   //    typestr(args...);
   //
   // The first returns a string containing the names of the explicitly specified
-  // type arguments. 
+  // type arguments.
   //
   // The second returns the types of the given arguments. Note that the string
   // returned from second overload will reflect the type deduction rules for

@@ -26,7 +26,7 @@ template <typename R>
 int main()
 {
   using V = vector<int>;
-  
+
   V v0 {0, 1, 2};
   V v1 {0, 1, 2};
   auto f1 = v1.begin();

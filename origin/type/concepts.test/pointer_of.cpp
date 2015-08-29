@@ -22,7 +22,7 @@ int main()
   // Test pointers (iterators in general)
   static_assert(Same<Pointer_of<int*>, int*>(), "");
   static_assert(Same<Pointer_of<const int*>, const int*>(), "");
-  
+
   // Test smart pointers.
   using P = unique_ptr<int>;
   using Cp = unique_ptr<const int>;

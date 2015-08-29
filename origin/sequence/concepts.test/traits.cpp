@@ -54,7 +54,7 @@ int main()
 {
   member m;
   const member& cm = m;
-  
+
   check_be(m);
   check_be(cm);
 

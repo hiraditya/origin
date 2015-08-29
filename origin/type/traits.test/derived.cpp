@@ -22,7 +22,7 @@ int main()
 
   // Derived is reflexive.
   static_assert(Derived<base, base>(), "");
-  
+
   // Derivation defines a subtype relation.
   static_assert(Derived<derived, base>(), "");
   static_assert(!Derived<base, derived>(), "");

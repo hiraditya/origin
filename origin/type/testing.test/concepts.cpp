@@ -22,9 +22,9 @@ int main()
   // Equality comparable
   check_equality_comparable<short>();
   check_equality_comparable<int, long>();
-  // check_equality_comparable<string, const char*>(cxt);  
+  // check_equality_comparable<string, const char*>(cxt);
 
-  // Weakly ordered 
+  // Weakly ordered
   check_weakly_ordered<int>();
   check_weakly_ordered<int, long>();
   // check_weakly_ordered<string, const char*>(cxt);

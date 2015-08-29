@@ -94,7 +94,7 @@ int main()
   sort_heap(v2.begin(), v2.end());
   assert(v1 == v2);
 
-  
+
   // Check make, is, and sort with comp
   make_heap(v1, lt);
   make_heap(v2.begin(), v2.end(), lt);

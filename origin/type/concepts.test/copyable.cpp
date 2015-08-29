@@ -20,14 +20,14 @@ int main()
   static_assert(Copyable<int>(), "");
   static_assert(Copyable<string>(), "");
   static_assert(Copyable<vector<int>>(), "");
-  
-  
+
+
   // Resources are not copyable
   static_assert(!Copyable<unique_ptr<int>>(), "");
 
   // Function objects are generally copyable.
   static_assert(Copyable<std::less<int>>(), "");
-  
+
   // Lambda expressions are copy constructible, but not assignable.
   auto f = [](){ return; };
   using F = decltype(f);

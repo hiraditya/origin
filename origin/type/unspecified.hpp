@@ -16,7 +16,7 @@ namespace origin
   // The unspecified type is a tag class used to indicate that an argument for a
   // template parameter has not been specified.
   struct unspecified_t { };
-  
+
 } // namespace origin
 
 #endif

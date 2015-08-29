@@ -9,7 +9,7 @@
 ## Define an Origin module in the current directory.
 ##
 ##    origin_module(
-##      VERSION version 
+##      VERSION version
 ##      AUTHORS authors
 ##      IMPORT libs
 ##      EXPORT comps
@@ -18,8 +18,8 @@
 ##
 ## A module is...
 ##
-## The list of IMPORTS gives the set of Origin modules which this module 
-## depends. Each imported module results in a physical dependency for the 
+## The list of IMPORTS gives the set of Origin modules which this module
+## depends. Each imported module results in a physical dependency for the
 ## constructed binary.
 ##
 ## The list of EXPORTS is a list of files in the module directory without
@@ -39,7 +39,7 @@
 ##
 ##    ORIGIN_CURRENT_MODULE         -- The current module name (all lower case)
 ##    ORIGIN_CURRENT_LIBRARY_TARGET -- The binary built by the current mdoule
-## 
+##
 macro(origin_module)
 
   parse_arguments(
@@ -49,7 +49,7 @@ macro(origin_module)
     ${ARGN})
 
   # Compute the module name by finding the relative path to the current
-  # module directory and pre-pending "origin". 
+  # module directory and pre-pending "origin".
   if(ORIGIN_OUT_OF_TRUNK)
     # If we're out of the trunk, then pretend that the current source dir
     # would be a module hanging off of the module root (i.e., origin.fake).
@@ -101,7 +101,7 @@ endmacro()
 # Verify that the imports are valid and create a variable that stores
 # the list.
 #
-# FIXME: Can we accept imports like gmp, mpfr, 
+# FIXME: Can we accept imports like gmp, mpfr,
 macro(check_imports)
   # FIXME: Is there nothing we can do here?
   set(ORIGIN_CURRENT_IMPORTS ${ARGV})
@@ -154,7 +154,7 @@ macro(build_component)
 
   # Build the library...
   add_library(${ORIGIN_CURRENT_LIBRARY_TARGET} STATIC ${src})
-  
+
   # And link our dependencies.
   foreach(i ${ORIGIN_CURRENT_IMPORTS})
     target_link_libraries(${target} ${i})
@@ -200,7 +200,7 @@ macro(build_unit_test exp file)
   add_executable(${exe} ${file})
   set_target_properties(${exe} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${out})
   link_imports(${exe} ${ORIGIN_CURRENT_MODULE})
-  
+
   # Generate the test. Be sure to point to the correct executable!
   add_test(${test} ${out}/${exe})
 endmacro()

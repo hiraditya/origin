@@ -166,7 +166,7 @@ namespace origin
   //    none_match(first, last, value, comp)
   //    none_match(range, value)
   //    none_match(range, value, comp)
-    
+
   // Returns true if pred(x) is false for all x in range.
   template<typename R, typename P>
     inline bool
@@ -247,7 +247,7 @@ namespace origin
   // The find algorithms search///
 
   template <typename R, typename T>
-    inline Iterator_of<R> 
+    inline Iterator_of<R>
     find(R&& range, const T& value)
     {
       using std::begin;
@@ -287,7 +287,7 @@ namespace origin
   // Returns:
   //   The first iterator in [first + 1, last) where *i == value.
   //
-  // Remarks: 
+  // Remarks:
   //   This algorithm is not a part of the C++ standard library.
   template <typename I, typename T>
     inline I
@@ -315,7 +315,7 @@ namespace origin
   // Returns:
   //   The first iterator in [first + 1, last) where pred(*i) is true.
   //
-  // Remarks: 
+  // Remarks:
   //   This algorithm is not a part of the C++ standard library.
   template <typename I, typename P>
     inline I
@@ -333,7 +333,7 @@ namespace origin
   //////////////////////////////////////////////////////////////////////////////
   // Find End
   //
-  
+
   // NOTE: This should be called search_end or search_last. It's not really
   // a find algorithm.
   template <typename R1, typename R2>
@@ -342,7 +342,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::find_end(begin(range1), end(range1), 
+      return std::find_end(begin(range1), end(range1),
                            begin(range2), end(range2));
     }
 
@@ -353,7 +353,7 @@ namespace origin
       using std::begin;
       using std::end;
       return std::find_end(begin(range1), end(range1),
-                           begin(range2), end(range2), 
+                           begin(range2), end(range2),
                            comp);
     }
 
@@ -456,7 +456,7 @@ namespace origin
   //
 
   template <typename R1, typename R2>
-    inline bool 
+    inline bool
     range_is_permutation(const R1& range1, const R2& range2)
     {
       using std::begin;
@@ -465,13 +465,13 @@ namespace origin
     }
 
   template <typename R1, typename R2, typename C>
-    inline bool 
+    inline bool
     range_is_permutation(const R1& range1, const R2& range2, C comp)
     {
       using std::begin;
       using std::end;
-      return std::is_permutation(begin(range1), end(range1), 
-                                 begin(range2), 
+      return std::is_permutation(begin(range1), end(range1),
+                                 begin(range2),
                                  comp);
     }
 
@@ -485,8 +485,8 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::search(begin(range1), end(range1), 
-                         begin(range2), end(range2)); 
+      return std::search(begin(range1), end(range1),
+                         begin(range2), end(range2));
     }
 
   template <typename R1, typename R2, typename C>
@@ -495,7 +495,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::search(begin(range1), end(range1), 
+      return std::search(begin(range1), end(range1),
                          begin(range2), end(range2),
                          comp);
     }
@@ -610,9 +610,9 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::transform(begin(range1), end(range1), 
-                            begin(range2), 
-                            begin(range3), 
+      return std::transform(begin(range1), end(range1),
+                            begin(range2),
+                            begin(range3),
                             op);
     }
 
@@ -645,7 +645,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::replace_copy(begin(range1), end(range1), 
+      return std::replace_copy(begin(range1), end(range1),
                                begin(range2),
                                orig,
                                value);
@@ -657,9 +657,9 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::replace_copy_if(begin(range1), end(range1), 
-                                 begin(range2), 
-                                 pred, 
+      return std::replace_copy_if(begin(range1), end(range1),
+                                 begin(range2),
+                                 pred,
                                  value);
     }
 
@@ -701,8 +701,8 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::remove_copy_if(begin(range1), end(range1), 
-                                 begin(range2), 
+      return std::remove_copy_if(begin(range1), end(range1),
+                                 begin(range2),
                                  pred);
     }
 
@@ -797,7 +797,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::random_shuffle(begin(range), end(range), 
+      return std::random_shuffle(begin(range), end(range),
                                  std::forward<Gen>(gen));
     }
 
@@ -847,7 +847,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::partition_copy(begin(range1), end(range1), 
+      return std::partition_copy(begin(range1), end(range1),
                                  begin(true_range),
                                  begin(false_range),
                                  pred);
@@ -892,7 +892,7 @@ namespace origin
     }
 
   template <typename R>
-    inline void 
+    inline void
     stable_sort(R&& range)
     {
       using std::begin;
@@ -919,7 +919,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::partial_sort_copy(begin(range1), end(range1), 
+      return std::partial_sort_copy(begin(range1), end(range1),
                                     begin(range2), end(range2));
     }
 
@@ -930,7 +930,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::partial_sort_copy(begin(range1), end(range1), 
+      return std::partial_sort_copy(begin(range1), end(range1),
                                     begin(range2), end(range2),
                                     comp);
     }
@@ -1086,7 +1086,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::includes(begin(range1), end(range1), 
+      return std::includes(begin(range1), end(range1),
                            begin(range2), end(range2));
     }
 
@@ -1096,7 +1096,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::includes(begin(range1), end(range1), 
+      return std::includes(begin(range1), end(range1),
                            begin(range2), end(range2),
                            comp);
     }
@@ -1108,7 +1108,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::set_union(begin(range1), end(range1), 
+      return std::set_union(begin(range1), end(range1),
                             begin(range2), end(range2),
                             begin(result));
     }
@@ -1119,7 +1119,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::set_union(begin(range1), end(range1), 
+      return std::set_union(begin(range1), end(range1),
                             begin(range2), end(range2),
                             begin(result),
                             comp);
@@ -1132,7 +1132,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::set_intersection(begin(range1), end(range1), 
+      return std::set_intersection(begin(range1), end(range1),
                                    begin(range2), end(range2),
                                    begin(result));
     }
@@ -1143,7 +1143,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::set_intersection(begin(range1), end(range1), 
+      return std::set_intersection(begin(range1), end(range1),
                                    begin(range2), end(range2),
                                    begin(result),
                                    comp);
@@ -1156,7 +1156,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::set_difference(begin(range1), end(range1), 
+      return std::set_difference(begin(range1), end(range1),
                                  begin(range2), end(range2),
                                  begin(result));
     }
@@ -1167,7 +1167,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::set_difference(begin(range1), end(range1), 
+      return std::set_difference(begin(range1), end(range1),
                                  begin(range2), end(range2),
                                  begin(result),
                                  comp);
@@ -1179,7 +1179,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::set_difference(begin(range1), end(range1), 
+      return std::set_difference(begin(range1), end(range1),
                                  begin(range2), end(range2),
                                  begin(result));
     }
@@ -1190,7 +1190,7 @@ namespace origin
     {
       using std::begin;
       using std::end;
-      return std::set_symmetric_difference(begin(range1), end(range1), 
+      return std::set_symmetric_difference(begin(range1), end(range1),
                                            begin(range2), end(range2),
                                            begin(result),
                                            comp);
@@ -1200,7 +1200,7 @@ namespace origin
   // Heap Operations
 
   template <typename R>
-    inline void 
+    inline void
     push_heap(R&& range)
     {
       using std::begin;
@@ -1371,7 +1371,7 @@ namespace origin
   // in the standard library. The standard min/max algorithms require that the
   // result type is const T& (although T& should be fine, too). We relax the
   // strict reference requirement so that the result is simply that of
-  // dereferencing the iterator. This makes these algorithms work with 
+  // dereferencing the iterator. This makes these algorithms work with
   // vector<bool>, for example.
 
   template <typename R>

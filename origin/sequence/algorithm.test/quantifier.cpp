@@ -46,7 +46,7 @@ check_none_match()
   assert(none_match(v, 1, equal_to<int>{}));
 }
 
-int 
+int
 main()
 {
   using V = vector<int>;

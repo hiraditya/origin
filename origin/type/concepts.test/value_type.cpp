@@ -30,7 +30,7 @@ int main()
   // Some types don't have value types.
   static_assert(!Has_value_type<fail>(), "");
 
-  
+
   // Check the value type for pointers.
   static_assert(Has_value_type<int*>(), "");
   static_assert(Same<Value_type<int*>, int>(), "");

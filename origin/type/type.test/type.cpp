@@ -15,7 +15,7 @@ using namespace origin;
 using namespace origin::testing;
 
 template <typename T>
-  struct foo 
+  struct foo
   {
     static_assert(Integer<T>(), "");
   };

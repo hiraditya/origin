@@ -47,8 +47,8 @@ template <typename M1, typename T, typename M2>
     assert(same_extents(a.descriptor(), b.descriptor()));
 
     matrix<T, M1::order> r(a.descriptor());
-    transform(a.begin(), a.end(), b.begin(), r.begin(), [&](T x, T y) { 
-      return x * c + y; 
+    transform(a.begin(), a.end(), b.begin(), r.begin(), [&](T x, T y) {
+      return x * c + y;
     });
     return r;
   }
@@ -61,7 +61,7 @@ dot_product(const M1& a, const M2& b)
   return inner_product(a.begin(), a.end(), b.begin(), 0.0);
 }
 
-Vec 
+Vec
 multiply(const Mat& A, const Vec& x)
 {
   const size_t n = A.rows();
@@ -129,7 +129,7 @@ partial_pivoting(Mat& A, Vec& b)
   }
 }
 
-Vec 
+Vec
 back_substitution(const Mat& A, const Vec& b)
 {
   const size_t n = A.rows();
@@ -144,7 +144,7 @@ back_substitution(const Mat& A, const Vec& b)
   return x;
 }
 
-Vec 
+Vec
 classical_guassian_elimination(Mat A, Vec b)
 {
   // classical_elimination(A, b);

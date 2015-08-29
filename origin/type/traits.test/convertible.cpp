@@ -12,7 +12,7 @@
 using namespace std;
 using namespace origin;
 
-struct s 
+struct s
 {
   explicit operator bool() const { return true; }
 };

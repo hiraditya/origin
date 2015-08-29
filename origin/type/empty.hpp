@@ -25,17 +25,17 @@ namespace origin
   // Reading or writing a streamable type is a no-op. Origin designates no
   // textual representation for objects of this type.
   template <typename Char, typename Traits>
-    inline std::basic_ostream<Char, Traits>& 
+    inline std::basic_ostream<Char, Traits>&
     operator<<(std::basic_ostream<Char, Traits>& os, empty_t)
-    { 
-      return os; 
+    {
+      return os;
     }
 
   template <typename Char, typename Traits>
-    inline std::basic_istream<Char, Traits>& 
+    inline std::basic_istream<Char, Traits>&
     operator>>(std::basic_istream<Char, Traits>& is, empty_t&)
-    { 
-      return is; 
+    {
+      return is;
     }
 
 } // namespace origin

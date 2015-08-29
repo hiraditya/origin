@@ -51,7 +51,7 @@ namespace origin
 
 
   template <typename A>
-    using Allocate_result = 
+    using Allocate_result =
       typename memory_impl::get_allocate_result<A>::type;
 
   template <typename A>
@@ -63,7 +63,7 @@ namespace origin
 
 
   template <typename A>
-    using Deallocate_result = 
+    using Deallocate_result =
       typename memory_impl::get_deallocate_result<A>::type;
 
   template <typename A>
@@ -92,7 +92,7 @@ namespace origin
   // An "allocating type" is one that dynamically allocates memory using an
   // allocator. The basic requirement of allocating types is that every
   // constructor (except move constructors) can take an additional argument of
-  // allocator type. 
+  // allocator type.
   template <typename A>
     constexpr bool Allocator()
     {

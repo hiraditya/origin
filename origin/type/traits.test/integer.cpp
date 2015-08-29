@@ -27,10 +27,10 @@ int main()
 
   static_assert(Integer<signed short>(), "");
   static_assert(Integer<unsigned short>(), "");
-  
+
   static_assert(Same<Make_signed<signed short>, signed short>(), "");
   static_assert(Same<Make_signed<unsigned short>, signed short>(), "");
-  
+
   static_assert(Same<Make_unsigned<signed short>, unsigned short>(), "");
   static_assert(Same<Make_unsigned<unsigned short>, unsigned short>(), "");
 
@@ -40,7 +40,7 @@ int main()
 
   static_assert(Same<Make_signed<signed int>, signed int>(), "");
   static_assert(Same<Make_signed<unsigned int>, signed int>(), "");
-  
+
   static_assert(Same<Make_unsigned<signed int>, unsigned int>(), "");
   static_assert(Same<Make_unsigned<unsigned int>, unsigned int>(), "");
 
@@ -50,7 +50,7 @@ int main()
 
   static_assert(Same<Make_signed<signed long>, signed long>(), "");
   static_assert(Same<Make_signed<unsigned long>, signed long>(), "");
-  
+
   static_assert(Same<Make_unsigned<signed long>, unsigned long>(), "");
   static_assert(Same<Make_unsigned<unsigned long>, unsigned long>(), "");
 
@@ -60,7 +60,7 @@ int main()
 
   static_assert(Same<Make_signed<signed long long>, signed long long>(), "");
   static_assert(Same<Make_signed<unsigned long long>, signed long long>(), "");
-  
+
   static_assert(Same<Make_unsigned<signed long long>, unsigned long long>(), "");
   static_assert(Same<Make_unsigned<unsigned long long>, unsigned long long>(), "");
 }

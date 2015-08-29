@@ -49,7 +49,7 @@ void test_init()
   // matrix<int, 2> m5 {1, 2, 3, 4, 5, 6};
 
   // Must be non-jagged.
-  // matrix<int, 2> m6 { // This must fail at runtime. 
+  // matrix<int, 2> m6 { // This must fail at runtime.
   //   {1, 2, 3},
   //   {1, 2}
   // };
@@ -95,7 +95,7 @@ void test_slice()
   cout << sm1 << '\n'; // 5 6 7
 
   auto sm2 = m(slice(2), 1);
-  cout << sm2 << '\n'; // 9 
+  cout << sm2 << '\n'; // 9
                        // 13
 
   auto sm3 = m(slice(1), slice(1));

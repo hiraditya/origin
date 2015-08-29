@@ -35,7 +35,7 @@ namespace origin
   //
   // FIXME: A matrix is substantially more complex than this. Finish defining
   // and implementing the concept. There is an interesting design question
-  // here. What are the minimum requirements of a Matrix? Surely we can't 
+  // here. What are the minimum requirements of a Matrix? Surely we can't
   // require all arithmetic operations.
   template <typename M>
     constexpr bool Matrix()
@@ -46,7 +46,7 @@ namespace origin
 
   // The matrix initializer is a sequence of nested initializer lists that
   // describes the initailization structure of an N dimensional matrix. For
-  // example, an initializer for a 2D matrix of ints allows us to construct 
+  // example, an initializer for a 2D matrix of ints allows us to construct
   // the following initializer list:
   //
   //    {{0, 1},

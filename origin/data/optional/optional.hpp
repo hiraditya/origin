@@ -18,7 +18,7 @@ namespace origin
   //////////////////////////////////////////////////////////////////////////////
   // Optional
   //
-  // The optional class template implements an optional "qualifier". The 
+  // The optional class template implements an optional "qualifier". The
   // optional class extends the set of values of an underlying value type
   // with an "invalid" value, much like nullptr for pointer types.
   //
@@ -40,22 +40,22 @@ namespace origin
 
       // Default constructor
       optional();
-      
+
       // Move semantics
       optional(optional&& x);
       optional& operator=(optional&& x);
-      
+
       // Copy semantics
       optional(optional const& x);
       optional& operator=(optional const& x);
-      
-      
+
+
       // Value initialization
-      template <typename... Args, 
+      template <typename... Args,
                 typename = Requires<Constructible<T, Args...>()>>
         optional(Args&&... args);
 
-      template <typename Arg, 
+      template <typename Arg,
                 typename = Requires<Assignable<T, Arg>()>>
         optional& operator=(Arg&& args);
 
@@ -63,7 +63,7 @@ namespace origin
                 typename = Requires<Constructible<T, Args...>()>>
         void assign(Args&&... args);
 
-      
+
       // Nullptr initialization
       optional(std::nullptr_t);
       optional& operator=(std::nullptr_t);
@@ -74,7 +74,7 @@ namespace origin
 
       // Returns true if the value is initialized.
       bool initialized() const { return init; }
-      
+
       // Dereference
       // Return a reference to the underlying object.
       T&       operator*()       { return get(); }
@@ -87,7 +87,7 @@ namespace origin
 
       // Boolean
       explicit operator bool() const { return init; }
-      
+
       // Mutators
       void swap(optional& x);
       void clear();
@@ -96,7 +96,7 @@ namespace origin
       // Return a pointer to the underlying memory.
       T*       ptr()       { return reinterpret_cast<T*>(&mem); }
       const T* ptr() const { return reinterpret_cast<T const*>(&mem); }
-      
+
       // Checked pointer access
       T&       get()       { assert(init); return *ptr(); }
       const T& get() const { assert(init); return *ptr(); }
@@ -125,12 +125,12 @@ namespace origin
 
   template <typename T>
     inline
-    optional<T>::optional() 
+    optional<T>::optional()
       : init(false)
     { }
 
   // Move semantics
-  template <typename T>      
+  template <typename T>
     inline
     optional<T>::optional(optional&& x)
       : init(x.init)
@@ -139,7 +139,7 @@ namespace origin
         new (ptr()) T {std::move(x.get())};
       x.init = false;
     }
-    
+
   template <typename T>
     inline auto
     optional<T>::operator=(optional&& x) -> optional&
@@ -152,10 +152,10 @@ namespace origin
       } else {
         if (x.init)
           construct(std::move(*x.ptr()));
-      }     
+      }
       return *this;
     }
-    
+
   // Copy semantics
   template <typename T>
     inline
@@ -165,10 +165,10 @@ namespace origin
       if (x.init)
         new (ptr()) T(x.get());
     }
-    
+
   template <typename T>
     inline auto
-    optional<T>::operator=(optional const& x) -> optional& 
+    optional<T>::operator=(optional const& x) -> optional&
     {
       if (init) {
         if (x.init)
@@ -193,11 +193,11 @@ namespace origin
 
   template <typename T>
     template <typename Arg, typename Req>
-      inline auto 
+      inline auto
       optional<T>::operator=(Arg&& arg) -> optional&
       {
         assign(std::forward<Arg>(arg));
-        return *this; 
+        return *this;
       }
 
   template <typename T>
@@ -213,7 +213,7 @@ namespace origin
 
     // Nullptr initialization
   template <typename T>
-    inline 
+    inline
     optional<T>::optional(std::nullptr_t)
       : init {false}
     { }
@@ -221,22 +221,22 @@ namespace origin
   template <typename T>
     inline auto
     optional<T>::operator=(std::nullptr_t) -> optional&
-    { 
-      clear(); 
-      return *this; 
+    {
+      clear();
+      return *this;
     }
 
-  // Destruction    
+  // Destruction
   template <typename T>
     inline
     optional<T>::~optional()
     {
       if (init)
-        ptr()->~T(); 
+        ptr()->~T();
     }
 
   template <typename T>
-    inline void 
+    inline void
     optional<T>::swap(optional& x)
     {
       std::swap(init, x.init);
@@ -244,7 +244,7 @@ namespace origin
     }
 
   template <typename T>
-    inline void 
+    inline void
     optional<T>::clear()
     {
       if(init) {
@@ -260,7 +260,7 @@ namespace origin
   // Two optional objects compare equal when they have the same initialization
   // and the initializedd values compare true.
   template <typename T>
-    inline bool 
+    inline bool
     operator==(const optional<T>& a, const optional<T>& b)
     {
       if (a.initialized() == b.initialized())
@@ -268,9 +268,9 @@ namespace origin
       else
         return false;
     }
-    
+
   template <typename T>
-    inline bool 
+    inline bool
     operator!=(const optional<T>& a, const optional<T>& b)
     {
       return !(a == b);
@@ -281,62 +281,62 @@ namespace origin
   // An optional object, a, compares equal to an object b of type T when a
   // is initialized and has the same value as b.
   template <typename T>
-    inline bool 
-    operator==(const optional<T>& a, const T& b) 
-    { 
-      return a && *a == b; 
-    }
-  
-  template <typename T>
-    inline bool 
-    operator==(const T& a, const optional<T>& b) 
-    { 
-      return b && *b == a; 
+    inline bool
+    operator==(const optional<T>& a, const T& b)
+    {
+      return a && *a == b;
     }
 
   template <typename T>
-    inline bool 
-    operator!=(const T& a, const optional<T>& b) 
-    { 
-      return !(a == b); 
+    inline bool
+    operator==(const T& a, const optional<T>& b)
+    {
+      return b && *b == a;
     }
 
   template <typename T>
-    inline bool 
-    operator!=(const optional<T>& a, const T& b) 
-    { 
-      return !(a == b); 
+    inline bool
+    operator!=(const T& a, const optional<T>& b)
+    {
+      return !(a == b);
+    }
+
+  template <typename T>
+    inline bool
+    operator!=(const optional<T>& a, const T& b)
+    {
+      return !(a == b);
     }
 
 
   // Equality_comparable<Optional<T>, nullptr_t>
   // An optional object compares equal to nullptr when it is uninitialized.
   template <typename T>
-    inline bool 
-    operator==(const optional<T>& a, std::nullptr_t) 
-    { 
-      return !a; 
+    inline bool
+    operator==(const optional<T>& a, std::nullptr_t)
+    {
+      return !a;
     }
 
   template <typename T>
-    inline bool 
-    operator==(std::nullptr_t, const optional<T>& a) 
-    { 
-      return !a; 
+    inline bool
+    operator==(std::nullptr_t, const optional<T>& a)
+    {
+      return !a;
     }
 
   template <typename T>
-    inline bool 
-    operator!=(const optional<T>& a, std::nullptr_t) 
-    { 
-      return (bool)a; 
+    inline bool
+    operator!=(const optional<T>& a, std::nullptr_t)
+    {
+      return (bool)a;
     }
-  
+
   template <typename T>
-    inline bool 
-    operator!=(std::nullptr_t, const optional<T>& a) 
-    { 
-      return (bool)a; 
+    inline bool
+    operator!=(std::nullptr_t, const optional<T>& a)
+    {
+      return (bool)a;
     }
 
 
@@ -344,7 +344,7 @@ namespace origin
   // When considering total ordereings, the "uninitialized state" is considered
   // to be less than all other values.
   template <typename T>
-    inline bool 
+    inline bool
     operator<(const optional<T>& a, const optional<T>& b)
     {
       if(!b)
@@ -354,142 +354,142 @@ namespace origin
       else
         return *a < *b;
     }
-    
+
   template <typename T>
-    inline bool 
-    operator>(const optional<T>& a, const optional<T>& b) 
-    { 
+    inline bool
+    operator>(const optional<T>& a, const optional<T>& b)
+    {
       return b < a;
-    }
-    
-  template <typename T>
-    inline bool 
-    operator<=(const optional<T>& a, const optional<T>& b) 
-    { 
-      return !(b < a); 
     }
 
   template <typename T>
-    inline bool 
-    operator>=(const optional<T>& a, const optional<T>& b) 
-    { 
+    inline bool
+    operator<=(const optional<T>& a, const optional<T>& b)
+    {
+      return !(b < a);
+    }
+
+  template <typename T>
+    inline bool
+    operator>=(const optional<T>& a, const optional<T>& b)
+    {
       return !(a < b);
     }
 
     // Totally_ordered<optional<T>, T>
   template <typename T>
-    inline bool 
-    operator<(const optional<T>& a, const T& b) 
+    inline bool
+    operator<(const optional<T>& a, const T& b)
     {
-      return a ? *a < b : true; 
-    }
-    
-  template <typename T>
-    inline bool 
-    operator<(const T& a, const optional<T>& b) 
-    { 
-      return b ? a < *b : false; 
-    }
-    
-  template <typename T>
-    inline bool 
-    operator>(const optional<T>& a, const T& b)  
-    { 
-      return a ? *a > b : false;
-    }
-    
-  template <typename T>
-    inline bool 
-    operator>(const T& b, const optional<T>& a)  
-    { 
-      return a ? b > *a : true;
-    }
-    
-  template <typename T>
-    inline bool 
-    operator<=(const optional<T>& a, const T& b) 
-    { 
-      return !(b < a); 
-    }
-    
-  template <typename T>
-    inline bool 
-    operator<=(const T& a, const optional<T>& b) 
-    { 
-      return !(b < a); 
-    }
-    
-  template <typename T>
-    inline bool 
-    operator>=(const optional<T>& a, const T& b) 
-    { 
-      return !(a < b); 
-    }
-    
-  template <typename T>
-    inline bool 
-    operator>=(const T& a, const optional<T>& b) 
-    { 
-      return !(a < b); 
+      return a ? *a < b : true;
     }
 
-  
+  template <typename T>
+    inline bool
+    operator<(const T& a, const optional<T>& b)
+    {
+      return b ? a < *b : false;
+    }
+
+  template <typename T>
+    inline bool
+    operator>(const optional<T>& a, const T& b)
+    {
+      return a ? *a > b : false;
+    }
+
+  template <typename T>
+    inline bool
+    operator>(const T& b, const optional<T>& a)
+    {
+      return a ? b > *a : true;
+    }
+
+  template <typename T>
+    inline bool
+    operator<=(const optional<T>& a, const T& b)
+    {
+      return !(b < a);
+    }
+
+  template <typename T>
+    inline bool
+    operator<=(const T& a, const optional<T>& b)
+    {
+      return !(b < a);
+    }
+
+  template <typename T>
+    inline bool
+    operator>=(const optional<T>& a, const T& b)
+    {
+      return !(a < b);
+    }
+
+  template <typename T>
+    inline bool
+    operator>=(const T& a, const optional<T>& b)
+    {
+      return !(a < b);
+    }
+
+
   // Totally_ordered<optional<T>, nullptr_t>
   // In these comparisons, nullptr is used to represent the uninitialized state.
   template <typename T>
-    inline bool 
-    operator<(const optional<T>& a, std::nullptr_t)  
+    inline bool
+    operator<(const optional<T>& a, std::nullptr_t)
     {
-      return false; 
+      return false;
     }
-    
+
   template <typename T>
-    inline bool 
-    operator<(std::nullptr_t, const optional<T>& b)  
-    { 
-      return (bool)b; 
+    inline bool
+    operator<(std::nullptr_t, const optional<T>& b)
+    {
+      return (bool)b;
     }
-    
+
   template <typename T>
-    inline bool 
-    operator>(const optional<T>& a, std::nullptr_t)  
-    { 
-      return (bool)a; 
+    inline bool
+    operator>(const optional<T>& a, std::nullptr_t)
+    {
+      return (bool)a;
     }
-    
+
   template <typename T>
-    inline bool 
-    operator>(std::nullptr_t, const optional<T>& a)  
-    { 
-      return false; 
+    inline bool
+    operator>(std::nullptr_t, const optional<T>& a)
+    {
+      return false;
     }
-    
+
   template <typename T>
-    inline bool 
-    operator<=(const optional<T>& a, std::nullptr_t) 
-    { 
-      return !a; 
+    inline bool
+    operator<=(const optional<T>& a, std::nullptr_t)
+    {
+      return !a;
     }
-    
+
   template <typename T>
-    inline bool 
-    operator<=(std::nullptr_t, const optional<T>& b) 
-    { 
-      return true; 
+    inline bool
+    operator<=(std::nullptr_t, const optional<T>& b)
+    {
+      return true;
     }
-    
+
   template <typename T>
-    inline bool 
-    operator>=(const optional<T>& a, std::nullptr_t) 
-    { 
-      return true; 
+    inline bool
+    operator>=(const optional<T>& a, std::nullptr_t)
+    {
+      return true;
     }
-    
+
   template <typename T>
-    inline bool 
-    operator>=(std::nullptr_t, const optional<T>& b) 
-    { 
-      return !b; 
+    inline bool
+    operator>=(std::nullptr_t, const optional<T>& b)
+    {
+      return !b;
     }
 
 

@@ -11,7 +11,7 @@
 #include <cstdint>
 #include <functional>
 
-namespace origin 
+namespace origin
 {
   // ------------------------------------------------------------------------ //
   //                                                              [graph.handle]
@@ -35,46 +35,46 @@ namespace origin
 
     // Integral
     operator std::size_t() const { return value; }
-    
+
     // Hashable
     std::size_t hash() const;
-    
+
     std::size_t value;
   };
-  
+
   inline
   handle::handle(std::size_t n) : value(n) { }
 
-  inline 
+  inline
   handle::operator bool() const { return value != npos; }
-  
-  inline std::size_t 
+
+  inline std::size_t
   handle::hash() const { return std::hash<std::size_t>{}(value); }
 
   // Equality
-  inline bool 
+  inline bool
   operator==(handle a, handle b) { return a.value == b.value; }
-  
-  inline bool 
+
+  inline bool
   operator!=(handle a, handle b) { return !(a == b); }
 
   // Ordering
-  inline bool 
+  inline bool
   operator<(handle a, handle b)
-  { 
+  {
     if (!a)
       return bool(b);
-    else 
-      return b ? a.value < b.value : false; 
+    else
+      return b ? a.value < b.value : false;
   }
-    
-  inline bool 
+
+  inline bool
   operator>(handle a, handle b) { return b < a; }
-  
-  inline bool 
+
+  inline bool
   operator<=(handle a, handle b) { return !(b < a); }
-  
-  inline bool 
+
+  inline bool
   operator>=(handle a, handle b) { return !(a < b); }
 
 
@@ -200,19 +200,19 @@ namespace origin
 
 
 // Natively support the standard hashing protocol for vertex handles.
-namespace std 
+namespace std
 {
   template<>
     struct hash<origin::vertex_handle>
     {
-      std::size_t 
+      std::size_t
       operator()(origin::vertex_handle x) const { return x.hash(); }
     };
 
   template<typename E>
     struct hash<origin::multi_edge_handle<E>>
     {
-      std::size_t 
+      std::size_t
       operator()(const origin::multi_edge_handle<E>& h) { return h.hash(); }
     };
 

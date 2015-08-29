@@ -23,14 +23,14 @@ template<typename Q>
   };
 
 template<typename Q>
-  const hack_queue<Q>& 
+  const hack_queue<Q>&
   hack(const Q& q)
   {
     return reinterpret_cast<const hack_queue<Q>&>(q);
   }
 
 template<typename P>
-  void 
+  void
   print_queue(const P& p)
   {
     using Hack = hack_queue<typename P::queue_type>;
@@ -161,7 +161,7 @@ check_pool_reuse()
 }
 
 // Erase elements left-to-right, and then re-build the list.
-void 
+void
 check_pool_yoyo_lr()
 {
   std::cout << "*** yoyo (lr) ***\n";
@@ -176,7 +176,7 @@ check_pool_yoyo_lr()
   debug_pool(p);
 }
 
-void 
+void
 check_pool_yoyo_rl()
 {
   std::cout << "*** yoyo (rl) ***\n";

@@ -12,8 +12,8 @@ origin_module(
   EXPORT default
          unspecified
          empty
-         traits 
-         concepts 
+         traits
+         concepts
          typestr
          type
          testing

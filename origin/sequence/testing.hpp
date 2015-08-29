@@ -48,7 +48,7 @@ namespace origin
     // Regularity of Readable Iterators
     //
     // A readable iterator can be dereferenced multiple times, and without any
-    // interleaving traversal operators. 
+    // interleaving traversal operators.
     //
     // Note that it is not universally required that the resulting of
     // dereferencing the same iterator always returns the same value, although
@@ -247,7 +247,7 @@ namespace origin
       {
         template <typename Rv>
           void operator()(Rv&& rvar)
-          { 
+          {
             quick_check(read, rvar);
           }
 
@@ -259,7 +259,7 @@ namespace origin
     ////////////////////////////////////////////////////////////////////////////
     // Writable Range
     //
-    // The objects in a writable range can be assigned values of type T. 
+    // The objects in a writable range can be assigned values of type T.
     //
     // Note that this test is specialized so that tests where T has type U&&
     // actually uses the move assignment test. When T has some other type, both
@@ -302,7 +302,7 @@ namespace origin
       {
         template <typename Rv>
           void operator()(Rv&& rvar)
-          { 
+          {
             auto tvar = quantify_over<Value_type<R>>();
             quick_check(move, rvar, tvar, tvar);
           }
@@ -321,7 +321,7 @@ namespace origin
       {
         template <typename Rv>
           void operator()(Rv&& rvar)
-          { 
+          {
             auto tvar = quantify_over<Value_type<R>>();
             quick_check(move, rvar, tvar, tvar);
             quick_check(copy, rvar, tvar);
@@ -335,7 +335,7 @@ namespace origin
     ////////////////////////////////////////////////////////////////////////////
     // Weakly Incrementable Range
     //
-    // NOTE: This can't really be tested with weakly incrementable types. 
+    // NOTE: This can't really be tested with weakly incrementable types.
     template <typename R>
       struct weakly_incrementable_range
       {
@@ -432,7 +432,7 @@ namespace origin
 
     // Check that R satisfies the requirements of Readable_range.
     template <typename R>
-      void 
+      void
       check_readable_range(R&& range)
       {
         auto rvar = quantify_over_range(range);
@@ -443,7 +443,7 @@ namespace origin
     // to the type T. Note that T may be (and is generally expected to be)
     // a reference type.
     template <typename T, typename R>
-      void 
+      void
       check_writable_range(R&& range)
       {
         auto rvar = quantify_over_range(range);
@@ -453,7 +453,7 @@ namespace origin
 
     // Check that R sastisifes the requirements of Permutable_range.
     template <typename R>
-      void 
+      void
       check_permutable_range(R&& range)
       {
         auto rvar = quantify_over_range(range);
@@ -462,7 +462,7 @@ namespace origin
 
     // Check that R satisfies the requirements of Mutable_range.
     template <typename R>
-      void 
+      void
       check_mutable_range(R&& range)
       {
         auto rvar = quantify_over_range(range);
@@ -470,7 +470,7 @@ namespace origin
       }
 
     template <typename R>
-      void 
+      void
       check_weakly_incrementable_range(R&& range)
       {
         auto rvar = quantify_over_range(range);

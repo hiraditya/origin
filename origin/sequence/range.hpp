@@ -31,10 +31,10 @@ namespace origin
   // iterators. Iterating over a bounded range is equivalent to iterating over
   // the same pair of iterators. That is:
   //
-  //    while (first != last) { 
+  //    while (first != last) {
   //      const auto& x = *first;
   //      // do something
-  //      ++first; 
+  //      ++first;
   //    }
   //
   // is euqivalent to:
@@ -42,13 +42,13 @@ namespace origin
   //    for (const auto& x : bounded_range<I>{first, last})
   //      // do something.
   //
-  // This is essentially the same as the boost::iterator_range, or 
+  // This is essentially the same as the boost::iterator_range, or
   // std::pair<I, I> with appropriate overloads for begin and end.
   //
   // Template parameters:
   //    I -- An Iterator type.
   //
-  // Invariants: 
+  // Invariants:
   //    is_bounded_range(this->begin(), this->end());
   template <typename I>
     class bounded_range
@@ -60,7 +60,7 @@ namespace origin
 
       // Initialize the bounded range so that both values are the same. The
       // range is initially empty.
-      bounded_range() 
+      bounded_range()
         : first(), last(first)
       { }
 
@@ -103,16 +103,16 @@ namespace origin
 
   // functions.
   template <typename T>
-    inline constexpr 
-    auto size(const T& x) -> decltype(x.size()) 
-    { 
-      return x.size(); 
+    inline constexpr
+    auto size(const T& x) -> decltype(x.size())
+    {
+      return x.size();
     }
 
  // For ranges without r.size().
   template <typename R>
-    inline auto 
-    size(const R& range) 
+    inline auto
+    size(const R& range)
       -> Requires<Range<R>() && !Has_member_size<R>(),
                   Make_unsigned<Difference_type<R>>
       >
@@ -121,7 +121,7 @@ namespace origin
       using std::end;
       return distance(begin(range), end(range));
     }
-  
+
 
 
 } // namespace origin

@@ -17,7 +17,7 @@ using namespace origin;
 // as part of the testing library.
 
 
-// Check that the range-based is_sorted algorithm is equivalent to the 
+// Check that the range-based is_sorted algorithm is equivalent to the
 // iterator-based algorithm. The property can check the following properties:
 //
 //    is_sorted(range)       <=> is_sorted(begin(range), end(range))
@@ -45,7 +45,7 @@ struct sorted_range
     }
 };
 
-// Check that the range-based is_sorted_until algorithm is equivalent to the 
+// Check that the range-based is_sorted_until algorithm is equivalent to the
 // iterator-based algorithm. The property can check the following properties:
 //
 //    is_sorted_until(range)       <=> is_sorted_until(begin(range), end(range))

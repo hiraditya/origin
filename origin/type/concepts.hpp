@@ -36,7 +36,7 @@ namespace origin
   //    Boolean<int>()    // returns true
   //    Boolean<void*>()  // returns true
   //    Boolean<string>() // returns false.
-  // 
+  //
   // This concept is primarily defined as a more concise way of writing
   // Convertible<T, bool>.
   //
@@ -70,7 +70,7 @@ namespace origin
   //
   //    Equality_comparable<T>()
   //    Equality_comparable<T, U>()
-  // 
+  //
   // The unary concept determines if objects of type T can be compared using
   // == and !=. The semantics of the == operator is that it implement the
   // equality relation (see [concepts.eq]); it must be an equivalence relation
@@ -134,7 +134,7 @@ namespace origin
   // Note that there is no partially ordered concept for types. The reason for
   // this is that we expect all relational operators to be total operations in
   // the sense that all well-formed values of the type can be compared. There
-  // is, however, a partial ordering property that can be used to describe 
+  // is, however, a partial ordering property that can be used to describe
   // specific relations.
 
 
@@ -163,7 +163,7 @@ namespace origin
   //
   // Note that weakly ordered types are rarely defined in practice. If one can
   // define an ordering over values, then one can generally define a reasonable
-  // equality operator. The weakly ordered concept is 
+  // equality operator. The weakly ordered concept is
   //
   // The binary overload checks if T and U are cross-type weakly ordered. That
   // is, T and U must be individually weakly or totally ordered, T and U must
@@ -243,7 +243,7 @@ namespace origin
   //    Semiregular
   //    Regular
   //
-  // The reason that we refer to these as "object" concepts is that they 
+  // The reason that we refer to these as "object" concepts is that they
   // describe properties of types used to initialize (and destroy and compare)
   // objects.
   //
@@ -259,36 +259,36 @@ namespace origin
   //
   // A type T is movable if it is desctructible and can be both move constructed
   // and move assigned. Note that a type is still movable even if the
-  // constructor and assignment operator actually perform copies. 
+  // constructor and assignment operator actually perform copies.
   //
   // The function returns true if T satisfies the syntactic requirements of
   // movability.
   //
   //    Movable<int>()          // returns true
-  //    Movable<string>()       // returns true 
+  //    Movable<string>()       // returns true
   //    Movable<decltype([]{})> // returns false (not move assignable)
   //
   template <typename T>
     constexpr bool Movable()
     {
-      return Destructible<T>() 
-          && Move_constructible<T>() 
+      return Destructible<T>()
+          && Move_constructible<T>()
           && Move_assignable<T>();
     }
-    
-  
-    
+
+
+
   //////////////////////////////////////////////////////////////////////////////
   // Copyable                                              concepts.obj.copyable
   //
-  // A type T is copyable if it is movable and can be both copy constructed and 
+  // A type T is copyable if it is movable and can be both copy constructed and
   // copy assigned.
   //
   // The function returns true if T satisfies the syntactic requirements of
   // copyability.
   //
   //    Copyable<int>()          // returns true
-  //    Copyable<string>()       // returns true 
+  //    Copyable<string>()       // returns true
   //    Copyable<decltype([]{})> // returns false (not copy assignable)
   //
   // Template parameters:
@@ -300,22 +300,22 @@ namespace origin
   template <typename T>
     constexpr bool Copyable()
     {
-      return Movable<T>() 
-          && Copy_constructible<T>() 
+      return Movable<T>()
+          && Copy_constructible<T>()
           && Copy_assignable<T>();
     }
-    
-    
-  
+
+
+
   //////////////////////////////////////////////////////////////////////////////
   // Semiregular                                        concepts.obj.semiregular
   //
   // A semiregular type T is copyable and default constructible. Semiregular
-  // types are those that can be used in general ways: we can use them to 
+  // types are those that can be used in general ways: we can use them to
   // declare variables or arrays and pass them by value (i.e., copy) or move
   // them. For example, the following class is semiregular:
   //
-  //    struct Person 
+  //    struct Person
   //    {
   //      string first;
   //      string last;
@@ -374,8 +374,8 @@ namespace origin
   // Ordered                                                concepts.obj.ordered
   //
   // A type T is ordered if it is regular and totally ordered. This concept
-  // is primarily provided as a convenience for describing higher level 
-  // abstractions. 
+  // is primarily provided as a convenience for describing higher level
+  // abstractions.
   //
   // Template parameters:
   //    T -- The type being tested
@@ -404,7 +404,7 @@ namespace origin
   // - Relation
   // - Unary operation
   // - Binary operation
-      
+
 
 
   //////////////////////////////////////////////////////////////////////////////
@@ -429,7 +429,7 @@ namespace origin
     {
       return Copy_constructible<F>() && Has_call<F, Args...>();
     }
-    
+
 
 
   //////////////////////////////////////////////////////////////////////////////
@@ -473,16 +473,16 @@ namespace origin
   //
   // Returns:
   //    True if and only if P can be called with a sequence of arguments whose
-  //    types are given by the type parameter pack Args, and if the result of 
+  //    types are given by the type parameter pack Args, and if the result of
   //    of the function is Boolean.
   template <typename P, typename... Args>
     constexpr bool Predicate()
     {
       return Function<P, Args...>() && Boolean<Result_of<P(Args...)>>();
     }
-    
-    
-    
+
+
+
   //////////////////////////////////////////////////////////////////////////////
   // Relation                                             concepts.func.relation
   //
@@ -545,13 +545,13 @@ namespace origin
   // a generator is a nullary function (taking no arguments) that returns values
   // of a specified type. Generators are typically non-regular functions, since
   // they are often used to generate different values on subsequent calls.
-  // Random value generators are examples of generating functions. 
+  // Random value generators are examples of generating functions.
   //
   // Template parameters:
   //    G -- The function being tested
   //
   // Returns:
-  //    True if and only if G can be called with no arguments, and has a 
+  //    True if and only if G can be called with no arguments, and has a
   //    non-void result type.
   template <typename G>
     constexpr bool Generator()
@@ -639,12 +639,12 @@ namespace origin
   //
   // This concept ddescribes types that can be read from a stream using the
   // input stream operator (>>). There are two overloads of this concept:
-  //  
+  //
   //     Input_streamable<T>
   //     Input_streamable<S, T>
   //
-  // The first determines if T can be read from a stream derived from either 
-  // istream or wistream. Note that the two are equivalent are equivalent if 
+  // The first determines if T can be read from a stream derived from either
+  // istream or wistream. Note that the two are equivalent are equivalent if
   // the >> overloads are defined in terms of basic_istream.
   //
   // The concept returns true if values of type T can be read from an input
@@ -666,8 +666,8 @@ namespace origin
   //    Output_streamable<T>
   //    Output_streamable<S, T>
   //
-  // The first determines if T can be written to a stream derived from either 
-  // ostream or wostream. Note that the two are equivalent are equivalent if 
+  // The first determines if T can be written to a stream derived from either
+  // ostream or wostream. Note that the two are equivalent are equivalent if
   // the >> overloads are defined in terms of basic_ostream.
   //
   // The second determines if T can be written to the stream S.
@@ -787,10 +787,10 @@ namespace origin
   // The difference type is a type that encodes the largest possible difference
   // between two objects in memory. This is virtually always the same as
   // std::ptrdiff_t. In general, any kind of type that abstracts over pointers
-  // (e.g., iterators and containers) will provide an associated dfiference 
+  // (e.g., iterators and containers) will provide an associated dfiference
   // type.
   //
-  // Note that the difference type is always the same as the signed 
+  // Note that the difference type is always the same as the signed
   // representation of the size type.
   //
   // The origin of this abstraction is rooted in the different memory models
@@ -804,7 +804,7 @@ namespace origin
   // If T does not have an associated difference type, then the result of this
   // type function will indicate substitution failure.
   template <typename T>
-    using Difference_type = 
+    using Difference_type =
       typename difference_type_traits<T>::type;
 
 
@@ -820,7 +820,7 @@ namespace origin
   //////////////////////////////////////////////////////////////////////////////
   // Reference Of                                       concepts.types.reference
   //
-  // A type T may have an associated reference type, defined either as the 
+  // A type T may have an associated reference type, defined either as the
   // result of an operation or as a nested type. For example, an iterator's
   // reference type is the result of its dereference operator. A container's
   // associated reference type is explicitly declared as C::reference or

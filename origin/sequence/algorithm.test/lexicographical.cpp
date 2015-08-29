@@ -26,9 +26,9 @@ int main()
   V v2 {0, 1, 2, 3, 4};
   std::less<int> lt;
 
-  assert(lexicographical_compare(v1, v2) == 
+  assert(lexicographical_compare(v1, v2) ==
          lexicographical_compare(v1.begin(), v1.end(), v2.begin(), v2.end()));
 
-  assert(lexicographical_compare(v1, v2, lt) == 
+  assert(lexicographical_compare(v1, v2, lt) ==
          lexicographical_compare(v1.begin(), v1.end(), v2.begin(), v2.end(), lt));
 }

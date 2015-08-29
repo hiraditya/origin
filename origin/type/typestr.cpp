@@ -19,7 +19,7 @@ namespace origin
         static constexpr std::size_t max_buffer = 8192;
         char buf[max_buffer];
         std::size_t n = max_buffer;
-        abi::__cxa_demangle(info.name(), buf, &n, 0); 
+        abi::__cxa_demangle(info.name(), buf, &n, 0);
         return std::move(std::string(buf, ::strlen(buf)));
 #endif
     }

@@ -69,7 +69,7 @@ int main()
   // TODO: More common type tests for inheritance.
   static_assert(Common<string, char*>(), "");
   static_assert(Same<Common_type<string, char*>, string>(), "");
-  
+
   static_assert(Common<string, const char*>(), "");
   static_assert(Same<Common_type<string, const char*>, string>(), "");
 

@@ -42,7 +42,7 @@ int main()
   v2 = v0;
   V v3(v1.size());
   V v4(v2.size());
-  
+
   // FIXME: We should probably be asserting some property of the result
   // type here (i.e., as related to count?).
   remove_copy(v1, v3, 3);

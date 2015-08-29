@@ -12,7 +12,7 @@
 using namespace std;
 using namespace origin;
 
-// FIXME: Why doesn't this work? For some reason GCC is not deducing the 
+// FIXME: Why doesn't this work? For some reason GCC is not deducing the
 // template argument T.
 
 template <typename T>

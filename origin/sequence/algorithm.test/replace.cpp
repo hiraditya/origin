@@ -20,7 +20,7 @@ bool neg(int n) { return n < 0; }
 int main()
 {
   using V = vector<int>;
-  
+
   V v1 {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
   V v2 = v1;
 
@@ -34,7 +34,7 @@ int main()
 
   V v3(v1.size());
   V v4(v1.size());
-  
+
   replace_copy(v1, v3, 0, -1);
   replace_copy(v1.begin(), v1.end(), v4.begin(), 0, -1);
   assert(v3 == v4);
