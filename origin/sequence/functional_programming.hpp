@@ -15,6 +15,7 @@
 #include <algorithm>
 namespace origin {
 
+  namespace non_intrusive {
   // 1. All the following functions except caar, return the same type of
   // sequence as the input sequence. This is to maintain uniformity. To access
   // an element appropriate accessors can be used e.g., begin, end, next, prev.
@@ -103,7 +104,7 @@ namespace origin {
                             bidirectional_iterator>(), "");
       return std::prev(x, n);
     }
-
+  } // namespace non_intrusive
 
 
   //////////////////////////////////////////////////////////////////////////////
@@ -129,6 +130,16 @@ namespace origin {
     /// \brief caar stands for car(car s)
     /// \returns A reference to the first element of the
     ///          first element of the sequence_of_sequences.
+    template<typename sequence_of_sequences>
+      inline bounded_range<Iterator_of<
+                           typename sequence_of_sequences::value_type>>
+      caar(sequence_of_sequences& sos)
+      {
+        static_assert(Range<sequence_of_sequences>(), "");
+        static_assert(Range<typename sequence_of_sequences::value_type>(), "");
+        return car(*car(sos).begin());
+      }
+
     template<typename sequence_of_sequences>
       inline bounded_range<Iterator_of<
                            typename sequence_of_sequences::value_type>>
