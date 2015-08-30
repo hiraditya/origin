@@ -47,18 +47,23 @@ check_functions ()
 {
   // Initialize the container with a base sequence.
   T seq{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+  // Check these for only the default sequences.
+  // Cannot check these for a bounded range, because bounded
+  // range does not have a size_type.
   check_readable_range(seq);
-  auto gen = quantify_over_range (seq);
-  check_readable_range(gen);
+  check_permutable_range (seq);
+  check_mutable_range (seq);
+  check_weakly_incrementable_range (seq);
+  check_incrementable_range (seq);
+  check_input_range (seq);
+  check_forward_range (seq);
+  //check_writable_range (seq);
+  //check_output_range (seq);
 }
-
-
 
 // All the sequence testing functors which take one argument.
 #define SINGLE_ARGS  regularity_of_reading, pre_increment, post_increment, \
                      increment
-
-#define CHECK_FUNCTIONS check_readable_range
 
 int
 main ()
@@ -66,7 +71,8 @@ main ()
   check<forward_list<int>, SINGLE_ARGS > ();
   check<list<int>, SINGLE_ARGS > ();
   check<vector<int>, SINGLE_ARGS > ();
-  // FIXME: Not working. Make this work.
-  //check_functions<vector<int> > ();
+  check_functions<forward_list<int> > ();
+  check_functions<list<int> > ();
+  check_functions<vector<int> > ();
   return 0;
 }

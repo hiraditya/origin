@@ -19,7 +19,7 @@ namespace origin
 //////////////////////////////////////////////////////////////////////////////
 // Metaprogramming Support                                                meta
 //
-// The following construccts extend the std type traits, providing new
+// The following constructs extend the std type traits, providing new
 // features, aliases, and functiohns.
 //////////////////////////////////////////////////////////////////////////////
 
