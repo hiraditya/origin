@@ -25,7 +25,7 @@ namespace testing
 // Sequence Testing                                                 seq.test
 //
 // The sequence testing library provides support testing iterators and
-// ranges. Iterators are not generally testable as isolated values, they
+// ranges. Iterators are not generally testable as isolated values, they are
 // always part of a larger range. The test support in this library
 // emphasizes the testing of ranges, where iterator properties are tested as
 // part of the range. For example, testing the properties of Forward_range
@@ -46,7 +46,7 @@ namespace testing
 // A readable iterator can be dereferenced multiple times, and without any
 // interleaving traversal operators.
 //
-// Note that it is not universally required that the resulting of
+// Note that it is not universally required that the result of
 // dereferencing the same iterator always returns the same value, although
 // that is a general expectation. It could be the case, for example, that
 // a readable iterator refers to a sequence of volatile objects.
@@ -71,7 +71,7 @@ struct regularity_of_reading
         // operations (i.e., make the order deterministic).
         const Value_type<I> &a = *first;
         const Value_type<I> &b = *first;
-        return ((void)a, (void)b, true); // Supporess warnings...
+        return ((void)a, (void)b, true); // Suppress warnings...
       }
     else
       {
@@ -103,7 +103,7 @@ struct iterator_move_assignment
       {
         // Note that we can't just write (*first = x) == x because the result
         // type of assignment through an iterator is unspecified. Also, we
-        // can only verify the assignment if I us known to be readable.
+        // can only verify the assignment if I is known to be readable.
         // Finally, we can only verify the result when the two inputs are
         // known to be equal.
         *first = std::move (a);
@@ -142,7 +142,7 @@ struct iterator_copy_assignment
       {
         // Note that we can't just write (*first = x) == x because the result
         // type of assignment through an iterator is unspecified. Also, we
-        // can only verify the assignment if I us known to be readable.
+        // can only verify the assignment if I is known to be readable.
         *first = x;
         return Readable<I> () ? check_equal (*first, x) : true;
       }
@@ -241,6 +241,8 @@ struct increment
     if (first != last)
       {
         auto copy = first;
+        // FIXME: I think it should be first++ because
+        // both pre and post increment should be checked.
         return (++first, first) == ++copy;
       }
     else

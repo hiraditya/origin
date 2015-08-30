@@ -185,8 +185,8 @@ endmacro()
 
 # Build a test for the file
 macro(build_unit_test exp file)
-  # Get the name of the test and generate target names for the exe and te
-  # test
+  # Get the name of the test and generate target names for the exe and the
+  # test.
   get_filename_component(name ${file} NAME_WE)
   set(exe ${ORIGIN_CURRENT_MODULE}.${exp}.${name})
   set(test ${exe}.test)

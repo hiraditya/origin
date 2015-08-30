@@ -34,7 +34,7 @@ struct adl_t
 // testable properties for those concepts' axioms.
 //////////////////////////////////////////////////////////////////////////////
 
-// Support for randomized tessting.
+// Support for randomized testing.
 #include "testing.impl/random.hpp"
 
 // The basic testing context and support functions.
